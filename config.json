@@ -1,0 +1,21 @@
+{
+    "tokens": [
+        ""
+    ],
+    "key": "",
+    "domains": [
+        "unity.wtf"
+    ],
+    "owners": [
+        ""
+    ],
+    "discordServer": "",
+    "notifierWebhook": "",
+    "emailerToken": "",
+    "guildid": "",
+    "roleid": "",
+    "footer": {
+        "text": "unity <3",
+        "icon_url": ""
+    }
+}
