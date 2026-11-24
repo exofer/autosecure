@@ -1,0 +1,23 @@
+** First, you need two things:** 
+- buy a name domaine (https://www.namecheap.com/) / (https://www.hostinger.com/) 2$ year 
+- and a Vps 2$ monthly
+**To get started I advise you to install WinScp(https://winscp.net/eng/download.php)**
+- Open Win SCP enter your vps login details
+- Once logged in enter the src with ur information (config.json)
+** Once that's done**
+- open ur cmd 
+- ssh root@UR VPS IP
+- Install Node.js on ur Vps
+- then start with (node autosecure)
+
+
+
+### **To keep it running continuously**
+- npm install pm2 -g
+- pm2 start  autosecure --name "autosecure"
+- pm2 startup
+- pm2 save
+### **The last thing left to do is**
+- The last thing left to do is to configure with the domain name <#1433404929393033319> or security email wtv
+
+
