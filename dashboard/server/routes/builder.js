@@ -6,8 +6,28 @@ const { query, get, run } = require('../db');
 router.get('/embeds', (req, res) => {
   try {
     const userId = req.user.id;
+    const { type } = req.query;
+
+    if (type) {
+      const embedRow = get('SELECT * FROM embeds WHERE user_id = ? AND type = ?', [userId, type]);
+      let parsed = null;
+      if (embedRow && embedRow.embed) {
+        try {
+          parsed = JSON.parse(embedRow.embed);
+        } catch {
+          parsed = embedRow.embed;
+        }
+      }
+      return res.json({ success: true, custom: !!embedRow, embed: parsed, type });
+    }
+
     const embeds = query('SELECT * FROM embeds WHERE user_id = ? ORDER BY id DESC', [userId]);
-    res.json({ success: true, embeds });
+    const parsedEmbeds = embeds.map(e => {
+      let parsed = null;
+      try { parsed = JSON.parse(e.embed); } catch { parsed = e.embed; }
+      return { ...e, embed: parsed };
+    });
+    res.json({ success: true, embeds: parsedEmbeds });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -16,20 +36,85 @@ router.get('/embeds', (req, res) => {
 router.post('/embeds', (req, res) => {
   try {
     const userId = req.user.id;
-    const { type = 'default', embed } = req.body;
+    const { type = 'main', embed, botnumber = 1 } = req.body;
 
     if (!embed) return res.status(400).json({ success: false, error: 'Embed data required' });
 
-    const embedStr = typeof embed === 'object' ? JSON.stringify(embed) : embed;
+    // Normalize embed data into Discord-compatible JSON
+    let embedObj = typeof embed === 'string' ? JSON.parse(embed) : { ...embed };
+
+    // Format color to int if given as hex string
+    let colorInt = embedObj.color;
+    if (typeof colorInt === 'string' && colorInt.startsWith('#')) {
+      colorInt = parseInt(colorInt.slice(1), 16);
+    }
+
+    const discordEmbed = {
+      type: 'rich',
+      title: embedObj.title || '',
+      description: embedObj.description || '',
+      color: isNaN(colorInt) ? 0x6366f1 : colorInt
+    };
+
+    if (embedObj.authorName) {
+      discordEmbed.author = {
+        name: embedObj.authorName,
+        iconURL: embedObj.authorIcon || undefined,
+        icon_url: embedObj.authorIcon || undefined
+      };
+    } else if (embedObj.author) {
+      discordEmbed.author = embedObj.author;
+    }
+
+    if (embedObj.thumbnail) {
+      discordEmbed.thumbnail = typeof embedObj.thumbnail === 'object' ? embedObj.thumbnail : { url: embedObj.thumbnail };
+    }
+
+    if (embedObj.image) {
+      discordEmbed.image = typeof embedObj.image === 'object' ? embedObj.image : { url: embedObj.image };
+    }
+
+    if (embedObj.footerText) {
+      discordEmbed.footer = {
+        text: embedObj.footerText,
+        iconURL: embedObj.footerIcon || undefined,
+        icon_url: embedObj.footerIcon || undefined
+      };
+    } else if (embedObj.footer) {
+      discordEmbed.footer = embedObj.footer;
+    }
+
+    if (Array.isArray(embedObj.fields) && embedObj.fields.length > 0) {
+      discordEmbed.fields = embedObj.fields.map(f => ({
+        name: f.name || '',
+        value: f.value || '',
+        inline: !!f.inline
+      }));
+    }
+
+    const embedStr = JSON.stringify(discordEmbed);
     const existing = get('SELECT id FROM embeds WHERE user_id = ? AND type = ?', [userId, type]);
 
     if (existing) {
-      run('UPDATE embeds SET embed = ? WHERE id = ?', [embedStr, existing.id]);
+      run('UPDATE embeds SET embed = ?, botnumber = ? WHERE id = ?', [embedStr, botnumber, existing.id]);
     } else {
-      run('INSERT INTO embeds (user_id, type, embed) VALUES (?, ?, ?)', [userId, type, embedStr]);
+      run('INSERT INTO embeds (user_id, type, embed, botnumber) VALUES (?, ?, ?, ?)', [userId, type, embedStr, botnumber]);
     }
 
-    res.json({ success: true, message: 'Embed configuration saved' });
+    res.json({ success: true, message: `Embed configuration for "${type}" saved` });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.delete('/embeds', (req, res) => {
+  try {
+    const userId = req.user.id;
+    const type = req.query.type || req.body.type;
+    if (!type) return res.status(400).json({ success: false, error: 'Embed type required' });
+
+    run('DELETE FROM embeds WHERE user_id = ? AND type = ?', [userId, type]);
+    res.json({ success: true, message: `Embed for "${type}" reset to default` });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
