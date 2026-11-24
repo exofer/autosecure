@@ -219,7 +219,7 @@ const ToolsView = {
 
     const resultBox = document.getElementById('tool-ssid-result');
     resultBox.style.display = 'block';
-    resultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking SSID...';
+    resultBox.innerHTML = App.waveDots('Checking SSID token validity...', 'sm');
 
     try {
       const res = await API.post('/api/tools/ssid/check', { ssid });
@@ -300,7 +300,7 @@ const ToolsView = {
 
     const resultBox = document.getElementById('tool-hypixel-result');
     resultBox.style.display = 'block';
-    resultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Querying Hypixel & Mojang...';
+    resultBox.innerHTML = App.waveDots('Querying Hypixel & Mojang APIs...', 'sm');
 
     try {
       const [statsRes, statusRes] = await Promise.all([
@@ -374,7 +374,7 @@ const ToolsView = {
 
     const resultBox = document.getElementById('tool-cosmetics-result');
     resultBox.style.display = 'block';
-    resultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking cosmetics...';
+    resultBox.innerHTML = App.waveDots('Checking cosmetics on Lunar & Minecraft...', 'sm');
 
     try {
       const res = await API.post('/api/tools/cosmetics', { ssid });
@@ -395,7 +395,7 @@ const ToolsView = {
 
     const resultBox = document.getElementById('tool-ban-result');
     resultBox.style.display = 'block';
-    resultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking ban status...';
+    resultBox.innerHTML = App.waveDots('Checking account ban status...', 'sm');
 
     try {
       const res = await API.post('/api/tools/check-ban', { ssid });
@@ -416,7 +416,7 @@ const ToolsView = {
 
     const resultBox = document.getElementById('tool-locked-result');
     resultBox.style.display = 'block';
-    resultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inquiring Microsoft SAF API...';
+    resultBox.innerHTML = App.waveDots('Inquiring Microsoft SAF API...', 'sm');
 
     try {
       const res = await API.post('/api/tools/check-locked', { email });
@@ -450,7 +450,7 @@ const ToolsView = {
 
     const resultBox = document.getElementById('tool-reqotp-result');
     resultBox.style.display = 'block';
-    resultBox.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Triggering Microsoft OTP dispatch...';
+    resultBox.innerHTML = App.waveDots('Triggering Microsoft OTP dispatch...', 'sm');
 
     try {
       const res = await API.post('/api/tools/request-otp', { email });

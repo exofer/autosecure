@@ -179,9 +179,7 @@ const SecureView = {
           <!-- TAB 6: RULES & PROFILE SETTINGS -->
           <div id="sec-tab-content-rules" style="display:none;">
             <div id="rules-settings-container">
-              <div style="text-align:center;padding:30px;">
-                <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i>
-              </div>
+              ${App.waveDots('Loading rules & profiles...', 'lg')}
             </div>
           </div>
         </div>
@@ -217,8 +215,7 @@ const SecureView = {
     const mcign = document.getElementById('otp-sec-ign').value;
 
     const btn = document.getElementById('btn-submit-otp');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Securing account...';
+    App.buttonLoading(btn, 'Securing account...');
 
     try {
       const res = await API.post('/api/secure/otp', { email, otp, mcign });
@@ -239,8 +236,7 @@ const SecureView = {
     } catch (err) {
       Toasts.error(err.message || 'Securing failed');
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-shield-alt"></i> Execute OTP Secure';
+      App.buttonReset(btn);
     }
   },
 
@@ -251,8 +247,7 @@ const SecureView = {
     const mcign = document.getElementById('rec-sec-ign').value;
 
     const btn = document.getElementById('btn-submit-rec');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Securing account...';
+    App.buttonLoading(btn, 'Securing account...');
 
     try {
       const res = await API.post('/api/secure/rec', { email, recoveryCode, mcign });
@@ -272,8 +267,7 @@ const SecureView = {
     } catch (err) {
       Toasts.error(err.message || 'Securing failed');
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-key"></i> Execute Recovery Code Secure';
+      App.buttonReset(btn);
     }
   },
 
@@ -285,8 +279,7 @@ const SecureView = {
     const mcign = document.getElementById('zyger-sec-ign').value;
 
     const btn = document.getElementById('btn-submit-zyger');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Securing account...';
+    App.buttonLoading(btn, 'Securing account...');
 
     try {
       const res = await API.post('/api/secure/zyger', { email, password, secretKey, mcign });
@@ -295,8 +288,7 @@ const SecureView = {
     } catch (err) {
       Toasts.error(err.message || 'Zyger securing failed');
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-lock"></i> Execute Zyger Secure';
+      App.buttonReset(btn);
     }
   },
 
@@ -310,7 +302,7 @@ const SecureView = {
     const container = document.getElementById('bulk-rec-results');
     const tbody = document.getElementById('bulk-rec-table-body');
     container.style.display = 'block';
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Processing batch...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:24px;">${App.waveDots('Processing batch with autosecure...', 'sm')}</td></tr>`;
 
     try {
       const res = await API.post('/api/secure/bulk-rec', { lines });
@@ -347,7 +339,7 @@ const SecureView = {
     const container = document.getElementById('bulk-otp-results');
     const tbody = document.getElementById('bulk-otp-table-body');
     container.style.display = 'block';
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;"><i class="fas fa-spinner fa-spin"></i> Processing batch...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:24px;">${App.waveDots('Processing batch with autosecure...', 'sm')}</td></tr>`;
 
     try {
       const res = await API.post('/api/secure/bulk-otp', { items });

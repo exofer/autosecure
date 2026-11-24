@@ -591,7 +591,7 @@ const BuilderView = {
           <!-- TAB 3: PHISHER CONFIG -->
           <div id="builder-tab-content-phisher" style="display:none;">
             <div id="phisher-container" style="max-width:620px;">
-              <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin"></i></div>
+              ${App.waveDots('Loading phisher configuration...', 'md')}
             </div>
           </div>
 

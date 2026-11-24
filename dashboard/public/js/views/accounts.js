@@ -81,9 +81,7 @@ const AccountsView = {
       <div class="card">
         <div class="card-body" style="padding:0;">
           <div id="accounts-table-container">
-            <div style="text-align:center;padding:40px;">
-              <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i>
-            </div>
+            ${App.waveDots('Loading secured accounts...', 'lg')}
           </div>
         </div>
       </div>

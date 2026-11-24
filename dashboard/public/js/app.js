@@ -62,6 +62,14 @@ const App = {
     // Close mobile sidebar if open
     document.querySelector('.sidebar')?.classList.remove('mobile-open');
 
+    // Trigger Charles UX view entrance animation
+    const content = document.getElementById('view-content');
+    if (content) {
+      content.classList.remove('view-enter');
+      void content.offsetWidth; // Reflow to restart animation cleanly
+      content.classList.add('view-enter');
+    }
+
     // Render corresponding view
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -163,6 +171,45 @@ const App = {
       this.navigate(this.currentView);
     } catch (err) {
       // error handled by switchSession toast
+    }
+  },
+
+  // Charles UX Wave Dots Loading Generator
+  waveDots(label = '', size = '') {
+    const sizeClass = size ? `wave-dots-${size}` : '';
+    return `
+      <div class="wave-dots-loader ${sizeClass}">
+        <div class="wave-dots" role="status" aria-label="Loading">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        ${label ? `<span class="wave-dots-label">${label}</span>` : ''}
+      </div>
+    `;
+  },
+
+  // Charles UX Async Button helper
+  buttonLoading(btn, text = 'Processing...') {
+    if (!btn) return;
+    btn.disabled = true;
+    btn.dataset.origHtml = btn.innerHTML;
+    btn.innerHTML = `
+      <span class="btn-loading-content">
+        <span class="wave-dots wave-dots-sm">
+          <span></span><span></span><span></span>
+        </span>
+        <span>${text}</span>
+      </span>
+    `;
+  },
+
+  buttonReset(btn) {
+    if (!btn) return;
+    btn.disabled = false;
+    if (btn.dataset.origHtml) {
+      btn.innerHTML = btn.dataset.origHtml;
+      delete btn.dataset.origHtml;
     }
   },
 

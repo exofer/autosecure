@@ -16,7 +16,7 @@ const ProxiesView = {
             Configure residential or datacenter proxies to bypass Microsoft IP rate limits during securing and ban verification.
           </p>
           <div id="proxies-table-container">
-            <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
+            ${App.waveDots('Loading configured proxies...', 'lg')}
           </div>
         </div>
       </div>
@@ -118,7 +118,12 @@ const ProxiesView = {
   async testProxy(rowid, proxyStr) {
     const statusCell = document.getElementById(`proxy-status-${rowid}`);
     if (statusCell) {
-      statusCell.innerHTML = '<span class="badge-tag info"><i class="fas fa-spinner fa-spin"></i> Testing...</span>';
+      statusCell.innerHTML = `
+        <span class="badge-tag info" style="display:inline-flex;align-items:center;gap:6px;">
+          <span class="wave-dots wave-dots-sm"><span></span><span></span><span></span></span>
+          Testing...
+        </span>
+      `;
     }
 
     try {

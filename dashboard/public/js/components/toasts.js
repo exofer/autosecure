@@ -25,19 +25,33 @@ const Toasts = {
     toast.innerHTML = `
       <i class="fas ${icon}"></i>
       <div style="flex:1;">${message}</div>
-      <button style="background:none;border:none;color:var(--text-dim);cursor:pointer;margin-left:8px;" onclick="this.parentElement.remove()">
+      <button class="toast-close-btn" style="background:none;border:none;color:var(--text-dim);cursor:pointer;margin-left:8px;padding:4px;display:flex;align-items:center;" aria-label="Close notification">
         <i class="fas fa-times"></i>
       </button>
     `;
 
+    const closeToast = () => {
+      if (toast.classList.contains('closing')) return;
+      toast.classList.remove('open');
+      toast.classList.add('closing');
+      setTimeout(() => {
+        if (toast.parentElement) toast.remove();
+      }, 170); // 170ms exit matching recipe
+    };
+
+    toast.querySelector('.toast-close-btn').addEventListener('click', closeToast);
+
     this.container.appendChild(toast);
 
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(50px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, duration);
+    // Trigger smooth entrance on next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.classList.add('open');
+      });
+    });
+
+    // Auto dismiss after duration
+    setTimeout(closeToast, duration);
   },
 
   success(msg) { this.show(msg, 'success'); },

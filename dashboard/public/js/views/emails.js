@@ -31,9 +31,7 @@ const EmailsView = {
           </div>
 
           <div id="email-list-container" style="flex:1;overflow-y:auto;padding:8px 0;">
-            <div style="text-align:center;padding:30px;">
-              <i class="fas fa-spinner fa-spin"></i>
-            </div>
+            ${App.waveDots('Loading inbox...', 'sm')}
           </div>
         </div>
 
@@ -120,7 +118,7 @@ const EmailsView = {
     const bodyContainer = document.getElementById('email-viewer-body');
     const badgeEl = document.getElementById('email-extracted-badge');
 
-    bodyContainer.innerHTML = `<div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>`;
+    bodyContainer.innerHTML = App.waveDots('Loading message content...', 'md');
 
     try {
       const res = await API.get(`/api/emails/${id}`);

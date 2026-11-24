@@ -16,7 +16,7 @@ const BotsView = {
         <div class="card-body">
           <div id="bots-stats-row" style="margin-bottom:20px;"></div>
           <div id="bots-table-container">
-            <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
+            ${App.waveDots('Loading bot fleet status...', 'lg')}
           </div>
         </div>
       </div>

@@ -2,12 +2,7 @@
 const OverviewView = {
   async render() {
     const container = document.getElementById('view-content');
-    container.innerHTML = `
-      <div style="text-align:center;padding:40px;">
-        <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary);"></i>
-        <p style="margin-top:10px;color:var(--text-muted);">Loading dashboard overview...</p>
-      </div>
-    `;
+    container.innerHTML = App.waveDots('Loading dashboard overview...', 'lg');
 
     try {
       const res = await API.get('/api/stats/overview');
@@ -15,7 +10,7 @@ const OverviewView = {
 
       container.innerHTML = `
         <!-- Top Stats Row -->
-        <div class="grid-stats">
+        <div class="grid-stats stagger-in">
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Total Secured</span>

@@ -2,9 +2,7 @@
 const LicenseView = {
   async render() {
     const container = document.getElementById('view-content');
-    container.innerHTML = `
-      <div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
-    `;
+    container.innerHTML = App.waveDots('Loading license & billing credentials...', 'lg');
 
     try {
       const res = await API.get('/api/license');

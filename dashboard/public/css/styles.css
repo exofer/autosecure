@@ -28,6 +28,18 @@
   --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Charles UX Motion Tokens */
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);      /* appearing, opening, responding */
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);       /* leaving, closing, exits */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);  /* moving or resizing on screen */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);/* tactile spring feedback */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-exit: 160ms;
+  --duration-toast-in: 240ms;
+  --duration-toast-out: 170ms;
 }
 
 * {
@@ -148,8 +160,9 @@ body {
   font-size: 0.88rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms var(--ease-out);
   margin-bottom: 2px;
+  user-select: none;
 }
 
 .nav-item i {
@@ -157,16 +170,21 @@ body {
   width: 20px;
   text-align: center;
   color: var(--text-dim);
-  transition: color 0.15s ease;
+  transition: color 150ms ease, transform 150ms var(--ease-out);
 }
 
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(255, 255, 255, 0.05);
   color: var(--text-main);
 }
 
 .nav-item:hover i {
   color: var(--text-main);
+  transform: translateX(3px);
+}
+
+.nav-item:active {
+  transform: scale(0.98);
 }
 
 .nav-item.active {
@@ -177,6 +195,7 @@ body {
 
 .nav-item.active i {
   color: #818cf8;
+  transform: translateX(2px);
 }
 
 .nav-item .count-badge {
@@ -453,7 +472,7 @@ body {
   padding: 22px;
 }
 
-/* Action Buttons */
+/* Action Buttons with Charles UX Tactile Press */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -465,8 +484,14 @@ body {
   border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: transform 150ms var(--ease-out), background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, opacity 150ms ease, color 150ms ease;
   text-decoration: none;
+  user-select: none;
+  outline: none;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
 }
 
 .btn-primary {
@@ -476,6 +501,12 @@ body {
 }
 .btn-primary:hover {
   background: var(--primary-hover);
+  box-shadow: 0 4px 14px var(--primary-glow);
+  transform: translateY(-1px);
+}
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.96) translateY(0);
+  box-shadow: 0 2px 6px var(--primary-glow);
 }
 
 .btn-secondary {
@@ -486,14 +517,23 @@ body {
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+.btn-secondary:active:not(:disabled) {
+  transform: scale(0.96) translateY(0);
 }
 
 .btn-success {
   background: #10b981;
   color: #fff;
+  box-shadow: 0 2px 10px var(--success-glow);
 }
 .btn-success:hover {
   background: #059669;
+  transform: translateY(-1px);
+}
+.btn-success:active:not(:disabled) {
+  transform: scale(0.96) translateY(0);
 }
 
 .btn-danger {
@@ -503,6 +543,10 @@ body {
 }
 .btn-danger:hover {
   background: rgba(239, 68, 68, 0.25);
+  transform: translateY(-1px);
+}
+.btn-danger:active:not(:disabled) {
+  transform: scale(0.96) translateY(0);
 }
 
 .btn-sm {
@@ -670,11 +714,15 @@ tr:hover td {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.15s ease;
+  transition: color 150ms ease, border-color 150ms ease, transform 150ms var(--ease-out);
 }
 
 .tab-btn:hover {
   color: var(--text-main);
+}
+
+.tab-btn:active {
+  transform: scale(0.96);
 }
 
 .tab-btn.active {
@@ -683,12 +731,12 @@ tr:hover td {
   font-weight: 600;
 }
 
-/* Modals */
+/* Modals with Charles UX Animation (220ms in, 160ms out) */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -696,12 +744,14 @@ tr:hover td {
   padding: 20px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 160ms var(--ease-in);
 }
 
 .modal-backdrop.open {
   opacity: 1;
   pointer-events: auto;
+  transition-duration: 220ms;
+  transition-timing-function: var(--ease-out);
 }
 
 .modal-box {
@@ -712,13 +762,17 @@ tr:hover td {
   max-width: 650px;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: var(--shadow-lg);
-  transform: scale(0.96);
-  transition: transform 0.2s ease;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 160ms var(--ease-in), transform 160ms var(--ease-in);
 }
 
 .modal-backdrop.open .modal-box {
+  opacity: 1;
   transform: scale(1);
+  transition-duration: 220ms;
+  transition-timing-function: var(--ease-out);
 }
 
 .modal-header {
@@ -738,12 +792,18 @@ tr:hover td {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 150ms ease, background-color 150ms ease, transform 150ms var(--ease-out);
 }
 .modal-close:hover {
   color: var(--text-main);
+  background: rgba(255, 255, 255, 0.06);
+}
+.modal-close:active {
+  transform: scale(0.92);
 }
 
 .modal-body {
@@ -759,7 +819,7 @@ tr:hover td {
   background: rgba(0, 0, 0, 0.15);
 }
 
-/* Toasts Container */
+/* Toasts Container & Charles UX Toast Animation (240ms in, 170ms out) */
 #toast-container {
   position: fixed;
   bottom: 24px;
@@ -782,21 +842,190 @@ tr:hover td {
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: var(--shadow-md);
-  animation: slideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.65), 0 4px 12px -2px rgba(0, 0, 0, 0.5);
   color: var(--text-main);
   font-size: 0.88rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 170ms var(--ease-in), transform 170ms var(--ease-in);
 }
 
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+.toast.open {
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: 240ms;
+  transition-timing-function: var(--ease-out);
+}
+
+.toast.closing {
+  opacity: 0;
+  transform: translateY(16px);
+  transition-duration: 170ms;
+  transition-timing-function: var(--ease-in);
 }
 
 .toast.success { border-left: 4px solid #10b981; }
 .toast.error { border-left: 4px solid #ef4444; }
 .toast.warning { border-left: 4px solid #f59e0b; }
 .toast.info { border-left: 4px solid #3b82f6; }
+
+/* View Transitions & Content Stagger */
+.view-enter {
+  animation: viewRiseIn 260ms var(--ease-out) forwards;
+}
+
+@keyframes viewRiseIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-in > * {
+  animation: staggerItemIn 280ms var(--ease-out) both;
+}
+
+.stagger-in > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-in > *:nth-child(2) { animation-delay: 35ms; }
+.stagger-in > *:nth-child(3) { animation-delay: 70ms; }
+.stagger-in > *:nth-child(4) { animation-delay: 105ms; }
+.stagger-in > *:nth-child(5) { animation-delay: 140ms; }
+.stagger-in > *:nth-child(6) { animation-delay: 175ms; }
+
+@keyframes staggerItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Wave Dots Loading Component (Fluid sine wave physics) */
+.wave-dots-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.wave-dots-loader.inline {
+  display: inline-flex;
+  flex-direction: row;
+  padding: 0;
+  gap: 8px;
+}
+
+.wave-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 22px;
+}
+
+.wave-dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  opacity: 0.3;
+  transform: translateY(0) scale(0.9);
+  animation: waveDotMotion 1.25s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+.wave-dots span:nth-child(1) { animation-delay: 0s; }
+.wave-dots span:nth-child(2) { animation-delay: 0.16s; }
+.wave-dots span:nth-child(3) { animation-delay: 0.32s; }
+
+@keyframes waveDotMotion {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0) scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-9px) scale(1.18);
+    box-shadow: 0 0 10px var(--primary-glow);
+  }
+}
+
+.wave-dots-sm {
+  gap: 5px;
+  height: 14px;
+}
+.wave-dots-sm span {
+  width: 5px;
+  height: 5px;
+  animation-name: waveDotMotionSm;
+}
+.wave-dots-sm span:nth-child(1) { animation-delay: 0s; }
+.wave-dots-sm span:nth-child(2) { animation-delay: 0.14s; }
+.wave-dots-sm span:nth-child(3) { animation-delay: 0.28s; }
+
+@keyframes waveDotMotionSm {
+  0%, 100% {
+    opacity: 0.35;
+    transform: translateY(0) scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.15);
+  }
+}
+
+.wave-dots-lg {
+  gap: 10px;
+  height: 28px;
+}
+.wave-dots-lg span {
+  width: 12px;
+  height: 12px;
+}
+
+.wave-dots-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  animation: waveLabelBreathe 2.4s ease-in-out infinite;
+}
+
+@keyframes waveLabelBreathe {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+.btn-loading-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .wave-dots span {
+    animation: none !important;
+    opacity: 0.8 !important;
+    transform: none !important;
+  }
+  .status-dot {
+    animation: none !important;
+  }
+}
 
 /* Discord Embed Visual Previewer */
 .discord-embed-preview {

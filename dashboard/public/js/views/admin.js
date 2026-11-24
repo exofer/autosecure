@@ -79,7 +79,7 @@ const AdminView = {
 
               <!-- Right: Keys Table -->
               <div id="admin-keys-container">
-                <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin"></i></div>
+                ${App.waveDots('Loading license keys...', 'md')}
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ const AdminView = {
           <!-- TAB 2: USERS -->
           <div id="admin-tab-content-users" style="display:none;">
             <div id="admin-users-container">
-              <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin"></i></div>
+              ${App.waveDots('Loading registered users...', 'md')}
             </div>
           </div>
 
@@ -110,7 +110,7 @@ const AdminView = {
               </div>
 
               <div id="admin-blacklist-container">
-                <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin"></i></div>
+                ${App.waveDots('Loading blacklist records...', 'md')}
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ const AdminView = {
           <!-- TAB 4: SYSTEM & ENGINE -->
           <div id="admin-tab-content-system" style="display:none;">
             <div id="admin-system-container">
-              <div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin"></i></div>
+              ${App.waveDots('Inspecting system telemetry...', 'md')}
             </div>
           </div>
         </div>
