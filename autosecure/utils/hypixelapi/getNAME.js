@@ -19,11 +19,10 @@ async function getNAME(uuid) {
 
 
   async function method1(uuid) {
-    const res = await fetch(`https://api.mojang.com/user/profiles/${uuid}/names`)
+    const res = await fetch(`https://api.minecraftservices.com/minecraft/profile/lookup/${uuid}`)
     if (!res.ok) return null
     const data = await res.json()
-    if (!Array.isArray(data) || data.length === 0) return null
-    return data[data.length - 1].name
+    return data?.name || null
   }
 
   async function method2(uuid) {

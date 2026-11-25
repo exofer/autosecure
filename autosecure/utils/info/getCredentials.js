@@ -442,26 +442,29 @@ module.exports = async (email, sendotp = true) => {
     }
   }
 
-  // Alternative approach - try to trigger password reset to detect recovery methods
+  // Alternative approach - query Microsoft Online credential types for recovery methods
   async function passwordResetApproach(email, ppft) {
     try {
       const headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Referer": "https://passwordreset.microsoftonline.com/",
-        "Origin": "https://passwordreset.microsoftonline.com"
+        "Referer": "https://login.microsoftonline.com/",
+        "Origin": "https://login.microsoftonline.com"
       };
 
       const payload = {
         username: email,
         flowToken: ppft,
         isOtherIdpSupported: true,
-        isAccessPassSupported: true
+        isAccessPassSupported: true,
+        isRemoteNGCSupported: true,
+        isFidoSupported: true,
+        checkPhones: true
       };
 
       const response = await axios.post(
-        "https://passwordreset.microsoftonline.com/GetCredentialType.srf",
+        "https://login.microsoftonline.com/common/GetCredentialType",
         payload,
         { headers }
       );
@@ -479,7 +482,7 @@ module.exports = async (email, sendotp = true) => {
   // Enhanced fallback check
   async function enhancedFallback(email) {
     try {
-      // Try multiple endpoints
+      // Try active Microsoft credential lookup endpoints
       const endpoints = [
         {
           url: "https://login.microsoftonline.com/common/GetCredentialType",
@@ -498,8 +501,20 @@ module.exports = async (email, sendotp = true) => {
           }
         },
         {
-          url: `https://account.live.com/API/CheckAvailableSigninMethods?username=${encodeURIComponent(email)}`,
-          method: "GET"
+          url: "https://login.live.com/GetCredentialType.srf",
+          method: "POST",
+          data: {
+            username: email,
+            isOtherIdpSupported: true,
+            checkPhones: true,
+            isRemoteNGCSupported: true,
+            isCookieBannerShown: false,
+            isFidoSupported: true,
+            forceotclogin: sendotp,
+            flowToken: ppft || "",
+            originalRequest: "",
+            country: "US"
+          }
         }
       ];
 
