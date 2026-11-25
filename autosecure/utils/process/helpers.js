@@ -785,15 +785,16 @@ function logDuration(funcName, startTime) {
 
 async function initializesecure(uid) {
   try {
-    await queryParams(
-      `INSERT INTO status (uid, msauth, username, email, secemail, password, recoverycode, multiplayer, oauths, secretkey) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [uid, null, null, null, null, null, null, null, null, null]
-    );
-
-    await queryParams(
-      `INSERT INTO extrainformation (uid, gtg, ogo) VALUES (?, ?, ?)`,
-      [uid, null, null]
-    );
+    await Promise.all([
+      queryParams(
+        `INSERT INTO status (uid, msauth, username, email, secemail, password, recoverycode, multiplayer, oauths, secretkey) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [uid, null, null, null, null, null, null, null, null, null]
+      ),
+      queryParams(
+        `INSERT INTO extrainformation (uid, gtg, ogo) VALUES (?, ?, ?)`,
+        [uid, null, null]
+      )
+    ]);
   } catch (error) {
     console.error('Error initializing secure:', error);
   }

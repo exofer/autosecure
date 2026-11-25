@@ -24,12 +24,11 @@ module.exports = async function cookies(axios) {
     const cookieStart = Date.now();
 
     try {
-        const [amrpResult, amcResult] = await Promise.all([
+        await Promise.all([
             amrp(axios),
-            amc(axios)
+            amc(axios),
+            amcjwt(axios)
         ]);
-
-        const jwtResult = await amcjwt(axios);
 
         if (axios.getCookie("AMRPSSecAuth")) {
             console.log("Got AMRP");

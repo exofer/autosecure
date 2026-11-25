@@ -1,8 +1,26 @@
 const axios = require("axios");
+const http = require("http");
+const https = require("https");
 const { HttpProxyAgent } = require('http-proxy-agent');
 const { HttpsProxyAgent } = require('https-proxy-agent');
 
 const config = require("../../../config.json");
+
+const defaultHttpAgent = new http.Agent({ keepAlive: true, keepAliveMsecs: 15000, maxSockets: 64 });
+const defaultHttpsAgent = new https.Agent({ keepAlive: true, keepAliveMsecs: 15000, maxSockets: 64 });
+const proxyAgentCache = new Map();
+
+function getProxyAgents(proxyUrl) {
+    let cached = proxyAgentCache.get(proxyUrl);
+    if (!cached) {
+        cached = {
+            httpAgent: new HttpProxyAgent(proxyUrl, { keepAlive: true, keepAliveMsecs: 15000 }),
+            httpsAgent: new HttpsProxyAgent(proxyUrl, { keepAlive: true, keepAliveMsecs: 15000 })
+        };
+        proxyAgentCache.set(proxyUrl, cached);
+    }
+    return cached;
+}
 
 function isValidUrl(urlString) {
     try {
@@ -20,6 +38,8 @@ class HttpClient {
             timeout: 10000,
             maxRedirects: 0,
             withCredentials: true,
+            httpAgent: defaultHttpAgent,
+            httpsAgent: defaultHttpsAgent,
             validateStatus: (status) => status >= 200 && status < 600,
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36",
@@ -47,18 +67,17 @@ class HttpClient {
         });
 
         this.axios.interceptors.request.use(async (axiosConfig) => {
-            if (config.useproxy === true) {
+            if (config.useproxy === true && axiosConfig.proxy !== false && !axiosConfig.noproxy) {
                 try {
                     if (config.proxy) {
-                        let [PROXY_HOST, PROXY_PORT, PROXY_USER, PROXY_PASS] = config.proxy.split(':');
+                        const [PROXY_HOST, PROXY_PORT, PROXY_USER, PROXY_PASS] = config.proxy.split(':');
                         const proxyUrl = `http://${PROXY_USER}:${PROXY_PASS}@${PROXY_HOST}:${PROXY_PORT}`;
-                        
-                        axiosConfig.httpAgent = new HttpProxyAgent(proxyUrl);
-                        axiosConfig.httpsAgent = new HttpsProxyAgent(proxyUrl);
+                        const { httpAgent, httpsAgent } = getProxyAgents(proxyUrl);
+                        axiosConfig.httpAgent = httpAgent;
+                        axiosConfig.httpsAgent = httpsAgent;
                     }
                 } catch (error) {
                     console.error('Error setting up proxy for request:', error);
-                    // Continue without proxy if proxy setup fails
                 }
             }
             return axiosConfig;
@@ -144,7 +163,7 @@ class HttpClient {
                     throw error;
                 }
 
-                await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+                await new Promise(resolve => setTimeout(resolve, 350 * (attempt + 1)));
             }
         }
     }

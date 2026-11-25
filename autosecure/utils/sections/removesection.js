@@ -136,14 +136,14 @@ module.exports = async function removesection(settings, signout, exploit, uid, a
         );
     }
 
-    if (signout) {
+    if (signout === true || signout === 1) {
         promises.push(
             (async () => {
                 const signedout = await signoutFromAllDevices(axios);
                 await updateExtraInformation(uid, "signout", signedout ? "True" : "False");
             })()
         );
-    } else {
+    } else if (signout === false || signout === 0) {
         promises.push(
             (async () => {
                 await updateExtraInformation(uid, "signout", "Option is disabled.");

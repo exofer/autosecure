@@ -103,8 +103,10 @@ module.exports = async function mcextra(axios, usertoken, xuid, gtg, settings, u
             })()
         );
     } else {
-        await updateStatus(uid, "multiplayer", 'Option is disabled.');
-        await updateExtraInformation(uid, "multiplayer", 'Option is disabled.');
+        promises.push(
+            updateStatus(uid, "multiplayer", 'Option is disabled.'),
+            updateExtraInformation(uid, "multiplayer", 'Option is disabled.')
+        );
     }
 
     if (optionalusername && ssid && oldname && username && checkmc(mc)) {

