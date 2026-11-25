@@ -64,7 +64,7 @@ module.exports = {
             setMinLength: 1,
             setRequired: true,
             setLabel: "Email",
-            setPlaceholder: "Ex: fuck@nigga.balls",
+            setPlaceholder: "Ex: user@outlook.com",
             setStyle: TextInputStyle.Short
           },
           {
@@ -97,7 +97,7 @@ module.exports = {
             setMinLength: 1,
             setRequired: true,
             setLabel: "Email",
-            setPlaceholder: "Ex: fuck@nigga.balls",
+            setPlaceholder: "Ex: user@outlook.com",
             setStyle: TextInputStyle.Short
           },
           {
@@ -130,7 +130,7 @@ module.exports = {
             setMinLength: 1,
             setRequired: true,
             setLabel: "MSAUTH",
-            setPlaceholder: "Enter the login cookie here retarded ass nigga",
+            setPlaceholder: "Paste your MSAUTH login cookie",
             setStyle: TextInputStyle.Short
           },
           {

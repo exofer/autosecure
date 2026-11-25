@@ -3,6 +3,7 @@ const eventHandler = require("./Handlers/eventHandler");
 const { queryParams } = require("../db/database.js");
 const { ActivityType } = require("discord.js");
 const { tablesbotnumber } = require("../db/gettablesarray.js")
+const { injectBotNumber } = require("../db/injectBotNumber.js");
 
 module.exports = async (token, username, d = 1, dmmode = false) => {
 try {
@@ -31,82 +32,15 @@ try {
 
 
 /*
-    Multiple botfix (adds bot slot for every sql argument)
+    Multiple botfix (safely scopes queries to the bot's botnumber slot)
 */
 
 client.queryParams = async (query, params = [], method = "all") => {
-  const normalizedQuery = query.replace(/\s+/g, ' ').trim();
-  const command = normalizedQuery.split(' ')[0].toUpperCase();
-  let table = null;
-  if (command === "SELECT" || command === "DELETE") {
-    const fromMatch = normalizedQuery.match(/FROM\s+([^\s(,;]+)/i);
-    table = fromMatch ? fromMatch[1].replace(/[`"'[\]]/g, "") : null;
-  } 
-  else if (command === "UPDATE") {
-    const updateMatch = normalizedQuery.match(/UPDATE\s+([^\s(,;]+)/i);
-    table = updateMatch ? updateMatch[1].replace(/[`"'[\]]/g, "") : null;
-  }
-  else if (command === "INSERT") {
-    const insertMatch = normalizedQuery.match(/INSERT\s+INTO\s+([^\s(,;]+)/i);
-    table = insertMatch ? insertMatch[1].replace(/[`"'[\]]/g, "") : null;
-  }
-
   const allowed = tablesbotnumber();
-  const needsBotNumber = table && allowed.includes(table);
+  const scoped = injectBotNumber(query, params, client.botnumber, allowed);
 
-  if (needsBotNumber) {
-    if (command === "INSERT") {
-      const valuesIndex = normalizedQuery.toUpperCase().indexOf('VALUES');
-      if (valuesIndex > -1) {
-        const beforeValues = query.substring(0, valuesIndex);
-        const afterValues = query.substring(valuesIndex);
-        const columnsMatch = beforeValues.match(/\(([^)]+)\)/);
-        if (columnsMatch) {
-          const newBeforeValues = beforeValues.replace(
-            `(${columnsMatch[1]})`, 
-            `(${columnsMatch[1]}, botnumber)`
-          );
-          const valuesMatch = afterValues.match(/\(([^)]*)\)/);
-          if (valuesMatch) {
-            const newAfterValues = afterValues.replace(
-              `(${valuesMatch[1]})`, 
-              `(${valuesMatch[1]}, ?)`
-            );
-            
-            query = newBeforeValues + newAfterValues;
-            params.push(client.botnumber);
-          }
-        }
-      }
-    }
-    else if (command === "UPDATE") {
-      const whereIndex = normalizedQuery.toUpperCase().indexOf('WHERE');
-      if (whereIndex > -1) {
-        query = query.substring(0, whereIndex + 5) + ' botnumber = ? AND ' + query.substring(whereIndex + 5);
-        params.splice(query.indexOf('SET') < whereIndex ? 
-                     query.substring(query.indexOf('SET') + 3, whereIndex).split('?').length - 1 : 
-                     0, 0, client.botnumber);
-      } else {
-        query += ' WHERE botnumber = ?';
-        params.push(client.botnumber);
-      }
-    }
-    else {
-      const whereIndex = normalizedQuery.toUpperCase().indexOf('WHERE');
-      if (whereIndex > -1) {
-        query = query.substring(0, whereIndex + 5) + ' botnumber = ? AND ' + query.substring(whereIndex + 5);
-        params = [client.botnumber, ...params];
-      } else {
-        query += ' WHERE botnumber = ?';
-        params.push(client.botnumber);
-      }
-    }
-  }
-
-  // Return edited queryParams
-  
   try {
-    const result = await queryParams(query, params, method);
+    const result = await queryParams(scoped.query, scoped.params, method);
     return result;
   } catch (error) {
     console.error(`[Bot ${client.botnumber}] Query error:`, error);

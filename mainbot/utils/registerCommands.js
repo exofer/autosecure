@@ -17,10 +17,7 @@ module.exports = async (clientid, commands, token) => {
         );
      //   logCommand("Successfully updated application commands.");
     } catch (error) {
-        console.log(error)
-        if (error.response && error.response.data) {
-         //   logCommand(`Detailed error: ${JSON.stringify(error.response.data, null, 2)}`);
-        }
-        console.error(error);
+        console.error("[registerCommands] Failed to update application commands:", error);
+        throw error;
     }
 };

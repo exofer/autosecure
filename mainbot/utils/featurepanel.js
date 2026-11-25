@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const BANNER_GIF =
   "https://cdn.discordapp.com/attachments/1457511997724823677/1458729090256212044/standard.gif";
 
-const EMBED_COLOR = 0xB8D2F0;
+const EMBED_COLOR = 0xF59E0B;
 const DIVIDER = "━━━━━━━━━━━━━━━━━━";
 
 /**
@@ -15,7 +15,7 @@ async function featurepanel(guild = null) {
     const guildIcon = guild?.iconURL?.({ size: 256 }) ?? null;
 
     const embed = new EmbedBuilder()
-      .setTitle("<a:bots:1459163572323225661> Future AutoSecure — Feature Overview")
+      .setTitle("<a:bots:1459163572323225661> Nova AutoSecure — Feature Overview")
       .setDescription(
         [
           "**The most trusted AutoSecure system**",
@@ -29,7 +29,7 @@ async function featurepanel(guild = null) {
       .setImage(BANNER_GIF)
       .setTimestamp()
       .setFooter({
-        text: "Future Autosecure • Powered By Future Developement!",
+        text: "Nova AutoSecure • Powered by Future Development",
         iconURL: guildIcon ?? undefined,
       });
 

