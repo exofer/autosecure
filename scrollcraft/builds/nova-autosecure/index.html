@@ -14,47 +14,49 @@
   
   <style>
     /* ==========================================================================
-       Nova AutoSecure Design System — 50-30-20 Colour System & Glassmorphism
-       50% Obsidian Abyss / 30% Elevated Slate / 20% Amber Flame
+       Nova AutoSecure Design System — 60-30-10 Colour System
+       60% Graphite / 30% Cream / 10% Amber
        ========================================================================== */
     :root {
       color-scheme: dark;
 
-      /* 50% Dominant Neutrals (Abyss & Canvas) */
-      --bg-main: #070a10;
-      --bg-sidebar: #0b0f17;
-      --bg-input: #090d15;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-
-      /* 30% Structural Secondary (Glass Surfaces, Elevated Slate, Specular Borders) */
-      --bg-card: rgba(15, 21, 35, 0.72);
-      --bg-card-hover: rgba(20, 28, 46, 0.88);
-      --bg-surface-elevated: #1a2438;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-subtle: rgba(255, 255, 255, 0.04);
-      --border-card: rgba(255, 255, 255, 0.09);
+      /* 60% Graphite (Dominant Canvas, Neutral Dark Surfaces, Subtle Elevation) */
+      --bg-main: #141416;
+      --bg-graphite: #1a1a1d;
+      --bg-graphite-elevated: #212125;
+      --bg-card: rgba(28, 28, 32, 0.85);
+      --bg-card-hover: rgba(36, 36, 41, 0.94);
+      --bg-input: #111113;
+      --border-color: rgba(243, 237, 226, 0.11);
+      --border-subtle: rgba(243, 237, 226, 0.06);
+      --border-card: rgba(243, 237, 226, 0.12);
       --border-card-hover: rgba(245, 158, 11, 0.45);
-      --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      --glass-specular: inset 0 1px 0 rgba(243, 237, 226, 0.09);
 
-      /* 20% Accent (Amber, Electric Orange & Flame) */
+      /* 30% Cream (High-Contrast Editorial Surfaces, Primary Copy & Structure) */
+      --cream: #f3ede2;
+      --cream-elevated: #faf6ef;
+      --cream-soft: #e6dfd1;
+      --text-main: #f3ede2;
+      --text-muted: #c2bab0;
+      --text-dim: #8a837a;
+      --ink-on-cream: #141416;
+      --ink-on-cream-muted: #4b4741;
+      --border-on-cream: rgba(20, 20, 22, 0.12);
+
+      /* 10% Amber (Restrained High-Impact Accent) */
       --primary: #f59e0b;              /* Amber 500 */
       --primary-hover: #d97706;        /* Amber 600 */
+      --primary-deep: #b45309;         /* Amber 700 (high contrast on Cream) */
       --primary-light: #fbbf24;        /* Amber 400 */
-      --accent-orange: #f97316;        /* Orange 500 */
-      --accent-orange-hover: #ea580c;  /* Orange 600 */
-      --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
-      --primary-glow: rgba(245, 158, 11, 0.28);
-      --primary-glow-subtle: rgba(245, 158, 11, 0.12);
-      --orange-glow: rgba(249, 115, 22, 0.25);
+      --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --primary-glow: rgba(245, 158, 11, 0.24);
+      --primary-glow-subtle: rgba(245, 158, 11, 0.1);
 
       /* Functional Status */
-      --success: #10b981;
-      --success-glow: rgba(16, 185, 129, 0.2);
+      --success: #f59e0b;
       --warning: #f59e0b;
       --danger: #ef4444;
-      --info: #0284c7;
 
       /* Geometry & Radii */
       --radius-sm: 8px;
@@ -104,7 +106,7 @@
     }
 
     /* ==========================================================================
-       Atmospheric Multi-layer Glass Backdrop
+       Atmospheric Graphite & Warm Cream Backdrop
        ========================================================================== */
     .atmo {
       position: fixed;
@@ -112,19 +114,18 @@
       z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(60rem 45rem at 80% -10%, rgba(245, 158, 11, 0.12), transparent 70%),
-        radial-gradient(52rem 38rem at 15% 20%, rgba(249, 115, 22, 0.08), transparent 65%),
-        radial-gradient(64rem 48rem at 85% 70%, rgba(245, 158, 11, 0.07), transparent 70%),
-        radial-gradient(48rem 40rem at 10% 90%, rgba(14, 21, 35, 0.8), transparent 70%),
-        linear-gradient(180deg, #070a10 0%, #0b0f17 50%, #070a10 100%);
+        radial-gradient(58rem 42rem at 82% -8%, rgba(245, 158, 11, 0.08), transparent 70%),
+        radial-gradient(50rem 36rem at 12% 22%, rgba(243, 237, 226, 0.04), transparent 65%),
+        radial-gradient(56rem 44rem at 85% 75%, rgba(245, 158, 11, 0.05), transparent 70%),
+        linear-gradient(180deg, #141416 0%, #18181b 50%, #141416 100%);
     }
 
     .atmo::after {
       content: "";
       position: absolute;
       inset: 0;
-      opacity: 0.3;
-      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0.5px, transparent 0.6px);
+      opacity: 0.22;
+      background-image: radial-gradient(circle, rgba(243, 237, 226, 0.28) 0.5px, transparent 0.6px);
       background-size: 28px 28px;
     }
 
@@ -134,7 +135,7 @@
       width: 450px;
       height: 450px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.06), transparent 70%);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.05), transparent 70%);
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 1;
@@ -153,7 +154,7 @@
     }
 
     /* ==========================================================================
-       Refined Glassmorphism Navigation Bar
+       Refined Graphite Glassmorphism Navigation Bar
        ========================================================================== */
     .navbar-wrapper {
       position: sticky;
@@ -167,9 +168,9 @@
     .navbar {
       max-width: 1140px;
       margin: 0 auto;
-      background: rgba(11, 15, 23, 0.82);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      background: rgba(24, 24, 27, 0.85);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
       border: 1px solid var(--border-color);
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.65), var(--glass-specular);
       border-radius: var(--radius-xl);
@@ -187,7 +188,7 @@
       align-items: center;
       gap: 0.75rem;
       text-decoration: none;
-      color: var(--text-main);
+      color: var(--cream);
       flex-shrink: 0;
     }
 
@@ -200,7 +201,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #070a10;
+      color: var(--ink-on-cream);
       flex-shrink: 0;
       transition: transform 0.25s var(--ease-spring);
     }
@@ -237,8 +238,8 @@
     }
 
     .nav-links a:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.06);
+      color: var(--cream);
+      background: rgba(243, 237, 226, 0.08);
     }
 
     .nav-actions {
@@ -271,7 +272,7 @@
 
     .btn-primary {
       background: var(--primary-gradient);
-      color: #070a10;
+      color: var(--ink-on-cream);
       border: 1px solid var(--primary-light);
       box-shadow: 0 4px 16px var(--primary-glow);
     }
@@ -279,19 +280,31 @@
     .btn-primary:hover {
       box-shadow: 0 6px 24px var(--primary-glow);
       transform: translateY(-2px);
-      filter: brightness(1.08);
+      filter: brightness(1.06);
     }
 
     .btn-outline {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-main);
+      background: rgba(243, 237, 226, 0.05);
+      color: var(--cream);
       border: 1px solid var(--border-color);
       backdrop-filter: blur(12px);
     }
 
     .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(243, 237, 226, 0.11);
+      border-color: rgba(243, 237, 226, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .btn-graphite {
+      background: var(--bg-main);
+      color: var(--cream);
+      border: 1px solid rgba(20, 20, 22, 0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .btn-graphite:hover {
+      background: #232327;
       transform: translateY(-2px);
     }
 
@@ -305,31 +318,30 @@
       display: none;
       background: none;
       border: 1px solid var(--border-color);
-      color: var(--text-main);
+      color: var(--cream);
       padding: 0.45rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
     }
 
     /* ==========================================================================
-       Hero Section — Charles Accent Hero System
+       Hero Section — 60% Graphite / 30% Cream / 10% Amber
        ========================================================================== */
     .hero {
       position: relative;
-      padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(3rem, 6vw, 5rem);
+      padding: clamp(2.5rem, 6vw, 4.75rem) 0 clamp(2.5rem, 5vw, 4.5rem);
       overflow: hidden;
     }
 
-    /* Atmospheric Ghost Watermark Layer */
     .hero-watermark {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       font-family: var(--font-display);
-      font-size: clamp(6rem, 18vw, 16rem);
+      font-size: clamp(6rem, 18vw, 15rem);
       font-weight: 900;
-      color: rgba(255, 255, 255, 0.015);
+      color: rgba(243, 237, 226, 0.02);
       letter-spacing: 0.08em;
       white-space: nowrap;
       pointer-events: none;
@@ -337,24 +349,11 @@
       z-index: 1;
     }
 
-    /* Ambient Volumetric Backdrop Aura */
-    .hero-ambient-aura {
-      position: absolute;
-      top: 40%;
-      right: 5%;
-      width: clamp(350px, 45vw, 650px);
-      height: clamp(350px, 45vw, 650px);
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, rgba(217, 119, 6, 0.08) 45%, transparent 70%);
-      filter: blur(60px);
-      pointer-events: none;
-      z-index: 1;
-    }
-
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.98fr);
       align-items: center;
-      gap: clamp(2.5rem, 5vw, 4.5rem);
+      gap: clamp(2rem, 4.5vw, 4rem);
       position: relative;
       z-index: 2;
     }
@@ -371,8 +370,8 @@
       align-items: center;
       gap: 0.65rem;
       padding: 0.38rem 1.05rem;
-      background: rgba(15, 21, 35, 0.88);
-      border: 1px solid rgba(245, 158, 11, 0.32);
+      background: rgba(26, 26, 29, 0.92);
+      border: 1px solid rgba(245, 158, 11, 0.35);
       border-radius: var(--radius-full);
       font-family: var(--font-mono);
       font-size: 0.78rem;
@@ -380,9 +379,7 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       margin-bottom: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), var(--glass-specular);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), var(--glass-specular);
       max-width: 100%;
     }
 
@@ -424,16 +421,13 @@
       font-weight: 800;
       letter-spacing: -0.035em;
       line-height: 1.12;
-      color: var(--text-main);
+      color: var(--cream);
       margin-bottom: 1.25rem;
       text-wrap: balance;
     }
 
     .hero-title .accent-word {
-      background: linear-gradient(135deg, #fff7ed 0%, #fbbf24 35%, #f59e0b 70%, #d97706 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 32px rgba(245, 158, 11, 0.5);
+      color: var(--primary);
       display: inline-block;
       font-weight: 800;
     }
@@ -455,7 +449,7 @@
       flex-wrap: wrap;
     }
 
-    /* Engineering Captions / Specs (3 Max - Rule 8) */
+    /* Three Real Engineering Captions */
     .hero-specs {
       display: flex;
       align-items: center;
@@ -476,7 +470,7 @@
       font-family: var(--font-display);
       font-size: clamp(1.2rem, 2.2vw, 1.48rem);
       font-weight: 700;
-      color: var(--text-main);
+      color: var(--cream);
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
     }
@@ -497,114 +491,201 @@
       flex-shrink: 0;
     }
 
-    /* ─── Hero Poster Stage & 3D Subject ─── */
+    /* ─── Hero Right Panel: Tactile Cream Execution Console (30% Cream Contrast) ─── */
     .hero-stage {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 1200px;
-    }
-
-    .hero-subject-wrapper {
-      position: relative;
       width: 100%;
-      max-width: 540px;
-      transform-style: preserve-3d;
-      transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
-      cursor: pointer;
     }
 
-    /* Ambient Volumetric Backlight Behind Subject */
-    .hero-subject-glow {
-      position: absolute;
-      top: 50%;
-      left: 55%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      background: radial-gradient(circle at 60% 45%, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.1) 45%, transparent 70%);
-      filter: blur(45px);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* The Obsidian Aegis Vault Core Card */
-    .hero-subject-card {
-      position: relative;
+    .pipeline-console {
+      width: 100%;
+      max-width: 520px;
+      background: var(--cream);
+      color: var(--ink-on-cream);
       border-radius: var(--radius-xl);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85),
-                  0 0 50px -10px rgba(245, 158, 11, 0.22),
-                  var(--glass-specular);
-      background: #080c14;
-      z-index: 2;
+      padding: clamp(1.35rem, 3vw, 2rem);
+      box-shadow: 0 28px 65px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(243, 237, 226, 0.4);
+      position: relative;
+      transition: transform 0.25s var(--ease-spring);
     }
 
-    .hero-subject-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transform: scale(1.02);
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      object-fit: cover;
+    .pipeline-console:hover {
+      transform: translateY(-4px);
     }
 
-    .hero-subject-wrapper:hover .hero-subject-img {
-      transform: scale(1.045);
-    }
-
-    /* Refined Specular Gradient Vignette */
-    .hero-subject-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border-radius: inherit;
-      box-shadow: inset 0 0 35px 8px rgba(7, 10, 16, 0.55);
-      background: linear-gradient(to top, rgba(7, 10, 16, 0.45) 0%, transparent 30%);
-    }
-
-    /* Physical Floating HUD Telemetry Badge */
-    .hero-hud-tag {
-      position: absolute;
-      bottom: 1.15rem;
-      left: 1.15rem;
-      display: inline-flex;
+    .pipeline-header {
+      display: flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.45rem 0.85rem;
-      background: rgba(11, 15, 23, 0.86);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      border-radius: var(--radius-sm);
+      justify-content: space-between;
+      padding-bottom: 1.15rem;
+      margin-bottom: 1.15rem;
+      border-bottom: 1px solid var(--border-on-cream);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .pipeline-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .pipeline-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--primary-deep);
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
+      flex-shrink: 0;
+    }
+
+    .pipeline-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--ink-on-cream);
+      text-transform: uppercase;
+    }
+
+    .pipeline-speed-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--bg-main);
+      color: var(--cream);
+      padding: 0.28rem 0.65rem;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .pipeline-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .pipeline-step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.78rem 0.95rem;
+      background: rgba(20, 20, 22, 0.05);
+      border: 1px solid rgba(20, 20, 22, 0.08);
+      border-radius: var(--radius-md);
+      transition: all 0.22s var(--ease-spring);
+    }
+
+    .pipeline-step.active-pass {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 6px 16px rgba(217, 119, 6, 0.12);
+      transform: translateX(3px);
+    }
+
+    .pipeline-step-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .pipeline-num {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--bg-main);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pipeline-step.active-pass .pipeline-num {
+      background: var(--primary);
+      color: var(--ink-on-cream);
+    }
+
+    .pipeline-step-text strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-on-cream);
+      line-height: 1.25;
+    }
+
+    .pipeline-step-text span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--ink-on-cream-muted);
+      line-height: 1.3;
+    }
+
+    .pipeline-status {
       font-family: var(--font-mono);
       font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary-deep);
+      background: rgba(217, 119, 6, 0.12);
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .pipeline-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-on-cream);
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .pipeline-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--ink-on-cream-muted);
+      font-weight: 500;
+    }
+
+    .simulate-btn {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
       font-weight: 600;
-      color: var(--primary-light);
-      letter-spacing: 0.05em;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-      z-index: 3;
+      background: var(--bg-main);
+      color: var(--cream);
+      border: none;
+      padding: 0.42rem 0.85rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.18s var(--ease-spring);
     }
 
-    .hud-pulse-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--primary);
-      box-shadow: 0 0 8px var(--primary);
-      animation: pulse-dot 2s ease-in-out infinite;
+    .simulate-btn:hover {
+      background: #27272b;
+      transform: translateY(-1px);
     }
 
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 0.4; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.2); }
+    .simulate-btn:active {
+      transform: scale(0.95);
     }
 
     /* ==========================================================================
-       Pricing Section — Single Plan ($11.99) + Interactive Extra Bot Slots ($4.99/ea)
+       Pricing Section — Split Graphite & Cream Editorial Card (60-30-10)
        ========================================================================== */
     .pricing-section {
       padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.5rem, 5vw, 4rem);
@@ -612,7 +693,7 @@
     }
 
     .pricing-card-wrap {
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
       position: relative;
       width: 100%;
@@ -623,26 +704,23 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: min(500px, 90vw);
+      width: min(520px, 90vw);
       height: 350px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
 
     .pricing-card {
-      background: rgba(15, 21, 35, 0.85);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
-      border: 1px solid rgba(245, 158, 11, 0.4);
+      background: var(--bg-graphite);
+      border: 1px solid rgba(243, 237, 226, 0.16);
       border-radius: var(--radius-xl);
-      padding: clamp(1.5rem, 4vw, 3rem);
-      box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.75), 0 0 35px -5px var(--primary-glow), var(--glass-specular);
+      overflow: hidden;
+      box-shadow: 0 28px 65px -12px rgba(0, 0, 0, 0.75), var(--glass-specular);
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: clamp(1.75rem, 3.5vw, 2.75rem);
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
       width: 100%;
     }
 
@@ -650,6 +728,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      padding: clamp(1.5rem, 4vw, 2.85rem);
+      background: var(--bg-graphite);
       width: 100%;
     }
 
@@ -666,7 +746,7 @@
       font-size: 0.74rem;
       font-weight: 700;
       background: var(--primary-gradient);
-      color: #070a10;
+      color: var(--ink-on-cream);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-full);
       letter-spacing: 0.04em;
@@ -684,7 +764,7 @@
       font-weight: 800;
       letter-spacing: -0.025em;
       margin-bottom: 0.65rem;
-      color: var(--text-main);
+      color: var(--cream);
     }
 
     .plan-desc {
@@ -717,7 +797,7 @@
       font-family: var(--font-display);
       font-size: clamp(2.6rem, 6vw, 3.4rem);
       font-weight: 800;
-      color: var(--text-main);
+      color: var(--cream);
       letter-spacing: -0.04em;
       line-height: 1;
       font-variant-numeric: tabular-nums;
@@ -732,12 +812,12 @@
 
     /* Extra Bot Slots Interactive Addon Widget */
     .addon-card {
-      background: rgba(7, 10, 16, 0.7);
+      background: var(--bg-main);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: clamp(1rem, 2vw, 1.25rem);
       margin-bottom: 1.75rem;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
       width: 100%;
     }
 
@@ -753,7 +833,7 @@
     .addon-title {
       font-size: 0.88rem;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--cream);
       display: flex;
       align-items: center;
       gap: 0.45rem;
@@ -778,7 +858,7 @@
     .counter-widget {
       display: inline-flex;
       align-items: center;
-      background: rgba(15, 21, 35, 0.9);
+      background: var(--bg-graphite-elevated);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -789,7 +869,7 @@
       height: 36px;
       background: none;
       border: none;
-      color: var(--text-main);
+      color: var(--cream);
       font-size: 1.1rem;
       display: flex;
       align-items: center;
@@ -800,7 +880,7 @@
     }
 
     .counter-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(243, 237, 226, 0.1);
     }
 
     .counter-btn:active {
@@ -834,21 +914,23 @@
       width: 100%;
     }
 
+    /* Right Side — 30% Cream Contrast Surface */
     .pricing-right {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-left: 1px solid var(--border-color);
-      padding-left: clamp(1.5rem, 3.5vw, 2.75rem);
+      background: var(--cream);
+      color: var(--ink-on-cream);
+      padding: clamp(1.5rem, 4vw, 2.85rem);
       width: 100%;
     }
 
     .checklist-title {
       font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
+      font-size: 1.08rem;
+      font-weight: 800;
       margin-bottom: 1.25rem;
-      color: var(--text-main);
+      color: var(--ink-on-cream);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -866,19 +948,24 @@
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
-      font-size: 0.9rem;
-      color: #cbd5e1;
+      font-size: 0.88rem;
+      color: var(--ink-on-cream-muted);
       line-height: 1.45;
       overflow-wrap: break-word;
+    }
+
+    .checklist-item strong {
+      color: var(--ink-on-cream);
+      font-weight: 700;
     }
 
     .check-icon {
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      color: var(--success);
+      background: rgba(217, 119, 6, 0.14);
+      border: 1px solid rgba(217, 119, 6, 0.45);
+      color: var(--primary-deep);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -889,15 +976,16 @@
     }
 
     .pricing-guarantee {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
+      background: rgba(20, 20, 22, 0.06);
+      border: 1px solid var(--border-on-cream);
       border-radius: var(--radius-md);
       padding: 0.85rem 1rem;
       font-size: 0.82rem;
-      color: var(--text-muted);
+      color: var(--ink-on-cream-muted);
       display: flex;
       align-items: center;
       gap: 0.65rem;
+      font-weight: 500;
     }
 
     /* ==========================================================================
@@ -929,7 +1017,7 @@
       font-size: clamp(1.75rem, 3.2vw, 2.5rem);
       font-weight: 700;
       letter-spacing: -0.025em;
-      color: var(--text-main);
+      color: var(--cream);
       margin-bottom: 0.85rem;
       text-wrap: balance;
     }
@@ -957,7 +1045,7 @@
     }
 
     .tab-btn {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(243, 237, 226, 0.04);
       border: 1px solid var(--border-color);
       color: var(--text-muted);
       padding: 0.45rem 1rem;
@@ -970,14 +1058,14 @@
     }
 
     .tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.08);
+      color: var(--cream);
+      background: rgba(243, 237, 226, 0.09);
       transform: translateY(-1px);
     }
 
     .tab-btn.active {
       background: var(--primary-glow-subtle);
-      border-color: rgba(245, 158, 11, 0.4);
+      border-color: rgba(245, 158, 11, 0.45);
       color: var(--primary-light);
       font-weight: 600;
       box-shadow: 0 0 16px var(--primary-glow-subtle);
@@ -992,16 +1080,19 @@
 
     .search-input {
       width: 100%;
-      background: rgba(15, 21, 35, 0.85);
+      background: var(--bg-graphite);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 0.55rem 1rem 0.55rem 2.5rem;
-      color: var(--text-main);
+      color: var(--cream);
       font-size: 0.88rem;
       font-family: var(--font-sans);
       outline: none;
       transition: all 0.18s ease;
-      backdrop-filter: blur(12px);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
     }
 
     .search-input:focus {
@@ -1031,8 +1122,8 @@
       border: 1px solid var(--border-card);
       border-radius: var(--radius-xl);
       padding: clamp(1.35rem, 3vw, 2rem);
-      backdrop-filter: blur(20px) saturate(150%);
-      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
       box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.55), var(--glass-specular);
       transition: all 0.25s var(--ease-spring);
       display: flex;
@@ -1044,7 +1135,7 @@
     .feature-card:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-card-hover);
-      box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.7), 0 0 24px var(--primary-glow-subtle);
+      box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.65), 0 0 24px var(--primary-glow-subtle);
       transform: translateY(-4px);
     }
 
@@ -1078,7 +1169,7 @@
       font-family: var(--font-display);
       font-size: clamp(1.15rem, 2.5vw, 1.28rem);
       font-weight: 700;
-      color: var(--text-main);
+      color: var(--cream);
       letter-spacing: -0.015em;
       margin-bottom: 0.25rem;
     }
@@ -1102,7 +1193,7 @@
       align-items: flex-start;
       gap: 0.65rem;
       font-size: 0.88rem;
-      color: #cbd5e1;
+      color: var(--text-muted);
       line-height: 1.48;
       overflow-wrap: break-word;
       word-break: break-word;
@@ -1117,7 +1208,7 @@
     }
 
     .feature-item strong {
-      color: var(--text-main);
+      color: var(--cream);
       font-weight: 600;
     }
 
@@ -1135,7 +1226,7 @@
     .tag-pill {
       font-family: var(--font-mono);
       font-size: 0.74rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(243, 237, 226, 0.06);
       border: 1px solid var(--border-color);
       padding: 0.2rem 0.55rem;
       border-radius: var(--radius-sm);
@@ -1151,7 +1242,7 @@
       border: 1px solid var(--border-card);
       border-radius: var(--radius-xl);
       padding: clamp(1.25rem, 3.5vw, 2.5rem);
-      backdrop-filter: blur(24px) saturate(160%);
+      backdrop-filter: blur(24px) saturate(140%);
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), var(--glass-specular);
       width: 100%;
     }
@@ -1176,7 +1267,7 @@
       align-items: center;
       justify-content: space-between;
       padding: clamp(0.75rem, 1.8vw, 0.95rem) clamp(0.85rem, 2vw, 1.25rem);
-      background: rgba(11, 15, 23, 0.65);
+      background: var(--bg-graphite);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       cursor: pointer;
@@ -1187,8 +1278,8 @@
     }
 
     .cmd-pill:hover {
-      background: rgba(20, 28, 46, 0.8);
-      border-color: rgba(255, 255, 255, 0.18);
+      background: var(--bg-graphite-elevated);
+      border-color: rgba(243, 237, 226, 0.22);
       transform: translateX(4px);
     }
 
@@ -1202,7 +1293,7 @@
       font-family: var(--font-mono);
       font-size: clamp(0.85rem, 1.8vw, 0.94rem);
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--cream);
       overflow-wrap: break-word;
     }
 
@@ -1217,8 +1308,8 @@
     }
 
     .command-preview {
-      background: #05080f;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #0e0e10;
+      border: 1px solid rgba(243, 237, 226, 0.12);
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
@@ -1226,12 +1317,12 @@
     }
 
     .terminal-header {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(243, 237, 226, 0.05);
       padding: 0.85rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(243, 237, 226, 0.08);
     }
 
     .terminal-dots {
@@ -1245,9 +1336,9 @@
       border-radius: 50%;
     }
 
-    .terminal-dot:nth-child(1) { background: #ef4444; }
-    .terminal-dot:nth-child(2) { background: #f59e0b; }
-    .terminal-dot:nth-child(3) { background: #10b981; }
+    .terminal-dot:nth-child(1) { background: rgba(243, 237, 226, 0.35); }
+    .terminal-dot:nth-child(2) { background: var(--primary); }
+    .terminal-dot:nth-child(3) { background: rgba(243, 237, 226, 0.7); }
 
     .terminal-title {
       font-family: var(--font-mono);
@@ -1280,8 +1371,8 @@
       word-break: break-word;
     }
 
-    .t-tag { color: var(--primary-light); }
-    .t-success { color: var(--success); }
+    .t-tag { color: var(--cream); font-weight: 600; }
+    .t-success { color: var(--primary-light); font-weight: 700; }
 
     /* ==========================================================================
        Workflow Steps Grid
@@ -1305,7 +1396,7 @@
     }
 
     .step-card:hover {
-      border-color: rgba(245, 158, 11, 0.35);
+      border-color: rgba(245, 158, 11, 0.38);
       transform: translateY(-4px);
     }
 
@@ -1329,7 +1420,7 @@
       font-family: var(--font-display);
       font-size: 1.22rem;
       font-weight: 700;
-      color: var(--text-main);
+      color: var(--cream);
       margin-bottom: 0.55rem;
     }
 
@@ -1339,16 +1430,16 @@
       line-height: 1.6;
     }
 
-    /* Call to Action Banner */
+    /* Call to Action Banner — 30% Cream Editorial Contrast */
     .cta-banner {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(14, 21, 35, 0.92) 100%);
-      border: 1px solid rgba(245, 158, 11, 0.35);
+      background: var(--cream);
+      color: var(--ink-on-cream);
+      border: 1px solid rgba(243, 237, 226, 0.5);
       border-radius: var(--radius-xl);
       padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 3.5vw, 2.5rem);
       text-align: center;
       margin: clamp(2.5rem, 5vw, 4rem) auto;
-      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.6), var(--glass-specular);
-      backdrop-filter: blur(24px);
+      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.6);
       position: relative;
       width: 100%;
     }
@@ -1359,11 +1450,12 @@
       font-weight: 800;
       letter-spacing: -0.025em;
       margin-bottom: 0.85rem;
+      color: var(--ink-on-cream);
       text-wrap: balance;
     }
 
     .cta-banner p {
-      color: var(--text-muted);
+      color: var(--ink-on-cream-muted);
       font-size: clamp(0.95rem, 2vw, 1.08rem);
       max-width: 620px;
       margin: 0 auto 2.25rem;
@@ -1374,7 +1466,7 @@
     .footer {
       border-top: 1px solid var(--border-color);
       padding: clamp(2.5rem, 5vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem);
-      background: rgba(7, 10, 16, 0.95);
+      background: var(--bg-main);
       font-size: 0.86rem;
       color: var(--text-dim);
       width: 100%;
@@ -1466,19 +1558,16 @@
         margin: 0 auto;
       }
       .hero-stage {
-        max-width: 500px;
+        max-width: 520px;
         margin: 0 auto;
         width: 100%;
       }
       .pricing-card {
         grid-template-columns: 1fr;
-        gap: 2.25rem;
+        gap: 0;
       }
       .pricing-right {
-        border-left: none;
-        border-top: 1px solid var(--border-color);
-        padding-left: 0;
-        padding-top: 2rem;
+        border-top: 1px solid var(--border-on-cream);
       }
       .commands-grid {
         grid-template-columns: 1fr;
@@ -1580,21 +1669,20 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Hero Section (Charles Accent Hero System) -->
+    <!-- Hero Section — 60% Graphite / 30% Cream / 10% Amber -->
     <section class="hero reveal-on-scroll">
       <div class="hero-watermark" aria-hidden="true">NOVA // 0.4s</div>
-      <div class="hero-ambient-aura" aria-hidden="true"></div>
 
       <div class="container">
         <div class="hero-grid">
-          <!-- Left Column: Architectural Headline & Offer -->
+          <!-- Left Column: Graphite Canvas with Cream Display Copy & Amber Accent -->
           <div class="hero-content">
             <div class="hero-pill">
               <div class="wave-dot-wrapper">
                 <div class="wave-ring"></div>
                 <div class="wave-dot"></div>
               </div>
-              <span>AEGIS-01 // ACTIVE ROTATION MATRIX</span>
+              <span>AEGIS-01 // ACTIVE ROTATION ENGINE</span>
             </div>
 
             <h1 class="hero-title">
@@ -1621,7 +1709,7 @@
               </a>
             </div>
 
-            <!-- Engineering Telemetry Specs (Rule 8: Three Real Captions) -->
+            <!-- Three Real Engineering Captions -->
             <div class="hero-specs">
               <div class="hero-spec-item">
                 <span class="hero-spec-val">&lt; 1.8s</span>
@@ -1640,16 +1728,71 @@
             </div>
           </div>
 
-          <!-- Right Column: The Monolithic Obsidian Aegis Vault Core (Rule 2) -->
+          <!-- Right Column: Tactile Cream Execution Console (30% Cream) -->
           <div class="hero-stage">
-            <div class="hero-subject-wrapper" id="heroSubjectWrapper">
-              <div class="hero-subject-glow" aria-hidden="true"></div>
-              <div class="hero-subject-card">
-                <img src="/assets/hero-subject.jpg" alt="Nova AutoSecure Obsidian Aegis Vault Core with glowing volumetric amber energy conduits" class="hero-subject-img" width="1376" height="768" loading="eager">
-                <div class="hero-hud-tag">
-                  <div class="hud-pulse-dot"></div>
-                  <span>CIPHER VAULT // 256-BIT MATRIX</span>
+            <div class="pipeline-console" id="pipelineConsole">
+              <div class="pipeline-header">
+                <div class="pipeline-title-group">
+                  <span class="pipeline-dot"></span>
+                  <span class="pipeline-label">AUTOSECURE // LIVE PIPELINE</span>
                 </div>
+                <span class="pipeline-speed-badge" id="pipelineTimingBadge">1.42s TOTAL</span>
+              </div>
+
+              <div class="pipeline-steps" id="pipelineSteps">
+                <div class="pipeline-step active-pass" data-step="0">
+                  <div class="pipeline-step-left">
+                    <span class="pipeline-num">01</span>
+                    <div class="pipeline-step-text">
+                      <strong>2FA &amp; Zyger Key Teardown</strong>
+                      <span>Windows Hello &amp; TOTP authenticators stripped</span>
+                    </div>
+                  </div>
+                  <span class="pipeline-status">CLEARED</span>
+                </div>
+
+                <div class="pipeline-step" data-step="1">
+                  <div class="pipeline-step-left">
+                    <span class="pipeline-num">02</span>
+                    <div class="pipeline-step-text">
+                      <strong>Alias &amp; Password Rotation</strong>
+                      <span>Primary email bound + 256-bit key applied</span>
+                    </div>
+                  </div>
+                  <span class="pipeline-status">ROTATED</span>
+                </div>
+
+                <div class="pipeline-step" data-step="2">
+                  <div class="pipeline-step-left">
+                    <span class="pipeline-num">03</span>
+                    <div class="pipeline-step-text">
+                      <strong>Global Session Purge</strong>
+                      <span>All active Microsoft tokens invalidated</span>
+                    </div>
+                  </div>
+                  <span class="pipeline-status">LOCKED</span>
+                </div>
+
+                <div class="pipeline-step" data-step="3">
+                  <div class="pipeline-step-left">
+                    <span class="pipeline-num">04</span>
+                    <div class="pipeline-step-text">
+                      <strong>Minecraft &amp; SSID Claim</strong>
+                      <span>Java profile, capes &amp; Hypixel audit synced</span>
+                    </div>
+                  </div>
+                  <span class="pipeline-status">CLAIMED</span>
+                </div>
+              </div>
+
+              <div class="pipeline-footer">
+                <span class="pipeline-meta" id="pipelineMetaText">Zero-lockout state verified</span>
+                <button type="button" class="simulate-btn" onclick="simulatePipelinePass()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span>Run Pass</span>
+                </button>
               </div>
             </div>
           </div>
@@ -1778,7 +1921,7 @@
               </div>
 
               <div class="pricing-guarantee">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success); flex-shrink: 0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-deep); flex-shrink: 0;">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                   <polyline points="9 12 11 14 15 10"></polyline>
                 </svg>
@@ -2265,9 +2408,9 @@
       <div class="cta-banner">
         <h2>Ready to Deploy AutoSecure?</h2>
         <p>Access the unified web management dashboard, configure your bots, and manage secured accounts in real time.</p>
-        <a href="#pricing" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.85rem 1.8rem;">
+        <a href="#pricing" class="btn btn-graphite" style="font-size: 1.05rem; padding: 0.9rem 1.9rem;">
           <span>Get Started — $11.99</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -2517,7 +2660,7 @@
         links.style.top = '72px';
         links.style.left = '1.5rem';
         links.style.right = '1.5rem';
-        links.style.background = 'rgba(11, 15, 23, 0.98)';
+        links.style.background = 'rgba(22, 22, 24, 0.98)';
         links.style.backdropFilter = 'blur(24px)';
         links.style.padding = '1.5rem';
         links.style.borderRadius = 'var(--radius-xl)';
@@ -2526,37 +2669,38 @@
       }
     }
 
-    // ─── 7. Hero Subject 3D Parallax Tilt ───
-    (function initHeroTilt() {
-      const wrapper = document.getElementById('heroSubjectWrapper');
-      if (!wrapper) return;
+    // ─── 7. Live Pipeline Pass Simulator (Hero Console) ───
+    let pipelineInterval = null;
+    function simulatePipelinePass() {
+      const steps = document.querySelectorAll('#pipelineSteps .pipeline-step');
+      const badge = document.getElementById('pipelineTimingBadge');
+      const meta = document.getElementById('pipelineMetaText');
+      if (!steps.length) return;
 
-      let bounds;
-      function updateBounds() {
-        bounds = wrapper.getBoundingClientRect();
-      }
+      if (pipelineInterval) clearInterval(pipelineInterval);
+      let idx = 0;
 
-      window.addEventListener('resize', updateBounds, { passive: true });
-      window.addEventListener('scroll', updateBounds, { passive: true });
-      updateBounds();
+      badge.innerText = 'RUNNING...';
+      meta.innerText = 'Executing automated rotation pass';
 
-      wrapper.addEventListener('mousemove', (e) => {
-        if (!bounds) updateBounds();
-        const mouseX = e.clientX - bounds.left;
-        const mouseY = e.clientY - bounds.top;
-        const xPct = (mouseX / bounds.width) - 0.5;
-        const yPct = (mouseY / bounds.height) - 0.5;
+      steps.forEach(s => s.classList.remove('active-pass'));
+      steps[0].classList.add('active-pass');
 
-        const tiltX = -yPct * 10;
-        const tiltY = xPct * 12;
-
-        wrapper.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-      });
-
-      wrapper.addEventListener('mouseleave', () => {
-        wrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-      });
-    })();
+      pipelineInterval = setInterval(() => {
+        steps[idx].classList.remove('active-pass');
+        idx++;
+        if (idx < steps.length) {
+          steps[idx].classList.add('active-pass');
+        } else {
+          clearInterval(pipelineInterval);
+          pipelineInterval = null;
+          steps[steps.length - 1].classList.add('active-pass');
+          const duration = (1.18 + Math.random() * 0.35).toFixed(2);
+          badge.innerText = `${duration}s TOTAL`;
+          meta.innerText = 'Zero-lockout state verified';
+        }
+      }, 420);
+    }
   </script>
 </body>
 </html>
