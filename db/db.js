@@ -320,6 +320,7 @@ accountsbyuser: `CREATE TABLE IF NOT EXISTS accountsbyuser(
 
   extrainformation: `CREATE TABLE IF NOT EXISTS extrainformation(
     uid TEXT PRIMARY KEY,
+    user_id TEXT,
     ip TEXT,
     mspoints TEXT,
     family TEXT,
@@ -448,6 +449,57 @@ async function checkApiKey() {
   }
 }
 
+async function ensureUserOwnershipSchema() {
+  for (const table of ['accounts', 'extrainformation']) {
+    const cols = await queryParams(`PRAGMA table_info(${table})`);
+    if (!cols.some(c => c.name === 'user_id')) {
+      await queryParams(`ALTER TABLE ${table} ADD COLUMN user_id TEXT`);
+    }
+  }
+
+  const indexQueries = [
+    `CREATE INDEX IF NOT EXISTS idx_accounts_user_id ON accounts(user_id)`,
+    `CREATE INDEX IF NOT EXISTS idx_accountsbyuser_user_uid ON accountsbyuser(user_id, uid)`,
+    `CREATE INDEX IF NOT EXISTS idx_extrainformation_user_id ON extrainformation(user_id)`
+  ];
+  for (const idxSql of indexQueries) {
+    await queryParams(idxSql);
+  }
+
+  await queryParams(
+    `UPDATE accounts
+     SET user_id = (
+       SELECT user_id FROM accountsbyuser
+       WHERE accountsbyuser.uid = accounts.uid AND user_id IS NOT NULL AND user_id != ''
+       LIMIT 1
+     )
+     WHERE (user_id IS NULL OR user_id = '')
+       AND EXISTS (
+         SELECT 1 FROM accountsbyuser
+         WHERE accountsbyuser.uid = accounts.uid AND user_id IS NOT NULL AND user_id != ''
+       )`
+  );
+
+  await queryParams(
+    `INSERT INTO accountsbyuser (user_id, uid, time, claimed)
+     SELECT a.user_id, a.uid, a.time, 0
+     FROM accounts a
+     WHERE a.user_id IS NOT NULL AND a.user_id != ''
+       AND NOT EXISTS (
+         SELECT 1 FROM accountsbyuser ab WHERE ab.uid = a.uid AND ab.user_id = a.user_id
+       )`
+  );
+
+  await queryParams(
+    `UPDATE extrainformation
+     SET user_id = COALESCE(
+       (SELECT user_id FROM accounts WHERE accounts.uid = extrainformation.uid AND user_id IS NOT NULL AND user_id != '' LIMIT 1),
+       (SELECT user_id FROM accountsbyuser WHERE accountsbyuser.uid = extrainformation.uid AND user_id IS NOT NULL AND user_id != '' LIMIT 1)
+     )
+     WHERE user_id IS NULL OR user_id = ''`
+  );
+}
+
 async function initializeDB() {
   for (let query of Object.values(queries)) {
     try {
@@ -465,6 +517,11 @@ async function initializeDB() {
       console.error("Error running query:", err);
       return false
     }
+  }
+  try {
+    await ensureUserOwnershipSchema();
+  } catch (err) {
+    console.error("Error running ownership migration:", err);
   }
   return true
 }

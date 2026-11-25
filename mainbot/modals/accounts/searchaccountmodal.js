@@ -13,30 +13,20 @@ module.exports = {
 
             // Fetch all accounts for the user
             // console.log(`[INFO] Fetching accounts for user ID: ${userId}`);
-            const userAccounts = await queryParams(`SELECT * FROM accountsbyuser WHERE user_id=? ORDER BY time DESC`, [userId]);
+            const allAccounts = await queryParams(
+                `SELECT DISTINCT a.*
+                 FROM accounts a
+                 INNER JOIN accountsbyuser ab ON a.uid = ab.uid
+                 WHERE ab.user_id = ? AND a.user_id = ?
+                 ORDER BY ab.time DESC`,
+                [userId, userId]
+            );
 
-            if (!userAccounts || userAccounts.length === 0) {
-                // console.log(`[WARN] No accounts found for user ID: ${userId}`);
+            if (!allAccounts || allAccounts.length === 0) {
                 return interaction.reply({
                     content: "No accounts found to search.",
                     ephemeral: true
                 });
-            }
-
-            // console.log(`[INFO] Found ${userAccounts.length} accounts for user ID: ${userId}`);
-
-            // Fetch account details and search for matches
-            let allAccounts = [];
-            // console.log(`[INFO] Fetching account details for ${userAccounts.length} accounts`);
-            for (const userAccount of userAccounts) {
-                // console.log(`[INFO] Fetching details for account UID: ${userAccount.uid}`);
-                const accountDetails = await queryParams(`SELECT * FROM accounts WHERE uid=?`, [userAccount.uid]);
-                if (accountDetails && accountDetails.length > 0) {
-                    // console.log(`[INFO] Found details for account UID: ${userAccount.uid}`);
-                    allAccounts = allAccounts.concat(accountDetails);
-                } else {
-                    // console.log(`[WARN] No details found for account UID: ${userAccount.uid}`);
-                }
             }
 
             // console.log(`[INFO] Total accounts with details: ${allAccounts.length}`);

@@ -4,24 +4,26 @@ const accountsmsg = require("../../../autosecure/utils/accounts/accountsmsg");
 module.exports = {
     name: "deletefinal",
     callback: async (client, interaction) => {
-        let [t, id, current, uid] = interaction.customId.split("|"); // Extract UID from customId
+        let [t, id, current, uid] = interaction.customId.split("|");
+        if (id && id !== interaction.user.id) {
+            return interaction.reply({ content: "You can only delete your own accounts.", ephemeral: true });
+        }
+        const ownerId = interaction.user.id;
         current = parseInt(current);
 
-        // Delete the account by UID
-        await queryParams(`DELETE FROM accountsbyuser WHERE user_id=? AND uid=?`, [id, uid]);
+        await queryParams(`DELETE FROM accountsbyuser WHERE user_id=? AND uid=?`, [ownerId, uid]);
+        await queryParams(`DELETE FROM accounts WHERE uid=? AND user_id=?`, [uid, ownerId]);
+        await queryParams(`DELETE FROM extrainformation WHERE uid=? AND (user_id=? OR NOT EXISTS (SELECT 1 FROM accounts WHERE uid=?))`, [uid, ownerId, uid]);
+        await queryParams(`DELETE FROM status WHERE uid=? AND NOT EXISTS (SELECT 1 FROM accounts WHERE uid=?)`, [uid, uid]);
 
-        // Fetch remaining accounts to check if the current page is still valid
-        const remainingAccounts = await queryParams(`SELECT * FROM accountsbyuser WHERE user_id=?`, [id]);
+        const remainingAccounts = await queryParams(`SELECT * FROM accountsbyuser WHERE user_id=?`, [ownerId]);
 
-        // If no accounts remain, reset current to 1
         if (remainingAccounts.length === 0) {
             current = 1;
         } else if (current > remainingAccounts.length) {
-            // If current exceeds the number of remaining accounts, adjust it
             current = remainingAccounts.length;
         }
 
-        // Return to the accounts message with the updated current page
-        return interaction.update(await accountsmsg(id, current));
+        return interaction.update(await accountsmsg(ownerId, current));
     }
 };

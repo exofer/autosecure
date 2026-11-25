@@ -87,7 +87,7 @@ module.exports = {
 
       try {
         const acc = await secure(host, settings, uid, mcign);
-        await insertaccount(acc, uid, client.username, settings.secureifnomc);
+        await insertaccount(acc, uid, interaction.user.id, settings.secureifnomc);
 
         const failMsg = await failedembed(acc, uid);
         if (failMsg.failed) {

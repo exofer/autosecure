@@ -115,7 +115,7 @@ module.exports = async (host, settings, uid, username = null) => {
     const cookiesPromise = getCookies();
     let [acc, axios] = await Promise.all([
         getAcc(),
-        initializesecure(uid)
+        initializesecure(uid, settings?.user_id || null)
     ]);
     acc.loginCookie = host;
     console.log(`[RECODE_SECURE] Account object & Axios initialized for UID: ${uid}`);

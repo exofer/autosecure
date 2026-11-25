@@ -13,30 +13,20 @@ module.exports = {
 
 
 
-            const userAccounts = await client.queryParams(`SELECT * FROM accountsbyuser WHERE user_id=? ORDER BY time DESC`, [userId]);
+            const allAccounts = await client.queryParams(
+                `SELECT DISTINCT a.*
+                 FROM accounts a
+                 INNER JOIN accountsbyuser ab ON a.uid = ab.uid
+                 WHERE ab.user_id = ? AND a.user_id = ?
+                 ORDER BY ab.time DESC`,
+                [userId, userId]
+            );
 
-            if (!userAccounts || userAccounts.length === 0) {
-
+            if (!allAccounts || allAccounts.length === 0) {
                 return interaction.reply({
                     content: "No accounts found to search.",
                     ephemeral: true
                 });
-            }
-
-
-
-
-            let allAccounts = [];
-
-            for (const userAccount of userAccounts) {
-
-                const accountDetails = await client.queryParams(`SELECT * FROM accounts WHERE uid=?`, [userAccount.uid]);
-                if (accountDetails && accountDetails.length > 0) {
-
-                    allAccounts = allAccounts.concat(accountDetails);
-                } else {
-
-                }
             }
 
 

@@ -7,6 +7,13 @@ module.exports = {
     callback: async (client, interaction) => {
         try {
             const [t, userId] = interaction.customId.split("|");
+            if (userId && userId !== interaction.user.id) {
+                return interaction.reply({
+                    content: "You can only add accounts to your own account list.",
+                    ephemeral: true
+                });
+            }
+            const ownerId = interaction.user.id;
 
             const oldName = interaction.fields.getTextInputValue('oldName');
             const password = interaction.fields.getTextInputValue('password');
@@ -41,14 +48,14 @@ module.exports = {
             };
            
 
-            const success = await insertaccount(accountData, uid, userId, null, true);
+            const success = await insertaccount(accountData, uid, ownerId, null, true);
             if (success) {
                 await interaction.reply({
                     content: "Account added successfully!",
                     ephemeral: true
                 });
 
-                const updatedMsg = await accountsmsg(userId, 1);
+                const updatedMsg = await accountsmsg(ownerId, 1);
                 await interaction.editReply(updatedMsg);
             } else {
                 return interaction.reply({

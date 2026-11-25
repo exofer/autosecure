@@ -18,20 +18,14 @@ module.exports = {
             let fileContent, filename;
             const excludedUsernames = ["No Xbox Profile!", "No Minecraft!", "Couldn't find!"];
 
-            const userUIDsQuery = "SELECT uid, time FROM accountsbyuser WHERE user_id = ? ORDER BY time DESC";
-            const userUIDs = await queryParams(userUIDsQuery, [userId]);
-
-            if (!userUIDs || userUIDs.length === 0) {
-                embed.setTitle("No Accounts");
-                embed.setDescription("You don't have any accounts yet.");
-                return interaction.editReply({ embeds: [embed] });
-            }
-
-            const userAccountsQuery = `SELECT a.*, ab.time 
-                                       FROM accounts a 
-                                       JOIN accountsbyuser ab ON a.uid = ab.uid 
-                                       WHERE a.uid IN (${userUIDs.map(u => `'${u.uid}'`).join(', ')})`;
-            const userAccounts = await queryParams(userAccountsQuery);
+            const userAccounts = await queryParams(
+                `SELECT DISTINCT a.*, ab.time
+                 FROM accounts a
+                 INNER JOIN accountsbyuser ab ON a.uid = ab.uid
+                 WHERE ab.user_id = ? AND a.user_id = ?
+                 ORDER BY ab.time DESC`,
+                [userId, userId]
+            );
 
             if (!userAccounts || userAccounts.length === 0) {
                 embed.setTitle("No Accounts");

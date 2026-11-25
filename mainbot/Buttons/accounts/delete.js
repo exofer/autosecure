@@ -5,7 +5,10 @@ const accountsmsg = require("../../../autosecure/utils/accounts/accountsmsg");
 module.exports = {
     name: "deleteconfirm",
     callback: async (client, interaction) => {
-        let [t, id, current, uid] = interaction.customId.split("|"); // Extract UID from customId
+        let [t, id, current, uid] = interaction.customId.split("|");
+        if (id && id !== interaction.user.id) {
+            return interaction.reply({ content: "You can only manage your own accounts.", ephemeral: true });
+        }
         current = parseInt(current);
 
         // Create confirmation embed

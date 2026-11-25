@@ -128,26 +128,30 @@ async function checkBlacklist(interaction) {
 
 async function handleSortAccounts(client, interaction, params) {
   const [userId] = params;
+  if (userId && userId !== interaction.user.id) {
+    return interaction.reply({ content: "You can only sort your own accounts.", ephemeral: true });
+  }
+  const ownerId = interaction.user.id;
   const selectedValue = interaction.values[0];
 
   const existing = await client.queryParams(
     `SELECT 1 FROM settings WHERE user_id = ?`,
-    [userId]
+    [ownerId]
   );
 
   if (existing.length > 0) {
     await client.queryParams(
       `UPDATE settings SET sortingtype = ? WHERE user_id = ?`,
-      [selectedValue, userId]
+      [selectedValue, ownerId]
     );
   } else {
     await client.queryParams(
       `INSERT INTO settings (user_id, sortingtype) VALUES (?, ?)`,
-      [userId, selectedValue]
+      [ownerId, selectedValue]
     );
   }
 
-  const msg = await accountsmsg(userId, 1); 
+  const msg = await accountsmsg(ownerId, 1); 
   await interaction.update(msg);
 }
 

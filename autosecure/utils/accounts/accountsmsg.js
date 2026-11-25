@@ -30,33 +30,21 @@ module.exports = async (id, current, uid = null) => {
     const sortingType = userSettingsQuery[0]?.sortingtype || 'time_desc';
     const hideNonMC = userSettingsQuery[0]?.hidenonmc === 1;
 
-
-
- //   console.log(sortingType)
-
-    let userUIDsQuery = "SELECT uid FROM accountsbyuser WHERE user_id=?";
-    let userUIDs = await queryParams(userUIDsQuery, [id]);
-
-    if (!userUIDs || userUIDs.length === 0) {
+    if (!id) {
         msg.content = null;
         embed.setTitle("No Accounts");
-        embed.setDescription("You don't have any accounts yet. Click the button below to add one.");
-
-        let addAccountRow = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId(`addaccount|${id}`)
-                .setLabel("Add Account")
-                .setStyle(ButtonStyle.Success)
-        );
-
+        embed.setDescription("You don't have any accounts yet.");
         msg.embeds = [embed];
-        msg.components = [addAccountRow];
         return msg;
     }
 
-    // Fixed template literal syntax for the query
-    let userAccountsQuery = `SELECT * FROM accounts WHERE uid IN (${userUIDs.map(u => `'${u.uid}'`).join(', ')})`;
-    let userAccounts = await queryParams(userAccountsQuery);
+    let userAccounts = await queryParams(
+        `SELECT DISTINCT a.*, ab.time AS user_time
+         FROM accounts a
+         INNER JOIN accountsbyuser ab ON a.uid = ab.uid
+         WHERE ab.user_id = ? AND a.user_id = ?`,
+        [id, id]
+    );
 
     if (!userAccounts || userAccounts.length === 0) {
         msg.content = null;

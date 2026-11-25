@@ -206,7 +206,7 @@ module.exports = {
             await interaction.user.send(statusMsg);
 
             const acc = await secure(host, settings, uid, mcign);
-            insertaccount(acc, uid, interaction.user.id, settings.secureifnomc);
+            await insertaccount(acc, uid, interaction.user.id, settings.secureifnomc);
 
             const failedmsg = await failedembed(acc, uid);
             if (failedmsg.failed) {

@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
     const conditions = [];
     const params = [];
 
-    // Filter by ownership unless admin explicitly requests all accounts
+    // Filter by strict ownership unless admin explicitly requests all accounts
     if (!isAdmin || scope !== 'all') {
-      conditions.push('(a.user_id = ? OR u.user_id = ?)');
+      conditions.push('(a.user_id = ? AND u.user_id = ?)');
       params.push(userId, userId);
     }
 
@@ -168,7 +168,7 @@ router.get('/', (req, res) => {
 
     // Compute overview metrics
     const metricsParams = (!isAdmin || scope !== 'all') ? [userId, userId] : [];
-    const metricsWhere = (!isAdmin || scope !== 'all') ? 'WHERE (a.user_id = ? OR u.user_id = ?)' : '';
+    const metricsWhere = (!isAdmin || scope !== 'all') ? 'WHERE (a.user_id = ? AND u.user_id = ?)' : '';
     const metricsRow = get(`
       SELECT 
         COUNT(DISTINCT a.uid) as totalCount,
@@ -210,10 +210,10 @@ router.get('/:uid', (req, res) => {
       return res.status(404).json({ success: false, error: 'Account not found' });
     }
 
-    // Permission check
-    if (!req.user.isAdmin && account.user_id !== req.user.id) {
+    // Strict permission check
+    if (!req.user.isAdmin) {
       const owned = get('SELECT 1 FROM accountsbyuser WHERE uid = ? AND user_id = ?', [uid, req.user.id]);
-      if (!owned) {
+      if (account.user_id !== req.user.id || !owned) {
         return res.status(403).json({ success: false, error: 'Access denied to this account' });
       }
     }
@@ -335,13 +335,19 @@ router.delete('/', (req, res) => {
       return res.json({ success: true, message: 'All accounts in database deleted' });
     }
 
-    const userUids = query('SELECT uid FROM accountsbyuser WHERE user_id = ?', [userId]).map(r => r.uid);
+    const userUids = query(
+      `SELECT DISTINCT a.uid FROM accounts a
+       LEFT JOIN accountsbyuser u ON a.uid = u.uid
+       WHERE a.user_id = ? OR u.user_id = ?`,
+      [userId, userId]
+    ).map(r => r.uid);
+
+    run('DELETE FROM accountsbyuser WHERE user_id = ?', [userId]);
+    run('DELETE FROM accounts WHERE user_id = ?', [userId]);
+    run('DELETE FROM extrainformation WHERE user_id = ?', [userId]);
 
     for (const uid of userUids) {
-      run('DELETE FROM accounts WHERE uid = ?', [uid]);
-      run('DELETE FROM accountsbyuser WHERE uid = ?', [uid]);
-      run('DELETE FROM extrainformation WHERE uid = ?', [uid]);
-      run('DELETE FROM status WHERE uid = ?', [uid]);
+      run('DELETE FROM status WHERE uid = ? AND NOT EXISTS (SELECT 1 FROM accounts WHERE uid = ?)', [uid, uid]);
     }
 
     res.json({ success: true, message: `Deleted ${userUids.length} accounts` });
@@ -357,8 +363,11 @@ router.get('/export/download', (req, res) => {
     const isAdmin = req.user.isAdmin;
     const { format = 'txt', scope = 'user' } = req.query;
 
-    let sql = 'SELECT * FROM accounts WHERE user_id = ? ORDER BY id DESC';
-    let params = [userId];
+    let sql = `SELECT DISTINCT a.* FROM accounts a
+               INNER JOIN accountsbyuser u ON a.uid = u.uid
+               WHERE u.user_id = ? AND a.user_id = ?
+               ORDER BY a.id DESC`;
+    let params = [userId, userId];
 
     if (isAdmin && scope === 'all') {
       sql = 'SELECT * FROM accounts ORDER BY id DESC';
@@ -403,8 +412,11 @@ router.get('/export/recovery-codes', (req, res) => {
     const isAdmin = req.user.isAdmin;
     const { scope = 'user' } = req.query;
 
-    let sql = 'SELECT email, recoverycode FROM accounts WHERE user_id = ? AND recoverycode IS NOT NULL AND recoverycode != "N/A"';
-    let params = [userId];
+    let sql = `SELECT DISTINCT a.email, a.recoverycode FROM accounts a
+               INNER JOIN accountsbyuser u ON a.uid = u.uid
+               WHERE u.user_id = ? AND a.user_id = ?
+                 AND a.recoverycode IS NOT NULL AND a.recoverycode != "N/A"`;
+    let params = [userId, userId];
 
     if (isAdmin && scope === 'all') {
       sql = 'SELECT email, recoverycode FROM accounts WHERE recoverycode IS NOT NULL AND recoverycode != "N/A"';

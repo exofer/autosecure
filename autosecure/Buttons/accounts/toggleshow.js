@@ -5,26 +5,31 @@ module.exports = {
     name: "togglenonmc",
     callback: async (client, interaction) => {
         const [t, userId] = interaction.customId.split("|");
-        
+        if (userId && userId !== interaction.user.id) {
+            return interaction.reply({ content: "You can only update your own account filters.", ephemeral: true });
+        }
+        const ownerId = interaction.user.id;
 
         const settingsQuery = await client.queryParams(
-            `SELECT hidenonmc FROM settings WHERE user_id=?`, 
-            [userId]
+            `SELECT hidenonmc FROM settings WHERE user_id=?`,
+            [ownerId]
         );
-        
 
         const currentSetting = settingsQuery[0]?.hidenonmc === 1;
-        
+        const newSetting = !currentSetting ? 1 : 0;
 
-        const newSetting = !currentSetting;
-        
+        if (settingsQuery.length > 0) {
+            await client.queryParams(
+                `UPDATE settings SET hidenonmc=? WHERE user_id=?`,
+                [newSetting, ownerId]
+            );
+        } else {
+            await client.queryParams(
+                `INSERT INTO settings (user_id, hidenonmc) VALUES (?, ?)`,
+                [ownerId, newSetting]
+            );
+        }
 
-        await client.queryParams(
-            `UPDATE settings SET hidenonmc=? WHERE user_id=?`,
-            [newSetting ? 1 : 0, userId]
-        );
-        
-
-        return interaction.update(await accountsmsg(interaction.user.id, 1));
+        return interaction.update(await accountsmsg(ownerId, 1));
     }
 };

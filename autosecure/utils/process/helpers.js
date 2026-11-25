@@ -783,7 +783,7 @@ function logDuration(funcName, startTime) {
   console.log(`[${funcName}] took ${duration.toFixed(2)} seconds`);
 }
 
-async function initializesecure(uid) {
+async function initializesecure(uid, userId = null) {
   try {
     await Promise.all([
       queryParams(
@@ -791,8 +791,8 @@ async function initializesecure(uid) {
         [uid, null, null, null, null, null, null, null, null, null]
       ),
       queryParams(
-        `INSERT INTO extrainformation (uid, gtg, ogo) VALUES (?, ?, ?)`,
-        [uid, null, null]
+        `INSERT INTO extrainformation (uid, user_id, gtg, ogo) VALUES (?, ?, ?, ?)`,
+        [uid, userId ? String(userId) : null, null, null]
       )
     ]);
   } catch (error) {

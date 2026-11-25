@@ -5,9 +5,10 @@ module.exports = {
     name: "moveacc",
     callback: async (client, interaction) => {
         let [t, id, page, direction] = interaction.customId.split("|");
+        if (id && id !== interaction.user.id) {
+            return interaction.reply({ content: "You can only view your own accounts.", ephemeral: true });
+        }
         let current = parseInt(page);
-
- 
 
         return interaction.update(await accountsmsg(interaction.user.id, current));
     }
