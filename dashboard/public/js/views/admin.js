@@ -9,7 +9,7 @@ const AdminView = {
       container.innerHTML = `
         <div class="card" style="border-color:var(--danger);max-width:600px;margin:40px auto;">
           <div class="card-body" style="text-align:center;padding:40px;">
-            <i class="fas fa-lock fa-3x" style="color:var(--danger);margin-bottom:14px;"></i>
+            <re-icon icon="lock" size="48" style="color:var(--danger);margin-bottom:14px;" aria-hidden="true"></re-icon>
             <h3 style="color:var(--danger);">Admin Console Locked</h3>
             <p style="color:var(--text-muted);margin:12px 0;">
               Your current Discord ID (<code>${API.currentUserId}</code>) is not registered in <code>config.json</code> under <code>owners</code>.
@@ -18,7 +18,7 @@ const AdminView = {
               To access admin privileges, switch your session ID to the primary owner ID (<code>1456875723494002908</code>) using the user switcher in the top bar.
             </p>
             <button class="btn btn-primary" onclick="App.openUserSwitchModal()">
-              <i class="fas fa-user-shield"></i> Switch User Session
+              <re-icon icon="shield-lock" size="14" aria-hidden="true"></re-icon> Switch User Session
             </button>
           </div>
         </div>
@@ -29,22 +29,22 @@ const AdminView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-user-shield"></i> Master Owner Control Center</span>
-          <span class="badge-tag danger"><i class="fas fa-crown"></i> Superadmin</span>
+          <span class="card-title"><re-icon icon="shield-lock" size="18" aria-hidden="true"></re-icon> Master Owner Control Center</span>
+          <span class="badge-tag danger"><re-icon icon="crown" size="14" aria-hidden="true"></re-icon> Superadmin</span>
         </div>
 
         <div class="tabs-header" style="margin-top:14px;">
           <button class="tab-btn active" id="admin-tab-btn-keys" onclick="AdminView.switchTab('keys')">
-            <i class="fas fa-key"></i> Key Generation & Licenses
+            <re-icon icon="key" size="15" aria-hidden="true"></re-icon> Key Generation & Licenses
           </button>
           <button class="tab-btn" id="admin-tab-btn-users" onclick="AdminView.switchTab('users')">
-            <i class="fas fa-users"></i> Users & Bot Slots
+            <re-icon icon="users" size="15" aria-hidden="true"></re-icon> Users & Bot Slots
           </button>
           <button class="tab-btn" id="admin-tab-btn-blacklist" onclick="AdminView.switchTab('blacklist')">
-            <i class="fas fa-ban"></i> Blacklist Manager
+            <re-icon icon="ban" size="15" aria-hidden="true"></re-icon> Blacklist Manager
           </button>
           <button class="tab-btn" id="admin-tab-btn-system" onclick="AdminView.switchTab('system')">
-            <i class="fas fa-server"></i> System & Bot Engine
+            <re-icon icon="server" size="15" aria-hidden="true"></re-icon> System & Bot Engine
           </button>
         </div>
 
@@ -68,7 +68,7 @@ const AdminView = {
                   <input type="text" id="gen-key-userid" class="form-input" placeholder="Leave empty for voucher key" />
                 </div>
                 <button class="btn btn-primary" style="width:100%;margin-bottom:12px;" onclick="AdminView.generateKeys()">
-                  <i class="fas fa-plus"></i> Generate Key(s)
+                  <re-icon icon="plus" size="14" aria-hidden="true"></re-icon> Generate Key(s)
                 </button>
                 <div style="display:flex;gap:8px;">
                   <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="AdminView.extendAllKeys(7)">+7 Days All</button>
@@ -105,7 +105,7 @@ const AdminView = {
                   <input type="text" id="bl-reason" class="form-input" placeholder="e.g. Chargeback, abuse, TOS violation" />
                 </div>
                 <button class="btn btn-danger" style="width:100%;" onclick="AdminView.submitBlacklist()">
-                  <i class="fas fa-ban"></i> Blacklist & Revoke Access
+                  <re-icon icon="ban" size="14" aria-hidden="true"></re-icon> Blacklist & Revoke Access
                 </button>
               </div>
 
@@ -304,10 +304,10 @@ const AdminView = {
                   <td style="font-weight:600;color:#34d399;">${OverviewView.formatCoins(u.networth || 0)}</td>
                   <td style="text-align:right;">
                     <button class="btn btn-secondary btn-sm" onclick="AdminView.openEditSlotsModal('${u.user_id}', ${u.slots || 1})">
-                      <i class="fas fa-sliders-h"></i> Slots
+                      <re-icon icon="slider-horizontal" size="14" aria-hidden="true"></re-icon> Slots
                     </button>
                     <button class="btn btn-danger btn-sm" onclick="AdminView.revokeUserAccess('${u.user_id}')">
-                      <i class="fas fa-user-slash"></i> Revoke
+                      <re-icon icon="user-minus" size="14" aria-hidden="true"></re-icon> Revoke
                     </button>
                   </td>
                 </tr>
@@ -451,7 +451,7 @@ const AdminView = {
             </p>
           </div>
           <button class="btn btn-danger" onclick="AdminView.restartBot()">
-            <i class="fas fa-redo"></i> Restart Autosecure PM2
+            <re-icon icon="refresh" size="14" aria-hidden="true"></re-icon> Restart Autosecure PM2
           </button>
         </div>
 

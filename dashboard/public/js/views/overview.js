@@ -14,7 +14,7 @@ const OverviewView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Total Secured</span>
-              <div class="stat-icon primary"><i class="fas fa-shield-alt"></i></div>
+              <div class="stat-icon primary"><re-icon icon="shield" size="15" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${data.totalAccounts}</div>
             <div class="stat-sub">Accounts registered</div>
@@ -23,7 +23,7 @@ const OverviewView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Owns Minecraft</span>
-              <div class="stat-icon success"><i class="fas fa-cube"></i></div>
+              <div class="stat-icon success"><re-icon icon="three-d-cube" size="15" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${data.ownsMcCount}</div>
             <div class="stat-sub">Valid MC licenses</div>
@@ -32,7 +32,7 @@ const OverviewView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Special Capes</span>
-              <div class="stat-icon warning"><i class="fas fa-vest"></i></div>
+              <div class="stat-icon warning"><re-icon icon="tshirt" size="15" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${data.capesCount}</div>
             <div class="stat-sub">Rare/vanity capes</div>
@@ -41,7 +41,7 @@ const OverviewView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Total Networth</span>
-              <div class="stat-icon info"><i class="fas fa-coins"></i></div>
+              <div class="stat-icon info"><re-icon icon="coins" size="15" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${this.formatCoins(data.totalNetworth)}</div>
             <div class="stat-sub">Skyblock valuation</div>
@@ -50,7 +50,7 @@ const OverviewView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Active Bots</span>
-              <div class="stat-icon primary"><i class="fas fa-robot"></i></div>
+              <div class="stat-icon primary"><re-icon icon="gamepad" size="15" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${data.activeBots}</div>
             <div class="stat-sub">Configured bot slots</div>
@@ -59,7 +59,7 @@ const OverviewView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Quarantined</span>
-              <div class="stat-icon danger"><i class="fas fa-lock"></i></div>
+              <div class="stat-icon danger"><re-icon icon="lock" size="15" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${data.quarantineCount}</div>
             <div class="stat-sub">Secured from lock</div>
@@ -69,26 +69,26 @@ const OverviewView = {
         <!-- Quick Actions Bar -->
         <div class="card" style="margin-bottom:24px;">
           <div class="card-header">
-            <span class="card-title"><i class="fas fa-bolt"></i> Quick Operations</span>
+            <span class="card-title"><re-icon icon="bolt" size="15" aria-hidden="true"></re-icon> Quick Operations</span>
           </div>
           <div class="card-body" style="display:flex;flex-wrap:wrap;gap:12px;">
             <button class="btn btn-primary" onclick="App.navigate('secure')">
-              <i class="fas fa-key"></i> Secure Account
+              <re-icon icon="key" size="15" aria-hidden="true"></re-icon> Secure Account
             </button>
             <button class="btn btn-secondary" onclick="App.navigate('emails')">
-              <i class="fas fa-envelope-open-text"></i> Open Mailbox
+              <re-icon icon="envelope-open" size="15" aria-hidden="true"></re-icon> Open Mailbox
             </button>
             <button class="btn btn-secondary" onclick="App.navigate('tools', { tool: 'ssid' })">
-              <i class="fas fa-id-badge"></i> SSID Lookup
+              <re-icon icon="user-id" size="15" aria-hidden="true"></re-icon> SSID Lookup
             </button>
             <button class="btn btn-secondary" onclick="App.navigate('tools', { tool: 'hypixel' })">
-              <i class="fas fa-gamepad"></i> Hypixel Stats
+              <re-icon icon="gamepad" size="15" aria-hidden="true"></re-icon> Hypixel Stats
             </button>
             <button class="btn btn-secondary" onclick="App.navigate('bots')">
-              <i class="fas fa-plus"></i> Bot Fleet
+              <re-icon icon="plus" size="15" aria-hidden="true"></re-icon> Bot Fleet
             </button>
             <button class="btn btn-secondary" onclick="App.navigate('builder')">
-              <i class="fas fa-palette"></i> Embed Designer
+              <re-icon icon="palette" size="15" aria-hidden="true"></re-icon> Embed Designer
             </button>
           </div>
         </div>
@@ -97,7 +97,7 @@ const OverviewView = {
           <!-- Recent Accounts -->
           <div class="card" style="margin-bottom:0;">
             <div class="card-header">
-              <span class="card-title"><i class="fas fa-history"></i> Recent Secured Accounts</span>
+              <span class="card-title"><re-icon icon="history" size="15" aria-hidden="true"></re-icon> Recent Secured Accounts</span>
               <button class="btn btn-secondary btn-sm" onclick="App.navigate('accounts')">View All</button>
             </div>
             <div class="card-body" style="padding:0;">
@@ -132,7 +132,7 @@ const OverviewView = {
                         </td>
                         <td>
                           <button class="btn btn-secondary btn-sm" onclick="AccountsView.inspectAccount('${acc.uid}')">
-                            <i class="fas fa-search"></i>
+                            <re-icon icon="search" size="15" aria-hidden="true"></re-icon>
                           </button>
                         </td>
                       </tr>
@@ -152,7 +152,7 @@ const OverviewView = {
           <!-- Top Networth Leaderboard -->
           <div class="card" style="margin-bottom:0;">
             <div class="card-header">
-              <span class="card-title"><i class="fas fa-trophy"></i> Top Leaderboard</span>
+              <span class="card-title"><re-icon icon="trophy" size="15" aria-hidden="true"></re-icon> Top Leaderboard</span>
               <span class="badge-tag info">Live Rankings</span>
             </div>
             <div class="card-body" style="padding:0;">
@@ -199,7 +199,7 @@ const OverviewView = {
         <!-- System Health Footer Widget -->
         <div class="card" style="margin-top:24px;">
           <div class="card-header">
-            <span class="card-title"><i class="fas fa-server"></i> System Health & Host Specs</span>
+            <span class="card-title"><re-icon icon="server" size="15" aria-hidden="true"></re-icon> System Health & Host Specs</span>
             <span class="status-pill"><span class="status-dot"></span> Online</span>
           </div>
           <div class="card-body" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:16px;">
@@ -230,7 +230,7 @@ const OverviewView = {
       container.innerHTML = `
         <div class="card" style="border-color:var(--danger);">
           <div class="card-body" style="text-align:center;padding:40px;">
-            <i class="fas fa-exclamation-triangle fa-2x" style="color:var(--danger);margin-bottom:12px;"></i>
+            <re-icon icon="alert-triangle" size="22" style="color:var(--danger);margin-bottom:12px;" aria-hidden="true"></re-icon>
             <h3 style="color:var(--danger);">Failed to load overview data</h3>
             <p style="color:var(--text-muted);margin:10px 0;">${err.message}</p>
             <button class="btn btn-secondary" onclick="OverviewView.render()">Retry</button>

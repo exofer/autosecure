@@ -11,6 +11,10 @@
     "axios": "^1.7.9",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "reicon": "^1.2.5"
+  },
+  "devDependencies": {
+    "reicon-mcp": "^1.2.0"
   }
 }

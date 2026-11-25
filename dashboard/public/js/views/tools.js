@@ -9,37 +9,37 @@ const ToolsView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-toolbox"></i> Minecraft & Security Tools</span>
+          <span class="card-title"><re-icon icon="designtools" size="18" aria-hidden="true"></re-icon> Minecraft & Security Tools</span>
           <span class="badge-tag info">Utilities Suite</span>
         </div>
 
         <div class="tabs-header" style="margin-top:14px;">
           <button class="tab-btn ${this.activeTool === 'ssid' ? 'active' : ''}" onclick="ToolsView.switchTool('ssid')">
-            <i class="fas fa-id-badge"></i> SSID Checker
+            <re-icon icon="user-id" size="15" aria-hidden="true"></re-icon> SSID Checker
           </button>
           <button class="tab-btn ${this.activeTool === 'skin' ? 'active' : ''}" onclick="ToolsView.switchTool('skin')">
-            <i class="fas fa-tshirt"></i> Change Skin
+            <re-icon icon="tshirt" size="15" aria-hidden="true"></re-icon> Change Skin
           </button>
           <button class="tab-btn ${this.activeTool === 'ign' ? 'active' : ''}" onclick="ToolsView.switchTool('ign')">
-            <i class="fas fa-signature"></i> Change IGN
+            <re-icon icon="pen-writing" size="15" aria-hidden="true"></re-icon> Change IGN
           </button>
           <button class="tab-btn ${this.activeTool === 'hypixel' ? 'active' : ''}" onclick="ToolsView.switchTool('hypixel')">
-            <i class="fas fa-gamepad"></i> Hypixel Stats & Status
+            <re-icon icon="gamepad" size="15" aria-hidden="true"></re-icon> Hypixel Stats & Status
           </button>
           <button class="tab-btn ${this.activeTool === 'cosmetics' ? 'active' : ''}" onclick="ToolsView.switchTool('cosmetics')">
-            <i class="fas fa-magic"></i> Cosmetics
+            <re-icon icon="magic-star" size="15" aria-hidden="true"></re-icon> Cosmetics
           </button>
           <button class="tab-btn ${this.activeTool === 'ban' ? 'active' : ''}" onclick="ToolsView.switchTool('ban')">
-            <i class="fas fa-ban"></i> Ban Check
+            <re-icon icon="ban" size="15" aria-hidden="true"></re-icon> Ban Check
           </button>
           <button class="tab-btn ${this.activeTool === 'locked' ? 'active' : ''}" onclick="ToolsView.switchTool('locked')">
-            <i class="fas fa-user-lock"></i> Check Lock
+            <re-icon icon="security-user" size="15" aria-hidden="true"></re-icon> Check Lock
           </button>
           <button class="tab-btn ${this.activeTool === 'otp' ? 'active' : ''}" onclick="ToolsView.switchTool('otp')">
-            <i class="fas fa-sms"></i> Request OTP
+            <re-icon icon="sms" size="15" aria-hidden="true"></re-icon> Request OTP
           </button>
           <button class="tab-btn ${this.activeTool === 'quarantine' ? 'active' : ''}" onclick="ToolsView.switchTool('quarantine')">
-            <i class="fas fa-shield-virus"></i> Quarantine Vault
+            <re-icon icon="shield-alert" size="15" aria-hidden="true"></re-icon> Quarantine Vault
           </button>
         </div>
 
@@ -55,7 +55,7 @@ const ToolsView = {
                 <textarea id="tool-ssid-input" class="form-textarea" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="height:90px;"></textarea>
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runSSIDCheck()">
-                <i class="fas fa-search"></i> Inspect SSID
+                <re-icon icon="search" size="15" aria-hidden="true"></re-icon> Inspect SSID
               </button>
             </div>
             <div id="tool-ssid-result" style="margin-top:20px;display:none;"></div>
@@ -83,7 +83,7 @@ const ToolsView = {
                 </select>
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runChangeSkin()">
-                <i class="fas fa-paint-brush"></i> Update Skin
+                <re-icon icon="paintbrush" size="15" aria-hidden="true"></re-icon> Update Skin
               </button>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ToolsView = {
                 <input type="text" id="tool-ign-newname" class="form-input" placeholder="3-16 characters" maxlength="16" />
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runChangeIGN()">
-                <i class="fas fa-check"></i> Change Name
+                <re-icon icon="check" size="15" aria-hidden="true"></re-icon> Change Name
               </button>
             </div>
           </div>
@@ -130,7 +130,7 @@ const ToolsView = {
                 <input type="text" id="tool-cosmetics-ssid" class="form-input" placeholder="SSID Token" />
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runCosmeticsCheck()">
-                <i class="fas fa-magic"></i> Fetch Cosmetics
+                <re-icon icon="magic-star" size="15" aria-hidden="true"></re-icon> Fetch Cosmetics
               </button>
             </div>
             <div id="tool-cosmetics-result" style="margin-top:20px;display:none;"></div>
@@ -147,7 +147,7 @@ const ToolsView = {
                 <input type="text" id="tool-ban-ssid" class="form-input" placeholder="SSID Token" />
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runBanCheck()">
-                <i class="fas fa-gavel"></i> Check Ban Status
+                <re-icon icon="judge" size="15" aria-hidden="true"></re-icon> Check Ban Status
               </button>
             </div>
             <div id="tool-ban-result" style="margin-top:20px;display:none;"></div>
@@ -164,7 +164,7 @@ const ToolsView = {
                 <input type="email" id="tool-locked-email" class="form-input" placeholder="user@outlook.com" />
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runLockCheck()">
-                <i class="fas fa-shield-alt"></i> Verify Account Status
+                <re-icon icon="shield" size="15" aria-hidden="true"></re-icon> Verify Account Status
               </button>
             </div>
             <div id="tool-locked-result" style="margin-top:20px;display:none;"></div>
@@ -181,7 +181,7 @@ const ToolsView = {
                 <input type="email" id="tool-reqotp-email" class="form-input" placeholder="target@outlook.com" />
               </div>
               <button class="btn btn-primary" onclick="ToolsView.runRequestOTP()">
-                <i class="fas fa-paper-plane"></i> Send OTP
+                <re-icon icon="paper-plane" size="15" aria-hidden="true"></re-icon> Send OTP
               </button>
             </div>
             <div id="tool-reqotp-result" style="margin-top:20px;display:none;"></div>
@@ -194,7 +194,7 @@ const ToolsView = {
                 Quarantined accounts are isolated and protected from lock triggers.
               </p>
               <button class="btn btn-primary btn-sm" onclick="ToolsView.openAddQuarantineModal()">
-                <i class="fas fa-plus"></i> Quarantine Account
+                <re-icon icon="plus" size="14" aria-hidden="true"></re-icon> Quarantine Account
               </button>
             </div>
             <div id="tool-quarantine-table-container"></div>
@@ -226,7 +226,7 @@ const ToolsView = {
       if (!res.valid) {
         resultBox.innerHTML = `
           <div style="padding:16px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-md);color:#f87171;">
-            <i class="fas fa-times-circle"></i> <b>Invalid or Expired SSID</b>
+            <re-icon icon="close-circle" size="16" aria-hidden="true"></re-icon> <b>Invalid or Expired SSID</b>
             <div style="font-size:0.8rem;margin-top:6px;color:var(--text-muted);">${res.error || 'Token rejected'}</div>
           </div>
         `;
@@ -243,7 +243,7 @@ const ToolsView = {
             <div>
               <h3 style="font-size:1.15rem;font-weight:700;">${p.name}</h3>
               <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin:4px 0;">UUID: ${p.id}</div>
-              <span class="badge-tag success"><i class="fas fa-check"></i> Valid Token</span>
+              <span class="badge-tag success"><re-icon icon="check" size="12" aria-hidden="true"></re-icon> Valid Token</span>
               <span class="badge-tag info">${res.isExpired ? 'Expired' : 'Active Session'}</span>
             </div>
           </div>
@@ -330,9 +330,9 @@ const ToolsView = {
             </div>
             <div>
               ${status?.online ? `
-                <span class="badge-tag success"><i class="fas fa-circle"></i> Online (${status.game || 'In Game'})</span>
+                <span class="badge-tag success"><re-icon icon="record" size="10" aria-hidden="true"></re-icon> Online (${status.game || 'In Game'})</span>
               ` : `
-                <span class="badge-tag danger"><i class="fas fa-circle"></i> Offline</span>
+                <span class="badge-tag danger"><re-icon icon="record" size="10" aria-hidden="true"></re-icon> Offline</span>
               `}
             </div>
           </div>
@@ -425,7 +425,7 @@ const ToolsView = {
       resultBox.innerHTML = `
         <div style="padding:18px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-            <i class="fas ${d.locked ? 'fa-lock' : 'fa-check-circle'}" style="color:${d.locked ? '#ef4444' : '#10b981'};font-size:1.3rem;"></i>
+            <re-icon icon="${d.locked ? 'lock' : 'check-circle'}" size="20" style="color:${d.locked ? '#ef4444' : '#10b981'};" aria-hidden="true"></re-icon>
             <h4 style="font-size:1rem;font-weight:700;">Account Lock Status: ${d.locked ? 'LOCKED / SUSPENDED' : 'CLEAN / ACTIVE'}</h4>
           </div>
           <div style="font-size:0.85rem;color:var(--text-muted);display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px;">
@@ -469,7 +469,7 @@ const ToolsView = {
       } else if (res.success) {
         resultBox.innerHTML = `
           <div style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-md);color:#34d399;">
-            <i class="fas fa-check-circle"></i> OTP request dispatched successfully! Check inbox.
+            <re-icon icon="check-circle" size="16" aria-hidden="true"></re-icon> OTP request dispatched successfully! Check inbox.
           </div>
         `;
       } else {
@@ -501,7 +501,7 @@ const ToolsView = {
       if (!list.length) {
         container.innerHTML = `
           <div style="text-align:center;padding:40px;color:var(--text-dim);">
-            <i class="fas fa-shield-alt fa-2x" style="margin-bottom:10px;opacity:0.4;"></i>
+            <re-icon icon="shield" size="32" style="margin-bottom:10px;opacity:0.4;" aria-hidden="true"></re-icon>
             <p>No accounts currently in quarantine.</p>
           </div>
         `;

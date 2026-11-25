@@ -5,9 +5,9 @@ const ProxiesView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-network-wired"></i> Rotating Proxy Manager</span>
+          <span class="card-title"><re-icon icon="server" size="18" aria-hidden="true"></re-icon> Rotating Proxy Manager</span>
           <button class="btn btn-primary btn-sm" onclick="ProxiesView.openAddProxyModal()">
-            <i class="fas fa-plus"></i> Add Proxy
+            <re-icon icon="plus" size="14" aria-hidden="true"></re-icon> Add Proxy
           </button>
         </div>
 
@@ -36,7 +36,7 @@ const ProxiesView = {
       if (!proxies.length) {
         container.innerHTML = `
           <div style="text-align:center;padding:40px;color:var(--text-dim);">
-            <i class="fas fa-globe fa-3x" style="margin-bottom:12px;opacity:0.4;"></i>
+            <re-icon icon="globe" size="48" style="margin-bottom:12px;opacity:0.4;" aria-hidden="true"></re-icon>
             <h4>No custom proxies configured</h4>
             <p style="font-size:0.85rem;margin-top:4px;">Add a proxy formatted as <code>host:port:user:pass</code> to protect requests.</p>
           </div>
@@ -64,10 +64,10 @@ const ProxiesView = {
                   <td style="text-align:right;">
                     <div class="btn-group" style="justify-content:flex-end;">
                       <button class="btn btn-secondary btn-sm" onclick="ProxiesView.testProxy('${p.rowid}', '${p.proxy}')">
-                        <i class="fas fa-vial"></i> Test
+                        <re-icon icon="flask" size="14" aria-hidden="true"></re-icon> Test
                       </button>
-                      <button class="btn btn-danger btn-sm" onclick="ProxiesView.deleteProxy('${p.rowid}')">
-                        <i class="fas fa-trash"></i>
+                      <button class="btn btn-danger btn-sm" onclick="ProxiesView.deleteProxy('${p.rowid}')" title="Delete Proxy" aria-label="Delete Proxy">
+                        <re-icon icon="trash" size="14" aria-hidden="true"></re-icon>
                       </button>
                     </div>
                   </td>
@@ -131,16 +131,16 @@ const ProxiesView = {
       if (res.success) {
         statusCell.innerHTML = `
           <span class="badge-tag success">
-            <i class="fas fa-check"></i> Online (${res.latencyMs}ms) - IP: ${res.ip}
+            <re-icon icon="check" size="14" aria-hidden="true"></re-icon> Online (${res.latencyMs}ms) - IP: ${res.ip}
           </span>
         `;
         Toasts.success(`Proxy working! IP: ${res.ip} (${res.latencyMs}ms)`);
       } else {
-        statusCell.innerHTML = `<span class="badge-tag danger"><i class="fas fa-times"></i> Failed</span>`;
+        statusCell.innerHTML = `<span class="badge-tag danger"><re-icon icon="x" size="14" aria-hidden="true"></re-icon> Failed</span>`;
         Toasts.error(res.error || 'Proxy test failed');
       }
     } catch (err) {
-      if (statusCell) statusCell.innerHTML = `<span class="badge-tag danger"><i class="fas fa-times"></i> Error</span>`;
+      if (statusCell) statusCell.innerHTML = `<span class="badge-tag danger"><re-icon icon="x" size="14" aria-hidden="true"></re-icon> Error</span>`;
       Toasts.error(err.message);
     }
   },

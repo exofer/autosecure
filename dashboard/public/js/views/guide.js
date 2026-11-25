@@ -5,14 +5,14 @@ const GuideView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-book"></i> Autosecure Setup & Command Documentation</span>
+          <span class="card-title"><re-icon icon="book" size="18" aria-hidden="true"></re-icon> Autosecure Setup & Command Documentation</span>
           <span class="badge-tag info">Full Reference</span>
         </div>
 
         <div class="card-body" style="max-width:880px;line-height:1.7;">
           <section style="margin-bottom:28px;">
             <h3 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
-              <i class="fas fa-rocket"></i> Overview & Discord Command Mapping
+              <re-icon icon="rocket" size="18" aria-hidden="true"></re-icon> Overview & Discord Command Mapping
             </h3>
             <p style="color:var(--text-muted);font-size:0.9rem;">
               Every single Discord-based slash command, modal, and button has been ported to this native web dashboard:
@@ -83,7 +83,7 @@ const GuideView = {
 
           <section style="margin-bottom:28px;">
             <h3 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
-              <i class="fas fa-server"></i> VPS & Deployment Quick Start
+              <re-icon icon="server" size="18" aria-hidden="true"></re-icon> VPS & Deployment Quick Start
             </h3>
             <ol style="padding-left:20px;color:var(--text-muted);font-size:0.88rem;">
               <li style="margin-bottom:8px;">
@@ -110,7 +110,7 @@ const GuideView = {
 
           <section>
             <h3 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
-              <i class="fas fa-lightbulb"></i> Security & Best Practices
+              <re-icon icon="lightbulb" size="18" aria-hidden="true"></re-icon> Security & Best Practices
             </h3>
             <ul style="padding-left:20px;color:var(--text-muted);font-size:0.88rem;">
               <li style="margin-bottom:6px;">Always keep your 25-character recovery codes backed up securely.</li>

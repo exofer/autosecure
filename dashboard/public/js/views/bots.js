@@ -5,10 +5,10 @@ const BotsView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-robot"></i> Bot Fleet Manager</span>
+          <span class="card-title"><re-icon icon="gamepad" size="18" aria-hidden="true"></re-icon> Bot Fleet Manager</span>
           <div style="display:flex;gap:8px;">
             <button class="btn btn-primary btn-sm" onclick="BotsView.openAddBotModal()">
-              <i class="fas fa-plus"></i> Add New Bot
+              <re-icon icon="plus" size="14" aria-hidden="true"></re-icon> Add New Bot
             </button>
           </div>
         </div>
@@ -51,7 +51,7 @@ const BotsView = {
       if (!bots.length) {
         tableContainer.innerHTML = `
           <div style="text-align:center;padding:40px;color:var(--text-dim);">
-            <i class="fas fa-robot fa-3x" style="margin-bottom:12px;opacity:0.4;"></i>
+            <re-icon icon="gamepad" size="48" style="margin-bottom:12px;opacity:0.4;" aria-hidden="true"></re-icon>
             <h4>No bots currently registered</h4>
             <p style="font-size:0.85rem;margin-top:6px;">Add a Discord bot token to dispatch phishing or securing commands.</p>
           </div>
@@ -86,14 +86,14 @@ const BotsView = {
                   </td>
                   <td style="text-align:right;">
                     <div class="btn-group" style="justify-content:flex-end;">
-                      <button class="btn btn-secondary btn-sm" onclick="BotsView.editActivity(${b.id}, '${b.activity || ''}')" title="Edit Activity">
-                        <i class="fas fa-edit"></i>
+                      <button class="btn btn-secondary btn-sm" onclick="BotsView.editActivity(${b.id}, '${b.activity || ''}')" title="Edit Activity" aria-label="Edit Activity">
+                        <re-icon icon="pen-writing" size="14" aria-hidden="true"></re-icon>
                       </button>
-                      <button class="btn btn-secondary btn-sm" onclick="BotsView.exportConfig(${b.id})" title="Export Config">
-                        <i class="fas fa-file-code"></i>
+                      <button class="btn btn-secondary btn-sm" onclick="BotsView.exportConfig(${b.id})" title="Export Config" aria-label="Export Config">
+                        <re-icon icon="code-file" size="14" aria-hidden="true"></re-icon>
                       </button>
-                      <button class="btn btn-danger btn-sm" onclick="BotsView.deleteBot(${b.id})" title="Delete Bot">
-                        <i class="fas fa-trash"></i>
+                      <button class="btn btn-danger btn-sm" onclick="BotsView.deleteBot(${b.id})" title="Delete Bot" aria-label="Delete Bot">
+                        <re-icon icon="trash" size="14" aria-hidden="true"></re-icon>
                       </button>
                     </div>
                   </td>

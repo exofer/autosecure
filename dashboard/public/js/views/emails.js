@@ -12,13 +12,13 @@ const EmailsView = {
         <!-- Left: Inbox List & Actions -->
         <div class="card" style="margin-bottom:0;display:flex;flex-direction:column;">
           <div class="card-header" style="padding:14px 18px;">
-            <span class="card-title"><i class="fas fa-inbox"></i> Webmail Inbox</span>
+            <span class="card-title"><re-icon icon="inbox" size="18" aria-hidden="true"></re-icon> Webmail Inbox</span>
             <div style="display:flex;gap:6px;">
-              <button class="btn btn-secondary btn-sm" onclick="EmailsView.openRegisterModal()" title="Register Domain Email">
-                <i class="fas fa-plus"></i>
+              <button class="btn btn-secondary btn-sm" onclick="EmailsView.openRegisterModal()" title="Register Domain Email" aria-label="Register Domain Email">
+                <re-icon icon="plus" size="14" aria-hidden="true"></re-icon>
               </button>
-              <button class="btn btn-secondary btn-sm" onclick="EmailsView.loadInbox()" title="Refresh Inbox">
-                <i class="fas fa-sync-alt"></i>
+              <button class="btn btn-secondary btn-sm" onclick="EmailsView.loadInbox()" title="Refresh Inbox" aria-label="Refresh Inbox">
+                <re-icon icon="refresh" size="14" aria-hidden="true"></re-icon>
               </button>
             </div>
           </div>
@@ -38,13 +38,13 @@ const EmailsView = {
         <!-- Right: Email Message Viewer -->
         <div class="card" style="margin-bottom:0;display:flex;flex-direction:column;">
           <div class="card-header" id="email-viewer-header">
-            <span class="card-title"><i class="fas fa-envelope-open"></i> Message Viewer</span>
+            <span class="card-title"><re-icon icon="envelope-open" size="18" aria-hidden="true"></re-icon> Message Viewer</span>
             <div id="email-extracted-badge" style="display:none;"></div>
           </div>
 
           <div id="email-viewer-body" style="flex:1;overflow-y:auto;padding:24px;">
             <div style="text-align:center;padding:80px 20px;color:var(--text-dim);">
-              <i class="fas fa-envelope fa-3x" style="margin-bottom:14px;opacity:0.4;"></i>
+              <re-icon icon="envelope" size="48" style="margin-bottom:14px;opacity:0.4;" aria-hidden="true"></re-icon>
               <p>Select a message from the inbox to read its contents and extract security codes.</p>
             </div>
           </div>
@@ -70,7 +70,7 @@ const EmailsView = {
       if (!emails.length) {
         listContainer.innerHTML = `
           <div style="text-align:center;padding:40px 14px;color:var(--text-dim);">
-            <i class="fas fa-mail-bulk fa-2x" style="margin-bottom:8px;opacity:0.5;"></i>
+            <re-icon icon="mailbox" size="32" style="margin-bottom:8px;opacity:0.5;" aria-hidden="true"></re-icon>
             <p style="font-size:0.85rem;">No emails received yet.</p>
           </div>
         `;
@@ -96,7 +96,7 @@ const EmailsView = {
             <span style="font-size:0.72rem;color:var(--text-dim);font-family:var(--font-mono);">${email.receiver || ''}</span>
             ${email.extractedCode ? `
               <span class="badge-tag success" style="font-family:var(--font-mono);font-size:0.7rem;">
-                <i class="fas fa-shield-alt"></i> ${email.extractedCode}
+                <re-icon icon="shield" size="13" aria-hidden="true"></re-icon> ${email.extractedCode}
               </span>
             ` : ''}
           </div>
@@ -127,7 +127,7 @@ const EmailsView = {
       if (email.extractedCode) {
         badgeEl.innerHTML = `
           <button class="btn btn-success btn-sm" onclick="API.copyText('${email.extractedCode}', 'OTP Code')">
-            <i class="far fa-copy"></i> Code: ${email.extractedCode}
+            <re-icon icon="copy" size="14" aria-hidden="true"></re-icon> Code: ${email.extractedCode}
           </button>
         `;
         badgeEl.style.display = 'block';
@@ -157,7 +157,7 @@ const EmailsView = {
               </div>
             </div>
             <button class="btn btn-success" onclick="API.copyText('${email.extractedCode}', 'Security Code')">
-              <i class="far fa-copy"></i> Copy Code
+              <re-icon icon="copy" size="14" aria-hidden="true"></re-icon> Copy Code
             </button>
           </div>
         ` : ''}
@@ -198,8 +198,8 @@ const EmailsView = {
             ${registeredEmails.length ? registeredEmails.map(em => `
               <div style="padding:8px 12px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;font-size:0.82rem;">
                 <span style="font-family:var(--font-mono);">${em}</span>
-                <button class="btn btn-danger btn-sm" onclick="EmailsView.deleteRegisteredEmail('${em}')">
-                  <i class="fas fa-trash"></i>
+                <button class="btn btn-danger btn-sm" onclick="EmailsView.deleteRegisteredEmail('${em}')" title="Delete Email" aria-label="Delete Email">
+                  <re-icon icon="trash" size="14" aria-hidden="true"></re-icon>
                 </button>
               </div>
             `).join('') : '<div style="padding:14px;text-align:center;color:var(--text-dim);font-size:0.8rem;">No custom emails registered yet.</div>'}

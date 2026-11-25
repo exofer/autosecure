@@ -15,7 +15,7 @@ const LicenseView = {
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
               <div>
                 <span class="badge-tag ${lic.isExpired ? 'danger' : 'success'}" style="margin-bottom:10px;">
-                  ${lic.isOwner ? '👑 MASTER OWNER' : (lic.isTrial ? 'FREE TRIAL' : (lic.isExpired ? 'EXPIRED' : 'ACTIVE SUBSCRIPTION'))}
+                  ${lic.isOwner ? '<re-icon icon="crown" size="13" style="margin-right:4px;" aria-hidden="true"></re-icon>MASTER OWNER' : (lic.isTrial ? 'FREE TRIAL' : (lic.isExpired ? 'EXPIRED' : 'ACTIVE SUBSCRIPTION'))}
                 </span>
                 <h2 style="font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;">
                   ${lic.isOwner ? 'Master Lifetime Access' : (lic.isTrial ? 'Autosecure 12H Trial' : 'Autosecure Monthly License')}
@@ -42,7 +42,7 @@ const LicenseView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Bot Slots</span>
-              <div class="stat-icon primary"><i class="fas fa-robot"></i></div>
+              <div class="stat-icon primary"><re-icon icon="gamepad" size="18" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${lic.botSlots}</div>
             <div class="stat-sub">Concurrent bot instances</div>
@@ -50,7 +50,7 @@ const LicenseView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Secured Accounts</span>
-              <div class="stat-icon success"><i class="fas fa-shield-alt"></i></div>
+              <div class="stat-icon success"><re-icon icon="shield" size="18" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${lic.securedCount}</div>
             <div class="stat-sub">Accounts captured</div>
@@ -58,7 +58,7 @@ const LicenseView = {
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Networth Valuation</span>
-              <div class="stat-icon info"><i class="fas fa-coins"></i></div>
+              <div class="stat-icon info"><re-icon icon="coins" size="18" aria-hidden="true"></re-icon></div>
             </div>
             <div class="stat-value">${OverviewView.formatCoins(lic.totalNetworth)}</div>
             <div class="stat-sub">Skyblock coin balance</div>
@@ -70,7 +70,7 @@ const LicenseView = {
           <!-- Redeem Key Card -->
           <div class="card" style="margin-bottom:0;">
             <div class="card-header">
-              <span class="card-title"><i class="fas fa-ticket-alt"></i> Redeem License Key</span>
+              <span class="card-title"><re-icon icon="ticket-alt" size="18" aria-hidden="true"></re-icon> Redeem License Key</span>
             </div>
             <div class="card-body">
               <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;">
@@ -82,7 +82,7 @@ const LicenseView = {
                   <input type="text" id="redeem-key-input" class="form-input" placeholder="Exo-xxxx-xxxx-xxxx" required />
                 </div>
                 <button type="submit" class="btn btn-primary" style="width:100%;">
-                  <i class="fas fa-check"></i> Redeem License
+                  <re-icon icon="check" size="14" aria-hidden="true"></re-icon> Redeem License
                 </button>
               </form>
             </div>
@@ -91,7 +91,7 @@ const LicenseView = {
           <!-- Free Trial & Recovery Card -->
           <div class="card" style="margin-bottom:0;">
             <div class="card-header">
-              <span class="card-title"><i class="fas fa-gift"></i> Free Trial & Account Recovery</span>
+              <span class="card-title"><re-icon icon="gift" size="18" aria-hidden="true"></re-icon> Free Trial & Account Recovery</span>
             </div>
             <div class="card-body">
               <div style="margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border-color);">
@@ -100,7 +100,7 @@ const LicenseView = {
                   New user? Experience the full feature set with 1 free bot slot for 12 hours.
                 </p>
                 <button class="btn btn-secondary btn-sm" onclick="LicenseView.claimTrial()">
-                  <i class="fas fa-stopwatch"></i> Activate 12H Trial
+                  <re-icon icon="stopwatch" size="14" aria-hidden="true"></re-icon> Activate 12H Trial
                 </button>
               </div>
 
@@ -110,7 +110,7 @@ const LicenseView = {
                   Transfer all accounts and licenses from your previous Discord user ID to your current session.
                 </p>
                 <button class="btn btn-secondary btn-sm" onclick="LicenseView.openRecoveryModal()">
-                  <i class="fas fa-exchange-alt"></i> Transfer My Data
+                  <re-icon icon="arrow-swap-horizontal" size="14" aria-hidden="true"></re-icon> Transfer My Data
                 </button>
               </div>
             </div>

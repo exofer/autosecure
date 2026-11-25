@@ -220,7 +220,8 @@ body {
   background: rgba(245, 158, 11, 0.08);
 }
 
-.sidebar.collapsed .sidebar-collapse-toggle i {
+.sidebar.collapsed .sidebar-collapse-toggle i,
+.sidebar.collapsed .sidebar-collapse-toggle re-icon {
   transform: rotate(180deg);
 }
 
@@ -245,7 +246,8 @@ body {
   box-shadow: 0 0 0 2px var(--primary-glow-subtle);
 }
 
-.sidebar-search-box i {
+.sidebar-search-box i,
+.sidebar-search-box re-icon {
   font-size: 0.8rem;
   color: var(--text-dim);
 }
@@ -313,7 +315,8 @@ body {
   position: relative;
 }
 
-.nav-item i {
+.nav-item i,
+.nav-item re-icon {
   font-size: 0.95rem;
   width: 20px;
   text-align: center;
@@ -327,7 +330,8 @@ body {
   color: var(--text-main);
 }
 
-.nav-item:hover i {
+.nav-item:hover i,
+.nav-item:hover re-icon {
   color: var(--primary);
   transform: translateX(3px);
 }
@@ -354,7 +358,8 @@ body {
   box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
 }
 
-.nav-item.active i {
+.nav-item.active i,
+.nav-item.active re-icon {
   color: #fbbf24;
 }
 
@@ -364,7 +369,7 @@ body {
 .sidebar.collapsed .nav-section-title,
 .sidebar.collapsed .nav-item span,
 .sidebar.collapsed .user-info,
-.sidebar.collapsed .user-card i.fa-arrow-right-arrow-left {
+.sidebar.collapsed .user-card .switch-icon {
   display: none !important;
 }
 
@@ -390,7 +395,8 @@ body {
   padding: 10px;
 }
 
-.sidebar.collapsed .nav-item i {
+.sidebar.collapsed .nav-item i,
+.sidebar.collapsed .nav-item re-icon {
   width: auto;
   font-size: 1.1rem;
 }
@@ -1349,6 +1355,22 @@ tr:hover td {
   margin-top: 10px;
 }
 
+/* Reicon Custom Element Base Sizing & Alignment */
+re-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+re-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 /* ==========================================================================
    Renovated Accounts Tab: 3D Stage & Tactical Cards System
    ========================================================================== */
@@ -1890,7 +1912,8 @@ tr:hover td {
     transition: color 150ms ease, transform 150ms var(--ease-out);
   }
 
-  .dock-item i {
+  .dock-item i,
+  .dock-item re-icon {
     font-size: 1.15rem;
     transition: transform 150ms var(--ease-out), color 150ms ease;
   }
@@ -1900,7 +1923,8 @@ tr:hover td {
     font-weight: 600;
   }
 
-  .dock-item.active i {
+  .dock-item.active i,
+  .dock-item.active re-icon {
     color: #f59e0b;
     transform: translateY(-2px);
   }

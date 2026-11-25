@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Autosecure | Web Management Dashboard</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23f59e0b%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z%22/></svg>">
   
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome 6 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Reicon Icon Library (CDN & Local Inlined Script) -->
+  <script src="/vendor/reicon.js"></script>
   
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="/css/styles.css">
@@ -23,21 +23,21 @@
     <aside class="sidebar" id="main-sidebar">
       <div class="sidebar-header">
         <div class="brand-icon">
-          <i class="fas fa-fire-flame-curved"></i>
+          <re-icon icon="flame" size="22" aria-hidden="true"></re-icon>
         </div>
         <div class="brand-text">
           <h1>Autosecure</h1>
           <span class="badge">v2.0 Ember</span>
         </div>
-        <button class="sidebar-collapse-toggle" onclick="App.toggleSidebarCollapse()" title="Toggle Compact Sidebar">
-          <i class="fas fa-chevron-left" id="collapse-icon"></i>
+        <button class="sidebar-collapse-toggle" onclick="App.toggleSidebarCollapse()" title="Toggle Compact Sidebar" aria-label="Toggle Compact Sidebar">
+          <re-icon icon="chevron-left" size="14" id="collapse-icon" aria-hidden="true"></re-icon>
         </button>
       </div>
 
       <!-- Quick Nav Filter Input -->
       <div class="sidebar-search-container">
         <div class="sidebar-search-box">
-          <i class="fas fa-search"></i>
+          <re-icon icon="search" size="14" aria-hidden="true"></re-icon>
           <input type="text" id="sidebar-filter-input" placeholder="Search views... (/)" oninput="App.filterNav(this.value)" autocomplete="off" />
           <kbd class="search-kbd">/</kbd>
         </div>
@@ -48,15 +48,15 @@
         <div class="nav-section">
           <div class="nav-section-title">Core Operations</div>
           <a class="nav-item active" data-view="overview" onclick="App.navigate('overview')">
-            <i class="fas fa-chart-pie"></i>
+            <re-icon icon="grid" size="18" weight="filled" aria-hidden="true"></re-icon>
             <span>Overview</span>
           </a>
           <a class="nav-item" data-view="accounts" onclick="App.navigate('accounts')">
-            <i class="fas fa-users"></i>
+            <re-icon icon="users" size="18" aria-hidden="true"></re-icon>
             <span>Accounts</span>
           </a>
           <a class="nav-item" data-view="secure" onclick="App.navigate('secure')">
-            <i class="fas fa-shield-halved"></i>
+            <re-icon icon="shield" size="18" aria-hidden="true"></re-icon>
             <span>Securing Studio</span>
           </a>
         </div>
@@ -64,11 +64,11 @@
         <div class="nav-section">
           <div class="nav-section-title">Communications</div>
           <a class="nav-item" data-view="emails" onclick="App.navigate('emails')">
-            <i class="fas fa-envelope-open-text"></i>
+            <re-icon icon="envelope" size="18" aria-hidden="true"></re-icon>
             <span>Webmail Inbox</span>
           </a>
           <a class="nav-item" data-view="tools" onclick="App.navigate('tools')">
-            <i class="fas fa-toolbox"></i>
+            <re-icon icon="designtools" size="18" aria-hidden="true"></re-icon>
             <span>Minecraft Tools</span>
           </a>
         </div>
@@ -76,15 +76,15 @@
         <div class="nav-section">
           <div class="nav-section-title">Configuration</div>
           <a class="nav-item" data-view="bots" onclick="App.navigate('bots')">
-            <i class="fas fa-robot"></i>
+            <re-icon icon="gamepad" size="18" aria-hidden="true"></re-icon>
             <span>Bot Fleet</span>
           </a>
           <a class="nav-item" data-view="builder" onclick="App.navigate('builder')">
-            <i class="fas fa-magic"></i>
+            <re-icon icon="magic-star" size="18" aria-hidden="true"></re-icon>
             <span>Discord Designer</span>
           </a>
           <a class="nav-item" data-view="proxies" onclick="App.navigate('proxies')">
-            <i class="fas fa-network-wired"></i>
+            <re-icon icon="server" size="18" aria-hidden="true"></re-icon>
             <span>Proxies</span>
           </a>
         </div>
@@ -92,15 +92,15 @@
         <div class="nav-section">
           <div class="nav-section-title">System & Access</div>
           <a class="nav-item" data-view="license" onclick="App.navigate('license')">
-            <i class="fas fa-ticket-alt"></i>
+            <re-icon icon="ticket-alt" size="18" aria-hidden="true"></re-icon>
             <span>License & Billing</span>
           </a>
           <a class="nav-item" id="nav-item-admin" data-view="admin" onclick="App.navigate('admin')">
-            <i class="fas fa-user-shield"></i>
+            <re-icon icon="shield-lock" size="18" aria-hidden="true"></re-icon>
             <span>Owner Console</span>
           </a>
           <a class="nav-item" data-view="guide" onclick="App.navigate('guide')">
-            <i class="fas fa-book"></i>
+            <re-icon icon="book" size="18" aria-hidden="true"></re-icon>
             <span>Documentation</span>
           </a>
         </div>
@@ -110,7 +110,7 @@
       <div class="sidebar-footer">
         <div class="user-card" onclick="App.openUserSwitchModal()" title="Click to Switch User / Login">
           <div class="user-avatar">
-            <i class="fas fa-user"></i>
+            <re-icon icon="user" size="16" aria-hidden="true"></re-icon>
           </div>
           <div class="user-info">
             <div class="user-id-text" id="sidebar-user-id">Loading ID...</div>
@@ -118,7 +118,7 @@
               <span class="user-live-dot"></span> Active
             </div>
           </div>
-          <i class="fas fa-arrow-right-arrow-left" style="font-size:0.75rem;color:var(--text-dim);" title="Switch Account"></i>
+          <re-icon icon="arrow-right" size="14" class="switch-icon" style="color:var(--text-dim);" aria-hidden="true" title="Switch Account"></re-icon>
         </div>
       </div>
     </aside>
@@ -130,7 +130,7 @@
         <div class="topbar-left">
           <div class="mobile-brand-mark" onclick="App.navigate('overview')">
             <div class="brand-icon small">
-              <i class="fas fa-fire-flame-curved"></i>
+              <re-icon icon="flame" size="18" aria-hidden="true"></re-icon>
             </div>
             <span class="brand-name-mobile">Autosecure</span>
           </div>
@@ -144,8 +144,8 @@
             <span class="status-label">Database Connected</span>
           </div>
 
-          <button class="btn btn-secondary btn-sm" onclick="App.openUserSwitchModal()" title="Switch session user">
-            <i class="fas fa-user-circle"></i>
+          <button class="btn btn-secondary btn-sm" onclick="App.openUserSwitchModal()" title="Switch session user" aria-label="Switch user session">
+            <re-icon icon="user-id" size="15" aria-hidden="true"></re-icon>
             <span class="btn-text-desktop">Switch User</span>
           </button>
         </div>
@@ -160,26 +160,26 @@
 
   <!-- Mobile Bottom App Dock (Native App Experience) -->
   <nav class="mobile-bottom-dock" id="mobile-bottom-dock" aria-label="Mobile Navigation">
-    <button class="dock-item active" data-dock-view="overview" onclick="App.navigate('overview')">
-      <i class="fas fa-chart-pie"></i>
+    <button class="dock-item active" data-dock-view="overview" onclick="App.navigate('overview')" aria-label="Overview">
+      <re-icon icon="grid" size="20" weight="filled" aria-hidden="true"></re-icon>
       <span>Overview</span>
     </button>
-    <button class="dock-item" data-dock-view="accounts" onclick="App.navigate('accounts')">
-      <i class="fas fa-users"></i>
+    <button class="dock-item" data-dock-view="accounts" onclick="App.navigate('accounts')" aria-label="Accounts">
+      <re-icon icon="users" size="20" aria-hidden="true"></re-icon>
       <span>Accounts</span>
     </button>
-    <button class="dock-center-action" data-dock-view="secure" onclick="App.navigate('secure')" title="Securing Studio">
+    <button class="dock-center-action" data-dock-view="secure" onclick="App.navigate('secure')" title="Securing Studio" aria-label="Securing Studio">
       <div class="dock-center-circle">
-        <i class="fas fa-shield-halved"></i>
+        <re-icon icon="shield" size="22" aria-hidden="true"></re-icon>
       </div>
       <span>Secure</span>
     </button>
-    <button class="dock-item" data-dock-view="emails" onclick="App.navigate('emails')">
-      <i class="fas fa-envelope-open-text"></i>
+    <button class="dock-item" data-dock-view="emails" onclick="App.navigate('emails')" aria-label="Webmail Inbox">
+      <re-icon icon="envelope" size="20" aria-hidden="true"></re-icon>
       <span>Inbox</span>
     </button>
-    <button class="dock-item" id="dock-btn-more" onclick="App.toggleMobileMore()" title="All Tools">
-      <i class="fas fa-ellipsis"></i>
+    <button class="dock-item" id="dock-btn-more" onclick="App.toggleMobileMore()" title="All Tools" aria-label="All Tools">
+      <re-icon icon="more-h" size="20" aria-hidden="true"></re-icon>
       <span>More</span>
     </button>
   </nav>
@@ -192,45 +192,45 @@
       </div>
       <div class="sheet-header">
         <div class="sheet-title">
-          <i class="fas fa-cubes-stacked" style="color:var(--primary);"></i>
+          <re-icon icon="layers" size="18" style="color:var(--primary);" aria-hidden="true"></re-icon>
           <span>All Features & Tools</span>
         </div>
         <button class="sheet-close-btn" onclick="App.closeMobileMore()" aria-label="Close menu">
-          <i class="fas fa-times"></i>
+          <re-icon icon="x" size="18" aria-hidden="true"></re-icon>
         </button>
       </div>
 
       <div class="sheet-grid">
         <div class="sheet-grid-item" onclick="App.navigate('bots');App.closeMobileMore();">
-          <div class="sheet-item-icon warning"><i class="fas fa-robot"></i></div>
+          <div class="sheet-item-icon warning"><re-icon icon="gamepad" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">Bot Fleet</span>
         </div>
         <div class="sheet-grid-item" onclick="App.navigate('tools');App.closeMobileMore();">
-          <div class="sheet-item-icon info"><i class="fas fa-toolbox"></i></div>
+          <div class="sheet-item-icon info"><re-icon icon="designtools" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">MC Tools</span>
         </div>
         <div class="sheet-grid-item" onclick="App.navigate('builder');App.closeMobileMore();">
-          <div class="sheet-item-icon primary"><i class="fas fa-magic"></i></div>
+          <div class="sheet-item-icon primary"><re-icon icon="magic-star" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">Designer</span>
         </div>
         <div class="sheet-grid-item" onclick="App.navigate('proxies');App.closeMobileMore();">
-          <div class="sheet-item-icon success"><i class="fas fa-network-wired"></i></div>
+          <div class="sheet-item-icon success"><re-icon icon="server" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">Proxies</span>
         </div>
         <div class="sheet-grid-item" onclick="App.navigate('license');App.closeMobileMore();">
-          <div class="sheet-item-icon warning"><i class="fas fa-ticket-alt"></i></div>
+          <div class="sheet-item-icon warning"><re-icon icon="ticket-alt" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">License</span>
         </div>
         <div class="sheet-grid-item" onclick="App.navigate('admin');App.closeMobileMore();">
-          <div class="sheet-item-icon danger"><i class="fas fa-user-shield"></i></div>
+          <div class="sheet-item-icon danger"><re-icon icon="shield-lock" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">Console</span>
         </div>
         <div class="sheet-grid-item" onclick="App.navigate('guide');App.closeMobileMore();">
-          <div class="sheet-item-icon info"><i class="fas fa-book"></i></div>
+          <div class="sheet-item-icon info"><re-icon icon="book" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">Guide</span>
         </div>
         <div class="sheet-grid-item" onclick="App.openUserSwitchModal();App.closeMobileMore();">
-          <div class="sheet-item-icon secondary"><i class="fas fa-user-gear"></i></div>
+          <div class="sheet-item-icon secondary"><re-icon icon="user-id" size="20" aria-hidden="true"></re-icon></div>
           <span class="sheet-item-label">Switch User</span>
         </div>
       </div>

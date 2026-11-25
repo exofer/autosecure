@@ -17,16 +17,16 @@ const Toasts = {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
 
-    let icon = 'fa-info-circle';
-    if (type === 'success') icon = 'fa-check-circle';
-    else if (type === 'error') icon = 'fa-exclamation-triangle';
-    else if (type === 'warning') icon = 'fa-exclamation-circle';
+    let icon = 'info-circle';
+    if (type === 'success') icon = 'check-circle';
+    else if (type === 'error') icon = 'alert-triangle';
+    else if (type === 'warning') icon = 'alert-circle';
 
     toast.innerHTML = `
-      <i class="fas ${icon}"></i>
+      <re-icon icon="${icon}" size="18" aria-hidden="true"></re-icon>
       <div style="flex:1;">${message}</div>
       <button class="toast-close-btn" style="background:none;border:none;color:var(--text-dim);cursor:pointer;margin-left:8px;padding:4px;display:flex;align-items:center;" aria-label="Close notification">
-        <i class="fas fa-times"></i>
+        <re-icon icon="x" size="14" aria-hidden="true"></re-icon>
       </button>
     `;
 

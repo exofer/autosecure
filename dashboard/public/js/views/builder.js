@@ -426,22 +426,22 @@ const BuilderView = {
     container.innerHTML = `
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fas fa-magic"></i> Discord UI Designer & Phisher</span>
+          <span class="card-title"><re-icon icon="magic-star" size="18" aria-hidden="true"></re-icon> Discord UI Designer & Phisher</span>
           <span class="badge-tag info">Live Customizer</span>
         </div>
 
         <div class="tabs-header" style="margin-top:14px;">
           <button class="tab-btn active" id="builder-tab-btn-embeds" onclick="BuilderView.switchTab('embeds')">
-            <i class="fas fa-window-maximize"></i> Embed Designer
+            <re-icon icon="maximize" size="15" aria-hidden="true"></re-icon> Embed Designer
           </button>
           <button class="tab-btn" id="builder-tab-btn-presets" onclick="BuilderView.switchTab('presets')">
-            <i class="fas fa-bookmark"></i> Presets
+            <re-icon icon="bookmark" size="15" aria-hidden="true"></re-icon> Presets
           </button>
           <button class="tab-btn" id="builder-tab-btn-phisher" onclick="BuilderView.switchTab('phisher')">
-            <i class="fas fa-fish"></i> Phisher Config
+            <re-icon icon="incognito" size="15" aria-hidden="true"></re-icon> Phisher Config
           </button>
           <button class="tab-btn" id="builder-tab-btn-subusers" onclick="BuilderView.switchTab('subusers')">
-            <i class="fas fa-users-cog"></i> Team / Sub-Users
+            <re-icon icon="users" size="15" aria-hidden="true"></re-icon> Team / Sub-Users
           </button>
         </div>
 
@@ -454,7 +454,7 @@ const BuilderView = {
               <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:300px;">
                 <div style="display:flex;flex-direction:column;gap:4px;flex:1;">
                   <label class="form-label" style="margin-bottom:0;font-weight:600;display:flex;align-items:center;gap:8px;">
-                    <i class="fas fa-layer-group" style="color:var(--primary);"></i>
+                    <re-icon icon="layers" size="15" style="color:var(--primary);" aria-hidden="true"></re-icon>
                     Select Embed Type to Design
                   </label>
                   <select id="emb-type-selector" class="form-select" style="font-weight:600;font-size:0.9rem;" onchange="BuilderView.onTypeChange(this.value)">
@@ -466,7 +466,7 @@ const BuilderView = {
               <div style="display:flex;align-items:center;gap:10px;">
                 <span id="emb-status-badge" class="badge-tag info">Bot Default</span>
                 <button class="btn btn-secondary btn-sm" onclick="BuilderView.resetToDefault()" title="Revert this embed type to bot default">
-                  <i class="fas fa-undo"></i> Reset to Default
+                  <re-icon icon="undo" size="14" aria-hidden="true"></re-icon> Reset to Default
                 </button>
               </div>
             </div>
@@ -474,7 +474,7 @@ const BuilderView = {
             <!-- DYNAMIC PLACEHOLDERS BANNER -->
             <div id="emb-placeholders-banner" style="display:none;margin-bottom:20px;padding:12px 16px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.22);border-radius:8px;font-size:0.82rem;align-items:center;justify-content:space-between;gap:12px;">
               <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                <i class="fas fa-info-circle" style="color:var(--primary);font-size:1rem;"></i>
+                <re-icon icon="info-circle" size="16" style="color:var(--primary);" aria-hidden="true"></re-icon>
                 <span style="color:var(--text-muted);">Dynamic Bot Variables:</span>
                 <span id="emb-placeholders-list" style="display:flex;gap:6px;flex-wrap:wrap;"></span>
               </div>
@@ -545,7 +545,7 @@ const BuilderView = {
                       Embed Fields (<span id="emb-fields-count">${(this.embedData.fields || []).length}</span>)
                     </span>
                     <button class="btn btn-secondary btn-sm" onclick="BuilderView.addField()">
-                      <i class="fas fa-plus"></i> Add Field
+                      <re-icon icon="plus" size="14" aria-hidden="true"></re-icon> Add Field
                     </button>
                   </div>
                   <div id="emb-fields-container" style="display:flex;flex-direction:column;gap:8px;"></div>
@@ -553,13 +553,13 @@ const BuilderView = {
 
                 <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;border-top:1px solid var(--border-color);padding-top:18px;">
                   <button class="btn btn-primary" onclick="BuilderView.saveEmbedConfig()">
-                    <i class="fas fa-save"></i> Save Configuration
+                    <re-icon icon="floppy" size="16" aria-hidden="true"></re-icon> Save Configuration
                   </button>
                   <button class="btn btn-secondary" onclick="BuilderView.exportEmbedJson()">
-                    <i class="fas fa-code"></i> Export JSON
+                    <re-icon icon="code" size="16" aria-hidden="true"></re-icon> Export JSON
                   </button>
                   <button class="btn btn-secondary" onclick="BuilderView.importEmbedJson()">
-                    <i class="fas fa-file-import"></i> Import JSON
+                    <re-icon icon="upload" size="16" aria-hidden="true"></re-icon> Import JSON
                   </button>
                 </div>
               </div>
@@ -582,7 +582,7 @@ const BuilderView = {
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
               <h4 style="font-size:0.95rem;font-weight:600;">Saved Preset Configurations</h4>
               <button class="btn btn-primary btn-sm" onclick="BuilderView.openSavePresetModal()">
-                <i class="fas fa-bookmark"></i> Save Current as Preset
+                <re-icon icon="bookmark" size="14" aria-hidden="true"></re-icon> Save Current as Preset
               </button>
             </div>
             <div id="presets-container"></div>
@@ -602,7 +602,7 @@ const BuilderView = {
                 Grant team members access to claiming, bots, embeds, or custom profit splits.
               </p>
               <button class="btn btn-primary btn-sm" onclick="BuilderView.openAddSubuserModal()">
-                <i class="fas fa-user-plus"></i> Add Sub-User
+                <re-icon icon="user-add" size="14" aria-hidden="true"></re-icon> Add Sub-User
               </button>
             </div>
             <div id="subusers-container"></div>
@@ -699,10 +699,10 @@ const BuilderView = {
     if (statusBadge) {
       if (isCustom) {
         statusBadge.className = 'badge-tag success';
-        statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Customized';
+        statusBadge.innerHTML = '<re-icon icon="check-circle" size="14" aria-hidden="true"></re-icon> Customized';
       } else {
         statusBadge.className = 'badge-tag info';
-        statusBadge.innerHTML = '<i class="fas fa-robot"></i> Bot Default';
+        statusBadge.innerHTML = '<re-icon icon="gamepad" size="14" aria-hidden="true"></re-icon> Bot Default';
       }
     }
 
@@ -851,7 +851,7 @@ const BuilderView = {
         <label style="font-size:0.75rem;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;">
           <input type="checkbox" ${f.inline ? 'checked' : ''} onchange="BuilderView.updateField(${i}, 'inline', this.checked)" /> Inline
         </label>
-        <button class="btn btn-danger btn-sm" onclick="BuilderView.removeField(${i})" title="Remove Field"><i class="fas fa-times"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="BuilderView.removeField(${i})" title="Remove Field" aria-label="Remove Field"><re-icon icon="x" size="14" aria-hidden="true"></re-icon></button>
       </div>
     `).join('');
   },
@@ -992,7 +992,7 @@ const BuilderView = {
       const statusBadge = document.getElementById('emb-status-badge');
       if (statusBadge) {
         statusBadge.className = 'badge-tag success';
-        statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Customized';
+        statusBadge.innerHTML = '<re-icon icon="check-circle" size="14" aria-hidden="true"></re-icon> Customized';
       }
 
       const tplName = this.defaultTemplates[this.selectedType]?.name || this.selectedType;
@@ -1218,7 +1218,7 @@ const BuilderView = {
               <span>Blacklist Victim Emails Automatically</span>
             </label>
           </div>
-          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Phisher Settings</button>
+          <button type="submit" class="btn btn-primary"><re-icon icon="floppy" size="16" aria-hidden="true"></re-icon> Save Phisher Settings</button>
         </form>
       `;
     } catch (err) {
@@ -1276,9 +1276,9 @@ const BuilderView = {
                 <tr>
                   <td><b>${this.escapeHtml(u.child)}</b></td>
                   <td><span class="badge-tag warning">${u.split || 50}%</span></td>
-                  <td>${u.claiming ? '✅' : '❌'}</td>
-                  <td>${u.editbot ? '✅' : '❌'}</td>
-                  <td>${u.editembeds ? '✅' : '❌'}</td>
+                  <td>${u.claiming ? '<re-icon icon="check" size="14" style="color:var(--success);" aria-hidden="true"></re-icon>' : '<re-icon icon="x" size="14" style="color:var(--danger);" aria-hidden="true"></re-icon>'}</td>
+                  <td>${u.editbot ? '<re-icon icon="check" size="14" style="color:var(--success);" aria-hidden="true"></re-icon>' : '<re-icon icon="x" size="14" style="color:var(--danger);" aria-hidden="true"></re-icon>'}</td>
+                  <td>${u.editembeds ? '<re-icon icon="check" size="14" style="color:var(--success);" aria-hidden="true"></re-icon>' : '<re-icon icon="x" size="14" style="color:var(--danger);" aria-hidden="true"></re-icon>'}</td>
                   <td>
                     <button class="btn btn-danger btn-sm" onclick="BuilderView.deleteSubuser('${this.escapeHtml(u.child)}')">Remove</button>
                   </td>

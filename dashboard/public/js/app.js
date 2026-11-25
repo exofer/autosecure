@@ -2,17 +2,17 @@
 const App = {
   currentView: 'overview',
   views: {
-    overview: { name: 'Overview', icon: 'fa-chart-pie', title: 'Dashboard Overview' },
-    accounts: { name: 'Accounts', icon: 'fa-users', title: 'Account Management' },
-    secure: { name: 'Securing', icon: 'fa-lock', title: 'Securing Studio' },
-    emails: { name: 'Webmail', icon: 'fa-envelope', title: 'Webmail Center' },
-    tools: { name: 'Tools', icon: 'fa-toolbox', title: 'Minecraft & Security Tools' },
-    bots: { name: 'Bot Fleet', icon: 'fa-robot', title: 'Bot Fleet Manager' },
-    builder: { name: 'Designer', icon: 'fa-magic', title: 'Discord UI Designer' },
-    proxies: { name: 'Proxies', icon: 'fa-network-wired', title: 'Proxy Manager' },
-    license: { name: 'License', icon: 'fa-ticket-alt', title: 'License & Subscription' },
-    admin: { name: 'Admin', icon: 'fa-user-shield', title: 'Owner Control Center' },
-    guide: { name: 'Guide', icon: 'fa-book', title: 'Documentation & Setup' }
+    overview: { name: 'Overview', icon: 'grid', title: 'Dashboard Overview' },
+    accounts: { name: 'Accounts', icon: 'users', title: 'Account Management' },
+    secure: { name: 'Securing', icon: 'lock', title: 'Securing Studio' },
+    emails: { name: 'Webmail', icon: 'inbox', title: 'Webmail Center' },
+    tools: { name: 'Tools', icon: 'designtools', title: 'Minecraft & Security Tools' },
+    bots: { name: 'Bot Fleet', icon: 'gamepad', title: 'Bot Fleet Manager' },
+    builder: { name: 'Designer', icon: 'magic-star', title: 'Discord UI Designer' },
+    proxies: { name: 'Proxies', icon: 'server', title: 'Proxy Manager' },
+    license: { name: 'License', icon: 'ticket-alt', title: 'License & Subscription' },
+    admin: { name: 'Admin', icon: 'shield-lock', title: 'Owner Control Center' },
+    guide: { name: 'Guide', icon: 'book', title: 'Documentation & Setup' }
   },
 
   async init() {
@@ -67,21 +67,27 @@ const App = {
       window.location.hash = viewKey;
     }
 
-    // Update active state in desktop sidebar
+    // Update active state in desktop sidebar (Reicon: filled for active, outline for inactive)
     document.querySelectorAll('.nav-item').forEach(el => {
+      const icon = el.querySelector('re-icon');
       if (el.getAttribute('data-view') === viewKey) {
         el.classList.add('active');
+        if (icon) icon.setAttribute('weight', 'filled');
       } else {
         el.classList.remove('active');
+        if (icon) icon.setAttribute('weight', 'outline');
       }
     });
 
     // Update active state in mobile bottom app dock
     document.querySelectorAll('.dock-item, .dock-center-action').forEach(el => {
+      const icon = el.querySelector('re-icon');
       if (el.getAttribute('data-dock-view') === viewKey) {
         el.classList.add('active');
+        if (icon) icon.setAttribute('weight', 'filled');
       } else {
         el.classList.remove('active');
+        if (icon) icon.setAttribute('weight', 'outline');
       }
     });
 
@@ -156,8 +162,8 @@ const App = {
     const isAdmin = user ? user.isAdmin : API.isAdmin;
     if (roleEl) {
       roleEl.innerHTML = isAdmin 
-        ? '<i class="fas fa-crown"></i> Owner / Admin' 
-        : '<i class="fas fa-user"></i> Standard License';
+        ? '<re-icon icon="crown" size="13" aria-hidden="true"></re-icon> Owner / Admin' 
+        : '<re-icon icon="user" size="13" aria-hidden="true"></re-icon> Standard License';
       roleEl.style.color = isAdmin ? '#fbbf24' : '#10b981';
     }
 
