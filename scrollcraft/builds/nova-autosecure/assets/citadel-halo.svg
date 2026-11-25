@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" fill="none">
+  <defs>
+    <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.6" />
+      <stop offset="30%" stop-color="#f59e0b" stop-opacity="0.2" />
+      <stop offset="70%" stop-color="#d97706" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.1" />
+    </linearGradient>
+  </defs>
+  <!-- Outer Astronomical Coordinate Ring -->
+  <circle cx="500" cy="500" r="440" stroke="url(#goldRing)" stroke-width="1.5" stroke-dasharray="4 8" opacity="0.6" />
+  <circle cx="500" cy="500" r="420" stroke="#f59e0b" stroke-width="1" opacity="0.25" />
+  <circle cx="500" cy="500" r="380" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="12 24" opacity="0.4" />
+  <!-- Radial Coordinate Ticks -->
+  <g stroke="#fbbf24" stroke-width="1" opacity="0.35">
+    <line x1="500" y1="40" x2="500" y2="70" />
+    <line x1="500" y1="930" x2="500" y2="960" />
+    <line x1="40" y1="500" x2="70" y2="500" />
+    <line x1="930" y1="500" x2="960" y2="500" />
+    <line x1="175" y1="175" x2="195" y2="195" />
+    <line x1="805" y1="805" x2="825" y2="825" />
+    <line x1="175" y1="825" x2="195" y2="805" />
+    <line x1="805" y1="195" x2="825" y2="175" />
+  </g>
+  <!-- Inner Sacred Geometry Ring -->
+  <circle cx="500" cy="500" r="320" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2 6" opacity="0.3" />
+  <polygon points="500,190 768,655 232,655" stroke="#f59e0b" stroke-width="1" fill="none" opacity="0.15" />
+  <polygon points="500,810 768,345 232,345" stroke="#fbbf24" stroke-width="1" fill="none" opacity="0.15" />
+</svg>

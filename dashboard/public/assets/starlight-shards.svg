@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" fill="none">
+  <defs>
+    <linearGradient id="shardGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#d97706" stop-opacity="0.1" />
+    </linearGradient>
+  </defs>
+  <!-- Foreground Crystal Shards -->
+  <polygon points="120,80 160,140 130,160 100,110" fill="url(#shardGold)" opacity="0.4" />
+  <polygon points="260,880 320,950 280,980" fill="url(#shardGold)" opacity="0.5" />
+  <polygon points="1780,220 1840,290 1810,310 1760,250" fill="url(#shardGold)" opacity="0.45" />
+  <polygon points="1650,820 1720,910 1670,940" fill="url(#shardGold)" opacity="0.6" />
+  <circle cx="350" cy="320" r="3" fill="#fbbf24" opacity="0.6" />
+  <circle cx="1520" cy="680" r="2.5" fill="#f8fafc" opacity="0.7" />
+</svg>

@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nova Autosecure · Heavenly Account Sanctuary</title>
+<meta name="description" content="Sub-second Minecraft and Microsoft account securing, automated 2FA quarantine, and cryptographic identity sanctuary.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2307090e'/><polygon points='16,5 27,11 27,21 16,27 5,21 5,11' stroke='%23f59e0b' stroke-width='2' fill='none'/><circle cx='16' cy='16' r='3' fill='%23fbbf24'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+
+<style>
+  :root {
+    --sc-canvas:          #07090e;
+    --sc-surface:         #0e131f;
+    --sc-surface-raised:  #141b2d;
+    --sc-ink:             #f8fafc;
+    --sc-ink-soft:        #94a3b8;
+    --sc-accent:          #f59e0b;
+    --sc-accent-light:    #fbbf24;
+    --sc-accent-ink:      #07090e;
+    --sc-teal:            #06b6d4;
+    --sc-emerald:         #10b981;
+    --sc-indigo:          #6366f1;
+
+    --sc-font-display: "Instrument Sans", system-ui, sans-serif;
+    --sc-font-text:    "Geist", system-ui, sans-serif;
+    --sc-font-mono:    "Geist Mono", monospace;
+
+    --gold-glow: 0 0 40px rgba(245, 158, 11, 0.22);
+    --gold-border: 1px solid rgba(245, 158, 11, 0.24);
+  }
+
+  /* Celestial Folio (Margin Navigation) */
+  .folio-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--sc-z-chrome);
+    padding: 18px var(--sc-gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: linear-gradient(180deg, rgba(7, 9, 14, 0.85) 0%, rgba(7, 9, 14, 0) 100%);
+  }
+  .folio-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: auto;
+    text-decoration: none;
+    color: var(--sc-ink);
+  }
+  .folio-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    display: grid;
+    place-items: center;
+    color: var(--sc-accent-light);
+  }
+  .folio-name {
+    font-family: var(--sc-font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .folio-badge {
+    font-family: var(--sc-font-mono);
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: var(--sc-r-pill);
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--sc-accent-light);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    font-weight: 500;
+  }
+  .folio-chapters {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    pointer-events: auto;
+    font-family: var(--sc-font-mono);
+    font-size: 0.75rem;
+    color: var(--sc-ink-soft);
+  }
+  .folio-chapter-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--sc-d-fast) ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .folio-chapter-link:hover,
+  .folio-chapter-link.active {
+    color: var(--sc-accent-light);
+  }
+  .folio-action {
+    pointer-events: auto;
+  }
+  .btn-celestial {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: var(--sc-r-pill);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(245, 158, 11, 0.08));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: var(--sc-ink);
+    font-family: var(--sc-font-text);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--sc-d-fast) var(--sc-ease-out);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12);
+  }
+  .btn-celestial:hover {
+    background: var(--sc-accent);
+    color: var(--sc-accent-ink);
+    border-color: var(--sc-accent-light);
+    box-shadow: 0 6px 22px rgba(245, 158, 11, 0.35);
+    transform: translateY(-1px);
+  }
+
+  /* Hero Dimensional Spatial Stage */
+  .hero-stage {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-plane {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+    will-change: transform, opacity;
+  }
+  .hero-plane--nebula {
+    z-index: 1;
+    transform: scale(calc(1 + var(--sc-p, 0) * 0.12));
+  }
+  .hero-plane--halo {
+    z-index: 2;
+    transform: scale(calc(1 + var(--sc-p, 0) * 0.22)) rotate(calc(var(--sc-p, 0) * 28deg));
+  }
+  .hero-plane--aegis {
+    z-index: 3;
+    transform: translateY(calc(var(--sc-p, 0) * -45px)) scale(calc(1 - var(--sc-p, 0) * 0.08));
+  }
+  .hero-plane--shards {
+    z-index: 4;
+    transform: translateY(calc(var(--sc-p, 0) * -120px));
+  }
+  .hero-plane--copy {
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .hero-aegis-container {
+    width: min(440px, 80vw);
+    max-height: 520px;
+    filter: drop-shadow(0 20px 50px rgba(245, 158, 11, 0.3));
+    transition: transform 0.15s ease-out;
+  }
+
+  .hero-copy-box {
+    text-align: center;
+    max-width: 58rem;
+    padding: 0 var(--sc-gutter);
+    margin-top: 18vh;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--sc-font-mono);
+    font-size: 0.78rem;
+    color: var(--sc-accent-light);
+    letter-spacing: var(--sc-track-wide);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    padding: 5px 14px;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: var(--sc-r-pill);
+  }
+  .hero-title {
+    font-family: var(--sc-font-display);
+    font-size: var(--sc-t-4xl);
+    font-weight: 700;
+    line-height: var(--sc-leading-none);
+    letter-spacing: var(--sc-track-tight);
+    margin: 0 0 20px 0;
+    color: var(--sc-ink);
+    text-wrap: balance;
+  }
+  .hero-lede {
+    font-size: var(--sc-t-lg);
+    color: var(--sc-ink-soft);
+    line-height: 1.55;
+    max-width: 42ch;
+    margin: 0 auto 32px auto;
+  }
+  .hero-telemetry-hud {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    font-family: var(--sc-font-mono);
+    font-size: 0.78rem;
+    color: var(--sc-ink-soft);
+  }
+  .telemetry-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .telemetry-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sc-emerald);
+    box-shadow: 0 0 8px var(--sc-emerald);
+  }
+
+  /* Editorial Spreads & Plates */
+  .sc-chapter {
+    padding: var(--sc-section) 0;
+    position: relative;
+  }
+  .chapter-header {
+    margin-bottom: var(--sc-7);
+  }
+  .chapter-num {
+    font-family: var(--sc-font-mono);
+    font-size: 0.8rem;
+    color: var(--sc-accent-light);
+    text-transform: uppercase;
+    letter-spacing: var(--sc-track-wide);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .chapter-headline {
+    font-family: var(--sc-font-display);
+    font-size: var(--sc-t-3xl);
+    font-weight: 700;
+    line-height: var(--sc-leading-none);
+    letter-spacing: var(--sc-track-tight);
+    margin: 0;
+    max-width: 24ch;
+  }
+
+  /* Tension Section Layout */
+  .tension-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sc-8);
+    align-items: center;
+  }
+  .tension-card {
+    background: var(--sc-surface);
+    border: 1px solid var(--sc-hairline);
+    border-radius: var(--sc-r-lg);
+    padding: var(--sc-7);
+    box-shadow: var(--sc-e2);
+    position: relative;
+    overflow: hidden;
+  }
+  .tension-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.6), transparent);
+  }
+  .tension-item {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .tension-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .tension-item-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #f87171;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tension-item-desc {
+    font-size: 0.85rem;
+    color: var(--sc-ink-soft);
+    line-height: 1.5;
+  }
+
+  /* Architectural Sanctuary Reveal */
+  .sanctuary-spread {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--sc-8);
+    align-items: center;
+  }
+  .sanctuary-plate {
+    background: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.12), transparent 70%), var(--sc-surface);
+    border: var(--gold-border);
+    border-radius: var(--sc-r-lg);
+    padding: var(--sc-7);
+    box-shadow: var(--sc-e3), var(--gold-glow);
+  }
+  .protocol-metric {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  .metric-val {
+    font-family: var(--sc-font-mono);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--sc-accent-light);
+  }
+  .metric-label {
+    font-size: 0.75rem;
+    color: var(--sc-ink-soft);
+    margin-top: 2px;
+  }
+
+  /* PEAK ACT: Holographic Exploded Matrix & The Aegis Cipher */
+  .peak-stage {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--sc-section) 0;
+  }
+  .matrix-viewport {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sc-8);
+    align-items: center;
+    margin-top: var(--sc-6);
+  }
+  .cipher-enclave {
+    background: var(--sc-surface);
+    border: var(--gold-border);
+    border-radius: var(--sc-r-lg);
+    padding: var(--sc-6);
+    box-shadow: var(--sc-e3), var(--gold-glow);
+    position: relative;
+  }
+  .cipher-wheel-box {
+    position: relative;
+    height: 300px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .cipher-ring-outer {
+    position: absolute;
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(245, 158, 11, 0.45);
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .cipher-ring-inner {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    border: 1px solid rgba(251, 191, 36, 0.6);
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 80%);
+  }
+  .cipher-core-hash {
+    font-family: var(--sc-font-mono);
+    font-size: 0.8rem;
+    color: var(--sc-accent-light);
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+  }
+  .cipher-controls {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .cipher-slider {
+    width: 100%;
+    accent-color: var(--sc-accent);
+    cursor: pointer;
+  }
+  .cipher-readouts {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--sc-font-mono);
+    font-size: 0.75rem;
+    color: var(--sc-ink-soft);
+    margin-top: 10px;
+  }
+
+  /* 4-Tier Exploded Layer Cards */
+  .layers-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    perspective: 1000px;
+  }
+  .layer-slab {
+    background: var(--sc-surface-raised);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--sc-r-md);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all var(--sc-d-fast) var(--sc-ease-out);
+    transform: translateZ(calc(var(--sc-p, 0) * 30px));
+  }
+  .layer-slab:hover {
+    border-color: rgba(245, 158, 11, 0.5);
+    background: rgba(20, 27, 45, 0.95);
+    transform: translateX(6px) translateZ(40px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  }
+  .slab-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .slab-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    display: grid;
+    place-items: center;
+    color: var(--sc-accent-light);
+  }
+  .slab-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--sc-ink);
+  }
+  .slab-sub {
+    font-size: 0.78rem;
+    color: var(--sc-ink-soft);
+    margin-top: 2px;
+  }
+  .slab-state {
+    font-family: var(--sc-font-mono);
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: var(--sc-r-pill);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--sc-emerald);
+    font-weight: 600;
+  }
+
+  /* Pan Rail for Sentinels */
+  .sentinel-rail-wrap {
+    overflow: hidden;
+    padding: var(--sc-7) 0;
+  }
+  .sentinel-card {
+    background: var(--sc-surface);
+    border: 1px solid var(--sc-hairline);
+    border-radius: var(--sc-r-lg);
+    padding: 32px 28px;
+    min-width: 340px;
+    max-width: 360px;
+    box-shadow: var(--sc-e2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 380px;
+    transition: border-color var(--sc-d-fast) ease;
+  }
+  .sentinel-card:hover {
+    border-color: rgba(245, 158, 11, 0.45);
+  }
+  .sentinel-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    display: grid;
+    place-items: center;
+    color: var(--sc-accent-light);
+    margin-bottom: 20px;
+  }
+  .sentinel-name {
+    font-family: var(--sc-font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px 0;
+    color: var(--sc-ink);
+  }
+  .sentinel-body {
+    font-size: 0.88rem;
+    color: var(--sc-ink-soft);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .sentinel-badge-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    font-family: var(--sc-font-mono);
+    font-size: 0.72rem;
+  }
+  .sentinel-pill {
+    padding: 4px 10px;
+    border-radius: var(--sc-r-pill);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--sc-ink-soft);
+  }
+
+  /* Covenant & Colophon Close */
+  .covenant-stage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--sc-section) var(--sc-gutter);
+    position: relative;
+    background: radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.14) 0%, transparent 65%);
+  }
+  .covenant-card {
+    max-width: 48rem;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-portal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 36px;
+    border-radius: var(--sc-r-pill);
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    color: #07090e;
+    font-family: var(--sc-font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 10px 32px rgba(245, 158, 11, 0.4), 0 2px 6px rgba(0, 0, 0, 0.6);
+    transition: all var(--sc-d-fast) var(--sc-ease-out);
+    margin: 24px 0 18px 0;
+  }
+  .cta-portal-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 16px 42px rgba(245, 158, 11, 0.55);
+  }
+  .colophon-plate {
+    margin-top: var(--sc-8);
+    padding-top: var(--sc-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 62rem;
+    font-family: var(--sc-font-mono);
+    font-size: 0.75rem;
+    color: var(--sc-ink-soft);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 860px) {
+    .folio-chapters { display: none; }
+    .tension-grid, .sanctuary-spread, .matrix-viewport {
+      grid-template-columns: 1fr;
+      gap: var(--sc-6);
+    }
+    .hero-title { font-size: 2.4rem; }
+    .hero-aegis-container { width: 280px; }
+    .colophon-plate {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<!-- MARGIN FOLIO (CELESTIAL CHROME) -->
+<header class="folio-bar">
+  <a href="#top" class="folio-brand">
+    <div class="folio-mark">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    </div>
+    <div class="folio-name">
+      Nova Autosecure
+      <span class="folio-badge">Aegis Core 4.2</span>
+    </div>
+  </a>
+
+  <nav class="folio-chapters">
+    <a href="#prologue" class="folio-chapter-link">I · Vulnerability</a>
+    <a href="#architecture" class="folio-chapter-link">II · Sanctuary</a>
+    <a href="#matrix" class="folio-chapter-link">III · The Matrix</a>
+    <a href="#sentinels" class="folio-chapter-link">IV · Sentinels</a>
+    <a href="#covenant" class="folio-chapter-link">V · Covenant</a>
+  </nav>
+
+  <div class="folio-action">
+    <a href="/" class="btn-celestial">
+      <span>Open Operations</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ACT I · THE DESCENT INTO SANCTUARY (HERO · DIMENSIONAL PIN) -->
+  <section data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#07090e" id="hero-act">
+    <div data-sc-stage class="hero-stage">
+      
+      <!-- Plane 1: Deep Cosmic Nebula -->
+      <div class="hero-plane hero-plane--nebula">
+        <img src="assets/nebula-field.svg" alt="" width="1920" height="1080" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+
+      <!-- Plane 2: Celestial Orbital Halo -->
+      <div class="hero-plane hero-plane--halo">
+        <img src="assets/citadel-halo.svg" alt="" width="1000" height="1000" style="width:min(780px, 90vw);height:auto;opacity:0.75;">
+      </div>
+
+      <!-- Plane 3: The Golden Aegis Core (Focal Subject) -->
+      <div class="hero-plane hero-plane--aegis" data-sc-tilt="7">
+        <div class="hero-aegis-container">
+          <img src="assets/celestial-aegis.svg" alt="Nova Golden Aegis Shield" width="600" height="700" style="width:100%;height:auto;">
+        </div>
+      </div>
+
+      <!-- Plane 4: Foreground Starlight Shards -->
+      <div class="hero-plane hero-plane--shards">
+        <img src="assets/starlight-shards.svg" alt="" width="1920" height="1080" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+
+      <!-- Plane 5: Celestial Headline & Telemetry -->
+      <div class="hero-plane hero-plane--copy">
+        <div class="hero-copy-box" data-sc-cue="0 0.82 0">
+          <div class="hero-eyebrow">Autonomous Identity Sovereignty</div>
+          <h1 class="hero-title" data-sc-kinetic="lines">
+            Security elevated to an art.
+          </h1>
+          <p class="hero-lede">
+            Sub-second Minecraft and Microsoft account securing. Automated 25-character cryptographic isolation, zero-trust quarantine, and distributed bot fleet orchestration.
+          </p>
+          <div class="hero-telemetry-hud">
+            <div class="telemetry-item">
+              <span class="telemetry-dot"></span>
+              <span>Sanctuary Engine: Online</span>
+            </div>
+            <div class="telemetry-item">
+              <span>Latency: 382ms</span>
+            </div>
+            <div class="telemetry-item">
+              <span>Entropy: 256-bit AES</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACT II · CHAPTER I: THE FRAGILITY OF IDENTITY (TENSION SPREAD) -->
+  <section class="sc-chapter" data-sc-act="flow" data-sc-drift="#0a0e17" id="prologue">
+    <div class="sc-wrap">
+      <div class="chapter-header" data-sc-in>
+        <span class="chapter-num">Chapter I · The Exposure</span>
+        <h2 class="chapter-headline">The quiet dread of digital ownership.</h2>
+      </div>
+
+      <div class="tension-grid">
+        <div class="sc-stack" data-sc-in data-sc-stagger="60">
+          <p class="sc-body" style="font-size:1.15rem;color:var(--sc-ink);line-height:1.6;">
+            A legacy Minecraft account carries years of rarity: unranked capes, billion-coin Skyblock profiles, pristine IGN histories, and personal investment.
+          </p>
+          <p class="sc-body">
+            Yet traditional accounts hang by a single fragile thread: a temporary OAuth token, an exposed session bearer SSID, or an unmonitored security mail address susceptible to a 48-hour Microsoft automated lockout.
+          </p>
+          <p class="sc-body">
+            When compromise strikes, human reaction time is measured in minutes. Attack scripts execute in milliseconds. The disparity is fatal.
+          </p>
+        </div>
+
+        <div class="tension-card" data-sc-in>
+          <div class="tension-item">
+            <div class="tension-item-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Session Token Exfiltration
+            </div>
+            <div class="tension-item-desc">
+              Bearers intercepted via compromised client mods allow immediate API authentication bypassing conventional passwords.
+            </div>
+          </div>
+          <div class="tension-item">
+            <div class="tension-item-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              OAuth Persistence Traps
+            </div>
+            <div class="tension-item-desc">
+              Third-party Xbox authorization grants retain silent access even after password changes until forcibly revoked.
+            </div>
+          </div>
+          <div class="tension-item">
+            <div class="tension-item-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Lockout Cascade
+            </div>
+            <div class="tension-item-desc">
+              Repeated failed challenges trigger Microsoft SAF suspensions, freezing assets in permanent limbo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT III · CHAPTER II: THE ARCHITECTURE OF SANCTUARY (TURN · REVEAL) -->
+  <section class="sc-chapter" data-sc-act="flow" data-sc-drift="#0b101c" id="architecture">
+    <div class="sc-wrap">
+      <div class="chapter-header" data-sc-in>
+        <span class="chapter-num">Chapter II · The Transmutation</span>
+        <h2 class="chapter-headline">Cryptographic perimeter in 400 milliseconds.</h2>
+      </div>
+
+      <div class="sanctuary-spread">
+        <div class="sanctuary-plate" data-sc-in>
+          <div style="font-family:var(--sc-font-mono);font-size:0.75rem;color:var(--sc-accent-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">
+            Deterministic Defense Protocol
+          </div>
+          <h3 style="font-family:var(--sc-font-display);font-size:1.6rem;font-weight:700;margin:0 0 14px 0;letter-spacing:-0.02em;">
+            Instantaneous alias migration and session termination.
+          </h3>
+          <p class="sc-body" style="font-size:0.92rem;line-height:1.65;">
+            Nova Autosecure does not merely update credentials: it severs the identity's entire external lineage. In one atomic automated routine, the primary email is reassigned to a private hardened domain, all linked OAuth applications are severed, trusted devices are flushed, and an unrecorded 25-character recovery key is encrypted into your personal vault.
+          </p>
+          
+          <div class="protocol-metric">
+            <div>
+              <div class="metric-val" data-sc-count="0 380">380</div>
+              <div class="metric-label">Execution (ms)</div>
+            </div>
+            <div>
+              <div class="metric-val" data-sc-count="0 100">100%</div>
+              <div class="metric-label">Sessions Severed</div>
+            </div>
+            <div>
+              <div class="metric-val">25-Key</div>
+              <div class="metric-label">Zero-Trust Isolation</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc-stack" data-sc-in data-sc-stagger="70">
+          <div style="padding:24px;border-left:2px solid var(--sc-accent);background:rgba(245, 158, 11, 0.03);border-radius:0 var(--sc-r-md) var(--sc-r-md) 0;">
+            <h4 style="font-family:var(--sc-font-display);font-size:1.15rem;font-weight:700;margin:0 0 8px 0;color:var(--sc-ink);">
+              Autonomous Threat Interception
+            </h4>
+            <p class="sc-body" style="font-size:0.88rem;margin:0;">
+              Incoming OTP challenges are captured via real-time webmail webhooks, parsed by zero-latency regex, and delivered to your dashboard before the attacker even detects the dispatch.
+            </p>
+          </div>
+
+          <div style="padding:24px;border-left:2px solid var(--sc-teal);background:rgba(6, 182, 212, 0.03);border-radius:0 var(--sc-r-md) var(--sc-r-md) 0;">
+            <h4 style="font-family:var(--sc-font-display);font-size:1.15rem;font-weight:700;margin:0 0 8px 0;color:var(--sc-ink);">
+              Quarantine Enclave
+            </h4>
+            <p class="sc-body" style="font-size:0.88rem;margin:0;">
+              High-value assets with rare capes or massive Skyblock valuations are automatically deposited into an isolated quarantine vault, shielded from lock triggers until authorized for release.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT IV · CHAPTER III: THE HOLOGRAPHIC MATRIX (THE PEAK · PINNED STAGE & SIGNATURE MOVE) -->
+  <section data-sc-act="pin" data-sc-span="3.6" data-sc-dwell="0.35" data-sc-drift="#080c14" id="matrix">
+    <div data-sc-stage class="peak-stage">
+      <div class="sc-wrap" style="width:100%;">
+        
+        <div class="chapter-header" style="text-align:center;margin-bottom:24px;">
+          <span class="chapter-num">Chapter III · The Climax</span>
+          <h2 class="chapter-headline" style="margin:0 auto;max-width:30ch;">
+            The four holographic planes of total containment.
+          </h2>
+          <p class="sc-body" style="max-width:48ch;margin:10px auto 0 auto;">
+            The Golden Aegis expands into four decoupled security tiers. Calibrate the cryptographic cipher wheel below to test defense resistance.
+          </p>
+        </div>
+
+        <div class="matrix-viewport">
+          
+          <!-- The Signature Move: Interactive Aegis Cipher -->
+          <div class="cipher-enclave">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <span style="font-family:var(--sc-font-mono);font-size:0.75rem;color:var(--sc-accent-light);font-weight:600;">
+                AEGIS CIPHER CALIBRATOR
+              </span>
+              <span id="cipher-status-badge" class="folio-badge" style="background:rgba(16,185,129,0.15);color:var(--sc-emerald);border-color:rgba(16,185,129,0.3);">
+                SHIELD ARMED
+              </span>
+            </div>
+
+            <div class="cipher-wheel-box">
+              <div class="cipher-ring-outer" id="cipher-ring-outer"></div>
+              <div class="cipher-ring-inner">
+                <div class="cipher-core-hash" id="cipher-hash-display">EXO-7F9A-4B21</div>
+              </div>
+            </div>
+
+            <div class="cipher-controls">
+              <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:8px;">
+                <span style="color:var(--sc-ink-soft);">Entropy Defense Density</span>
+                <span id="entropy-pct" style="font-family:var(--sc-font-mono);color:var(--sc-accent-light);font-weight:700;">100% (256-bit)</span>
+              </div>
+              <input type="range" class="cipher-slider" id="entropy-slider" min="20" max="100" value="100" oninput="updateCipherMatrix(this.value)">
+              
+              <div class="cipher-readouts">
+                <span>Key Mutation: <b style="color:var(--sc-ink);" id="mutation-rate">12.4 Hz</b></span>
+                <span>Quarantine Latency: <b style="color:var(--sc-emerald);" id="quarantine-lat">&lt; 340ms</b></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4-Tier Exploded Layer Slabs -->
+          <div class="layers-stack">
+            <div class="layer-slab" style="--sc-p: 0.2">
+              <div class="slab-left">
+                <div class="slab-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div>
+                  <div class="slab-title">Tier 1 · Session Token Decryptor</div>
+                  <div class="slab-sub">Decodes JWT epoch expiry and validates Mojang identity hash</div>
+                </div>
+              </div>
+              <span class="slab-state">VERIFIED</span>
+            </div>
+
+            <div class="layer-slab" style="--sc-p: 0.4">
+              <div class="slab-left">
+                <div class="slab-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <div class="slab-title">Tier 2 · Zyger TOTP Secret Enclave</div>
+                  <div class="slab-sub">Injects cryptographic Base32 authenticator into security proofs</div>
+                </div>
+              </div>
+              <span class="slab-state">ACTIVE</span>
+            </div>
+
+            <div class="layer-slab" style="--sc-p: 0.6">
+              <div class="slab-left">
+                <div class="slab-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+                </div>
+                <div>
+                  <div class="slab-title">Tier 3 · Alias Re-Routing & OAuth Flush</div>
+                  <div class="slab-sub">Swaps primary alias and severs all unverified authorization grants</div>
+                </div>
+              </div>
+              <span class="slab-state">LOCKED</span>
+            </div>
+
+            <div class="layer-slab" style="--sc-p: 0.8">
+              <div class="slab-left">
+                <div class="slab-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <div>
+                  <div class="slab-title">Tier 4 · Zero-Trust Quarantine Sanctum</div>
+                  <div class="slab-sub">Guards high-value Skyblock profiles and rare capes from lock triggers</div>
+                </div>
+              </div>
+              <span class="slab-state">SECURED</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT V · CHAPTER IV: THE SENTINEL FLEET (RANGE · PAN RAIL) -->
+  <section data-sc-act="pan" data-sc-span="2.6" data-sc-drift="#0a0e18" id="sentinels">
+    <div data-sc-stage style="display:flex;flex-direction:column;justify-content:center;height:100vh;">
+      <div class="sc-wrap" style="margin-bottom:24px;">
+        <span class="chapter-num">Chapter IV · The Fleet</span>
+        <h2 class="chapter-headline" style="max-width:24ch;">
+          Four specialized wings of automated defense.
+        </h2>
+      </div>
+
+      <div class="sentinel-rail-wrap">
+        <div class="rail" data-sc-pan="0.12" style="display:flex;gap:24px;padding:0 var(--sc-gutter);">
+          
+          <!-- Card 1 -->
+          <article class="sentinel-card" data-sc-tilt="5">
+            <div>
+              <div class="sentinel-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 9h4M16 15h2"/></svg>
+              </div>
+              <h3 class="sentinel-name">Multi-Bot Fleet</h3>
+              <p class="sentinel-body">
+                Distribute commands across dozens of synchronized Discord bot instances. Handle high-volume securing runs without API rate throttle or downtime.
+              </p>
+            </div>
+            <div class="sentinel-badge-row">
+              <span class="sentinel-pill">PM2 Clustered</span>
+              <span class="sentinel-pill">Sync Prefix</span>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="sentinel-card" data-sc-tilt="5">
+            <div>
+              <div class="sentinel-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <h3 class="sentinel-name">Webmail Radar</h3>
+              <p class="sentinel-body">
+                Dedicated in-browser webmail with instant OTP code extraction badges. One-click copy and custom domain prefix registration.
+              </p>
+            </div>
+            <div class="sentinel-badge-row">
+              <span class="sentinel-pill">Auto Regex</span>
+              <span class="sentinel-pill">Instant Copy</span>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="sentinel-card" data-sc-tilt="5">
+            <div>
+              <div class="sentinel-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              </div>
+              <h3 class="sentinel-name">Hypixel Valuator</h3>
+              <p class="sentinel-body">
+                Comprehensive Mojang and Hypixel network intelligence. Direct evaluation of Bedwars stars, Skyblock networth, and rare cosmetic capes.
+              </p>
+            </div>
+            <div class="sentinel-badge-row">
+              <span class="sentinel-pill">Live Networth</span>
+              <span class="sentinel-pill">Ban Status</span>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="sentinel-card" data-sc-tilt="5">
+            <div>
+              <div class="sentinel-icon-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <h3 class="sentinel-name">Residential Proxies</h3>
+              <p class="sentinel-body">
+                Integrated residential and datacenter proxy rotation. Seamlessly routes every Microsoft challenge through pristine IPs to avoid flags.
+              </p>
+            </div>
+            <div class="sentinel-badge-row">
+              <span class="sentinel-pill">Latency Check</span>
+              <span class="sentinel-pill">Anti-Flag</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT VI · CHAPTER V: THE COVENANT & COLOPHON (COMMITMENT · RESOLVE) -->
+  <section class="covenant-stage" data-sc-act="pin" data-sc-span="1.2" data-sc-drift="#07090e" id="covenant">
+    <div data-sc-stage class="covenant-card" data-sc-spotlight>
+      
+      <div class="hero-eyebrow" data-sc-cue="0.04" data-sc-rise="0">
+        Sacred Sovereign Infrastructure
+      </div>
+
+      <h2 class="sc-display sc-display--xl" data-sc-cue="0.06" data-sc-kinetic="lines" style="margin:14px 0 18px 0;">
+        Enter the sanctuary.
+      </h2>
+
+      <p class="sc-body" data-sc-cue="0.08" style="max-width:38ch;margin:0 auto 28px auto;font-size:1.05rem;">
+        Complete command over accounts, fleet tokens, webmail inboxes, and live securing pipelines.
+      </p>
+
+      <div>
+        <a class="cta-portal-btn" href="/" data-sc-magnet="0.25" data-sc-cue="0.06" data-sc-rise="0">
+          <span>Open Nova Operations</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <div style="font-family:var(--sc-font-mono);font-size:0.75rem;color:var(--sc-ink-soft);margin-top:14px;">
+        Zero installation required · Direct web dashboard & API console
+      </div>
+
+      <footer class="colophon-plate">
+        <div>
+          <b>NOVA AUTOSECURE</b> · V4.2 PROD
+        </div>
+        <div>
+          <span>CRYPTO-ENCLAVE SHA-256</span>
+        </div>
+        <div>
+          <span>© 2026 SOVEREIGN SYSTEMS</span>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>
+  // Mount ScrollCraft Engine
+  ScrollCraft.mount(document.body);
+
+  // Folio Navigation Active Highlighting
+  const chapterSections = document.querySelectorAll('section[id]');
+  const chapterLinks = document.querySelectorAll('.folio-chapter-link');
+
+  window.addEventListener('scroll', () => {
+    let currentId = '';
+    const scrollPos = window.scrollY + window.innerHeight * 0.35;
+    chapterSections.forEach(sec => {
+      if (scrollPos >= sec.offsetTop) {
+        currentId = sec.getAttribute('id');
+      }
+    });
+    chapterLinks.forEach(link => {
+      if (link.getAttribute('href') === '#' + currentId) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }, { passive: true });
+
+  // The Signature Move: Aegis Cipher Real-time Entropy Computation
+  function updateCipherMatrix(entropyVal) {
+    const ringOuter = document.getElementById('cipher-ring-outer');
+    const hashDisplay = document.getElementById('cipher-hash-display');
+    const entropyPct = document.getElementById('entropy-pct');
+    const mutationRate = document.getElementById('mutation-rate');
+    const quarantineLat = document.getElementById('quarantine-lat');
+    const statusBadge = document.getElementById('cipher-status-badge');
+
+    const rot = (entropyVal * 3.6) + 'deg';
+    if (ringOuter) ringOuter.style.transform = `rotate(${rot})`;
+
+    const hexChars = '0123456789ABCDEF';
+    let randCode = 'EXO-';
+    for (let i = 0; i < 4; i++) randCode += hexChars[Math.floor(Math.random() * 16)];
+    randCode += '-';
+    for (let i = 0; i < 4; i++) randCode += hexChars[Math.floor(Math.random() * 16)];
+
+    if (hashDisplay) hashDisplay.textContent = randCode;
+    if (entropyPct) entropyPct.textContent = `${entropyVal}% (${Math.round(entropyVal * 2.56)}-bit)`;
+    
+    if (entropyVal < 50) {
+      if (mutationRate) mutationRate.textContent = '4.2 Hz';
+      if (quarantineLat) quarantineLat.textContent = '< 890ms';
+      if (statusBadge) {
+        statusBadge.textContent = 'PARTIAL DEFENSE';
+        statusBadge.style.color = '#f59e0b';
+      }
+    } else {
+      if (mutationRate) mutationRate.textContent = (entropyVal * 0.12).toFixed(1) + ' Hz';
+      if (quarantineLat) quarantineLat.textContent = '< ' + Math.round(500 - (entropyVal * 1.8)) + 'ms';
+      if (statusBadge) {
+        statusBadge.textContent = 'SHIELD ARMED';
+        statusBadge.style.color = '#10b981';
+      }
+    }
+  }
+
+  // Pointer response for Hero Aegis Shield
+  const heroAct = document.getElementById('hero-act');
+  const aegisBox = document.querySelector('.hero-aegis-container');
+  if (heroAct && aegisBox && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    heroAct.addEventListener('mousemove', (e) => {
+      const rect = heroAct.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      aegisBox.style.transform = `perspective(800px) rotateY(${x * 16}deg) rotateX(${-y * 16}deg)`;
+    });
+    heroAct.addEventListener('mouseleave', () => {
+      aegisBox.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg)';
+    });
+  }
+</script>
+</body>
+</html>
