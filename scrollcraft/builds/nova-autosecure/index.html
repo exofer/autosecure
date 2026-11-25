@@ -312,27 +312,77 @@
     }
 
     /* ==========================================================================
-       Hero Section
+       Hero Section — Charles Accent Hero System
        ========================================================================== */
     .hero {
-      padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2rem, 5vw, 3.5rem);
-      text-align: center;
+      position: relative;
+      padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(3rem, 6vw, 5rem);
+      overflow: hidden;
+    }
+
+    /* Atmospheric Ghost Watermark Layer */
+    .hero-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(6rem, 18vw, 16rem);
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.015);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+    }
+
+    /* Ambient Volumetric Backdrop Aura */
+    .hero-ambient-aura {
+      position: absolute;
+      top: 40%;
+      right: 5%;
+      width: clamp(350px, 45vw, 650px);
+      height: clamp(350px, 45vw, 650px);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, rgba(217, 119, 6, 0.08) 45%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+      align-items: center;
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
     }
 
     .hero-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.4rem 1.1rem;
-      background: rgba(15, 21, 35, 0.85);
-      border: 1px solid rgba(245, 158, 11, 0.35);
+      gap: 0.65rem;
+      padding: 0.38rem 1.05rem;
+      background: rgba(15, 21, 35, 0.88);
+      border: 1px solid rgba(245, 158, 11, 0.32);
       border-radius: var(--radius-full);
-      font-size: 0.84rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
       color: var(--primary-light);
-      font-weight: 500;
-      margin-bottom: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.5rem;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), var(--glass-specular);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       max-width: 100%;
     }
 
@@ -348,10 +398,11 @@
     }
 
     .wave-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
     }
 
     .wave-ring {
@@ -369,84 +420,187 @@
 
     .hero-title {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-size: clamp(2.3rem, 4.4vw, 3.8rem);
       font-weight: 800;
       letter-spacing: -0.035em;
-      line-height: 1.15;
+      line-height: 1.12;
       color: var(--text-main);
-      max-width: 900px;
-      margin: 0 auto 1.35rem;
+      margin-bottom: 1.25rem;
       text-wrap: balance;
-      word-break: normal;
     }
 
-    .hero-title span {
-      background: var(--primary-gradient);
+    .hero-title .accent-word {
+      background: linear-gradient(135deg, #fff7ed 0%, #fbbf24 35%, #f59e0b 70%, #d97706 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 30px var(--primary-glow);
+      text-shadow: 0 0 32px rgba(245, 158, 11, 0.5);
+      display: inline-block;
+      font-weight: 800;
     }
 
     .hero-sub {
-      font-size: clamp(0.98rem, 2vw, 1.18rem);
+      font-size: clamp(0.98rem, 1.8vw, 1.14rem);
       color: var(--text-muted);
-      max-width: 700px;
-      margin: 0 auto 2.5rem;
       line-height: 1.65;
+      max-width: 540px;
+      margin-bottom: 2rem;
       text-wrap: balance;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 1rem;
-      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 2.25rem;
       flex-wrap: wrap;
     }
 
-    /* Metric Highlight Strip — Auto-fit Fluid Columns */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
-      gap: clamp(0.75rem, 2vw, 1.25rem);
-      max-width: 1060px;
-      margin: 0 auto;
+    /* Engineering Captions / Specs (3 Max - Rule 8) */
+    .hero-specs {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 2.5vw, 1.85rem);
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
       width: 100%;
+      max-width: 520px;
     }
 
-    .metric-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-lg);
-      padding: clamp(1rem, 2.5vw, 1.35rem);
-      text-align: center;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), var(--glass-specular);
-      transition: all 0.22s var(--ease-spring);
+    .hero-spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
     }
 
-    .metric-card:hover {
-      border-color: rgba(245, 158, 11, 0.4);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.6), 0 0 16px var(--primary-glow-subtle);
-    }
-
-    .metric-value {
+    .hero-spec-val {
       font-family: var(--font-display);
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-size: clamp(1.2rem, 2.2vw, 1.48rem);
       font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.25rem;
+      color: var(--text-main);
       font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-spec-lbl {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
       white-space: nowrap;
     }
 
-    .metric-label {
-      font-size: clamp(0.78rem, 1.5vw, 0.84rem);
-      color: var(--text-muted);
-      font-weight: 500;
-      white-space: nowrap;
+    .hero-spec-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--border-color);
+      flex-shrink: 0;
+    }
+
+    /* ─── Hero Poster Stage & 3D Subject ─── */
+    .hero-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+    }
+
+    .hero-subject-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      transform-style: preserve-3d;
+      transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+      cursor: pointer;
+    }
+
+    /* Ambient Volumetric Backlight Behind Subject */
+    .hero-subject-glow {
+      position: absolute;
+      top: 50%;
+      left: 55%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle at 60% 45%, rgba(245, 158, 11, 0.28) 0%, rgba(217, 119, 6, 0.1) 45%, transparent 70%);
+      filter: blur(45px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* The Obsidian Aegis Vault Core Card */
+    .hero-subject-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85),
+                  0 0 50px -10px rgba(245, 158, 11, 0.22),
+                  var(--glass-specular);
+      background: #080c14;
+      z-index: 2;
+    }
+
+    .hero-subject-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transform: scale(1.02);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      object-fit: cover;
+    }
+
+    .hero-subject-wrapper:hover .hero-subject-img {
+      transform: scale(1.045);
+    }
+
+    /* Refined Specular Gradient Vignette */
+    .hero-subject-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 0 35px 8px rgba(7, 10, 16, 0.55);
+      background: linear-gradient(to top, rgba(7, 10, 16, 0.45) 0%, transparent 30%);
+    }
+
+    /* Physical Floating HUD Telemetry Badge */
+    .hero-hud-tag {
+      position: absolute;
+      bottom: 1.15rem;
+      left: 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 0.85rem;
+      background: rgba(11, 15, 23, 0.86);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--primary-light);
+      letter-spacing: 0.05em;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+      z-index: 3;
+    }
+
+    .hud-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.4; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
     }
 
     /* ==========================================================================
@@ -1287,6 +1441,35 @@
       .mobile-toggle {
         display: block;
       }
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+      }
+      .hero-content {
+        align-items: center;
+        text-align: center;
+      }
+      .hero-title {
+        text-align: center;
+      }
+      .hero-sub {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-specs {
+        justify-content: center;
+        margin: 0 auto;
+      }
+      .hero-stage {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+      }
       .pricing-card {
         grid-template-columns: 1fr;
         gap: 2.25rem;
@@ -1303,6 +1486,14 @@
     }
 
     @media (max-width: 640px) {
+      .hero-specs {
+        flex-direction: column;
+        gap: 0.85rem;
+        align-items: center;
+      }
+      .hero-spec-divider {
+        display: none;
+      }
       .hero-actions {
         flex-direction: column;
         width: 100%;
@@ -1377,7 +1568,7 @@
           </svg>
         </a>
         <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -1389,59 +1580,78 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Hero Section -->
+    <!-- Hero Section (Charles Accent Hero System) -->
     <section class="hero reveal-on-scroll">
+      <div class="hero-watermark" aria-hidden="true">NOVA // 0.4s</div>
+      <div class="hero-ambient-aura" aria-hidden="true"></div>
+
       <div class="container">
-        <div class="hero-pill">
-          <div class="wave-dot-wrapper">
-            <div class="wave-ring"></div>
-            <div class="wave-dot"></div>
-          </div>
-          <span>Future AutoSecure • High-Performance Automation</span>
-        </div>
+        <div class="hero-grid">
+          <!-- Left Column: Architectural Headline & Offer -->
+          <div class="hero-content">
+            <div class="hero-pill">
+              <div class="wave-dot-wrapper">
+                <div class="wave-ring"></div>
+                <div class="wave-dot"></div>
+              </div>
+              <span>AEGIS-01 // ACTIVE ROTATION MATRIX</span>
+            </div>
 
-        <h1 class="hero-title">
-          The Most Trusted <span>AutoSecure</span> &amp; Account Protection Suite
-        </h1>
+            <h1 class="hero-title">
+              <span class="accent-word">Unbreakable</span> Security for High-Value Accounts
+            </h1>
 
-        <p class="hero-sub">
-          A complete security, recovery, and claiming suite for Microsoft and Minecraft accounts. 
-          Bypass removal, credential rotation, SSID validation, and multi-tenant claiming—fully automated.
-        </p>
+            <p class="hero-sub">
+              Automated credential rotation, 2FA teardown, and session claiming for Microsoft and Minecraft accounts. Sub-second execution with zero lockout rate.
+            </p>
 
-        <div class="hero-actions">
-          <a href="#pricing" class="btn btn-primary">
-            <span>Get Premium Access — $11.99</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-          <a href="#features" class="btn btn-outline">
-            <span>Explore All Features</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </a>
-        </div>
+            <div class="hero-actions">
+              <a href="#pricing" class="btn btn-primary">
+                <span>Get Premium Access — $11.99</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+              <a href="#features" class="btn btn-outline">
+                <span>Explore All Features</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </a>
+            </div>
 
-        <!-- Live Metric Highlights -->
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-value">&lt; 2.0s</div>
-            <div class="metric-label">Execution Speed</div>
+            <!-- Engineering Telemetry Specs (Rule 8: Three Real Captions) -->
+            <div class="hero-specs">
+              <div class="hero-spec-item">
+                <span class="hero-spec-val">&lt; 1.8s</span>
+                <span class="hero-spec-lbl">Rotation Speed</span>
+              </div>
+              <div class="hero-spec-divider" aria-hidden="true"></div>
+              <div class="hero-spec-item">
+                <span class="hero-spec-val">256-Bit</span>
+                <span class="hero-spec-lbl">ECDSA Token Validation</span>
+              </div>
+              <div class="hero-spec-divider" aria-hidden="true"></div>
+              <div class="hero-spec-item">
+                <span class="hero-spec-val">0.00%</span>
+                <span class="hero-spec-lbl">Lockout Rate</span>
+              </div>
+            </div>
           </div>
-          <div class="metric-card">
-            <div class="metric-value">100%</div>
-            <div class="metric-label">Automated Workflow</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value">0%</div>
-            <div class="metric-label">Lockout Rate</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-value">Multi-Mode</div>
-            <div class="metric-label">Verification Funnels</div>
+
+          <!-- Right Column: The Monolithic Obsidian Aegis Vault Core (Rule 2) -->
+          <div class="hero-stage">
+            <div class="hero-subject-wrapper" id="heroSubjectWrapper">
+              <div class="hero-subject-glow" aria-hidden="true"></div>
+              <div class="hero-subject-card">
+                <img src="/assets/hero-subject.jpg" alt="Nova AutoSecure Obsidian Aegis Vault Core with glowing volumetric amber energy conduits" class="hero-subject-img" width="1376" height="768" loading="eager">
+                <div class="hero-hud-tag">
+                  <div class="hud-pulse-dot"></div>
+                  <span>CIPHER VAULT // 256-BIT MATRIX</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2315,6 +2525,38 @@
         links.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.85)';
       }
     }
+
+    // ─── 7. Hero Subject 3D Parallax Tilt ───
+    (function initHeroTilt() {
+      const wrapper = document.getElementById('heroSubjectWrapper');
+      if (!wrapper) return;
+
+      let bounds;
+      function updateBounds() {
+        bounds = wrapper.getBoundingClientRect();
+      }
+
+      window.addEventListener('resize', updateBounds, { passive: true });
+      window.addEventListener('scroll', updateBounds, { passive: true });
+      updateBounds();
+
+      wrapper.addEventListener('mousemove', (e) => {
+        if (!bounds) updateBounds();
+        const mouseX = e.clientX - bounds.left;
+        const mouseY = e.clientY - bounds.top;
+        const xPct = (mouseX / bounds.width) - 0.5;
+        const yPct = (mouseY / bounds.height) - 0.5;
+
+        const tiltX = -yPct * 10;
+        const tiltY = xPct * 12;
+
+        wrapper.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+
+      wrapper.addEventListener('mouseleave', () => {
+        wrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    })();
   </script>
 </body>
 </html>
