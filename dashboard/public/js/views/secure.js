@@ -374,7 +374,7 @@ const SecureView = {
           <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:24px;">
             <!-- Automation Toggles -->
             <div>
-              <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:14px;color:#818cf8;">
+              <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:14px;color:var(--primary);">
                 <i class="fas fa-cogs"></i> Security Automations
               </h4>
               <div style="display:flex;flex-direction:column;gap:8px;">
@@ -427,7 +427,7 @@ const SecureView = {
 
             <!-- Profile & Personalization -->
             <div>
-              <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:14px;color:#818cf8;">
+              <h4 style="font-size:0.95rem;font-weight:600;margin-bottom:14px;color:var(--primary);">
                 <i class="fas fa-user-edit"></i> Profile Alteration
               </h4>
               <div class="form-group">

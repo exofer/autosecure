@@ -11,7 +11,7 @@ const GuideView = {
 
         <div class="card-body" style="max-width:880px;line-height:1.7;">
           <section style="margin-bottom:28px;">
-            <h3 style="font-size:1.2rem;font-weight:700;color:#818cf8;margin-bottom:10px;">
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
               <i class="fas fa-rocket"></i> Overview & Discord Command Mapping
             </h3>
             <p style="color:var(--text-muted);font-size:0.9rem;">
@@ -19,61 +19,61 @@ const GuideView = {
             </p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:12px;margin-top:14px;">
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/secure</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/secure</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Securing Studio</b>: Supports OTP, Recovery Code, Zyger (TOTP), Bulk Rec, Bulk OTP, and full Profile customization rules.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/accounts</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/accounts</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Accounts Management</b>: Search, live filters, account inspector, full extra info drawer, copy rec, formatted exports, and transfer.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/email & mail</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/email & mail</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Webmail Center</b>: Live message feed, search, automated OTP extraction badge with 1-click copy, and custom domain email registration.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/ssidChecker & getSSID</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/ssidChecker & getSSID</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Tools -> SSID Checker</b>: Decodes JWT expiry, inspects Mojang profile, capes, skins, with direct skin changer & IGN changer.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/stats & hypixelstatus</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/stats & hypixelstatus</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Tools -> Hypixel Stats</b>: Live player online status, game mode, Bedwars stars, Skywars, Duels, and Skyblock Networth calculation.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/cosmetics</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/cosmetics</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Tools -> Cosmetics</b>: Queries Lunar Client cosmetics, cloaks, and emotes for any valid SSID.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/checklocked & bancheck</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/checklocked & bancheck</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Tools -> Check Lock & Ban Check</b>: Inspects Microsoft suspension and Hypixel network ban status.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/quarantine</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/quarantine</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Tools -> Quarantine Vault</b>: Isolate at-risk accounts, view quarantined credentials, release with 1-click.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/bots & config</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/bots & config</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Bot Fleet</b>: Manage multiple bot slots, tokens, command prefix, activity status, and export config JSON.
                 </div>
               </div>
               <div style="background:var(--bg-input);padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border-color);">
-                <div style="font-family:var(--font-mono);font-size:0.85rem;color:#818cf8;">/access & admin commands</div>
+                <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--primary);">/access & admin commands</div>
                 <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">
                   Ported to <b>Owner Console</b>: Generate voucher keys, extend active subscriptions, configure bot slots, blacklist abusers, restart PM2.
                 </div>
@@ -82,7 +82,7 @@ const GuideView = {
           </section>
 
           <section style="margin-bottom:28px;">
-            <h3 style="font-size:1.2rem;font-weight:700;color:#818cf8;margin-bottom:10px;">
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
               <i class="fas fa-server"></i> VPS & Deployment Quick Start
             </h3>
             <ol style="padding-left:20px;color:var(--text-muted);font-size:0.88rem;">
@@ -109,7 +109,7 @@ const GuideView = {
           </section>
 
           <section>
-            <h3 style="font-size:1.2rem;font-weight:700;color:#818cf8;margin-bottom:10px;">
+            <h3 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:10px;">
               <i class="fas fa-lightbulb"></i> Security & Best Practices
             </h3>
             <ul style="padding-left:20px;color:var(--text-muted);font-size:0.88rem;">

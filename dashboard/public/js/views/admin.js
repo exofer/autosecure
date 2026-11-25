@@ -173,7 +173,7 @@ const AdminView = {
               <tbody>
                 ${unredeemed.length ? unredeemed.map(k => `
                   <tr>
-                    <td style="font-family:var(--font-mono);font-size:0.8rem;color:#818cf8;">
+                    <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--primary);">
                       <a href="javascript:void(0)" onclick="API.copyText('${k.license}', 'License Key')">${k.license}</a>
                     </td>
                     <td>${k.duration} Days</td>

@@ -27,6 +27,29 @@ const App = {
     const hash = window.location.hash.replace('#', '') || 'overview';
     this.navigate(hash);
 
+    // Restore desktop sidebar collapsed preference
+    if (localStorage.getItem('sidebar_collapsed') === 'true') {
+      document.getElementById('main-sidebar')?.classList.add('collapsed');
+    }
+
+    // Global Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      // '/' focuses quick view search if not inside an input/textarea
+      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+        e.preventDefault();
+        const searchInput = document.getElementById('sidebar-filter-input');
+        if (searchInput) {
+          // If sidebar is collapsed, expand it first
+          document.getElementById('main-sidebar')?.classList.remove('collapsed');
+          searchInput.focus();
+        }
+      }
+      // ESC closes mobile more sheet
+      if (e.key === 'Escape') {
+        this.closeMobileMore();
+      }
+    });
+
     // Listen to hash changes
     window.addEventListener('hashchange', () => {
       const newHash = window.location.hash.replace('#', '') || 'overview';
@@ -44,7 +67,7 @@ const App = {
       window.location.hash = viewKey;
     }
 
-    // Update active state in sidebar
+    // Update active state in desktop sidebar
     document.querySelectorAll('.nav-item').forEach(el => {
       if (el.getAttribute('data-view') === viewKey) {
         el.classList.add('active');
@@ -53,14 +76,23 @@ const App = {
       }
     });
 
+    // Update active state in mobile bottom app dock
+    document.querySelectorAll('.dock-item, .dock-center-action').forEach(el => {
+      if (el.getAttribute('data-dock-view') === viewKey) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    });
+
+    // Close mobile more sheet if open
+    this.closeMobileMore();
+
     // Update topbar title
     const titleEl = document.getElementById('page-title-text');
     if (titleEl) {
       titleEl.textContent = this.views[viewKey].title;
     }
-
-    // Close mobile sidebar if open
-    document.querySelector('.sidebar')?.classList.remove('mobile-open');
 
     // Trigger Charles UX view entrance animation
     const content = document.getElementById('view-content');
@@ -213,8 +245,64 @@ const App = {
     }
   },
 
-  toggleMobileSidebar() {
-    document.querySelector('.sidebar')?.classList.toggle('mobile-open');
+  // Desktop Collapsible Sidebar
+  toggleSidebarCollapse() {
+    const sidebar = document.getElementById('main-sidebar');
+    if (!sidebar) return;
+    const isCollapsed = sidebar.classList.toggle('collapsed');
+    localStorage.setItem('sidebar_collapsed', isCollapsed ? 'true' : 'false');
+  },
+
+  // Dynamic Sidebar Nav Filter
+  filterNav(rawQuery) {
+    const q = (rawQuery || '').toLowerCase().trim();
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('.nav-section');
+
+    if (!q) {
+      navItems.forEach(el => el.style.display = 'flex');
+      sections.forEach(sec => sec.style.display = 'block');
+      return;
+    }
+
+    navItems.forEach(el => {
+      const text = el.textContent.toLowerCase();
+      const match = text.includes(q);
+      el.style.display = match ? 'flex' : 'none';
+    });
+
+    // Hide section titles if all items in section are hidden
+    sections.forEach(sec => {
+      const visibleChildren = sec.querySelectorAll('.nav-item[style*="display: flex"]');
+      sec.style.display = visibleChildren.length > 0 ? 'block' : 'none';
+    });
+  },
+
+  // Mobile "More Tools" Bottom Drawer
+  toggleMobileMore() {
+    const backdrop = document.getElementById('mobile-more-backdrop');
+    if (!backdrop) return;
+    if (backdrop.classList.contains('open')) {
+      this.closeMobileMore();
+    } else {
+      this.openMobileMore();
+    }
+  },
+
+  openMobileMore() {
+    const backdrop = document.getElementById('mobile-more-backdrop');
+    if (backdrop) {
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden'; // lock background scrolling
+    }
+  },
+
+  closeMobileMore() {
+    const backdrop = document.getElementById('mobile-more-backdrop');
+    if (backdrop && backdrop.classList.contains('open')) {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
   }
 };
 

@@ -18,78 +18,92 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+  <div class="app-container" id="app-root">
+    <!-- Desktop Sidebar Navigation -->
+    <aside class="sidebar" id="main-sidebar">
       <div class="sidebar-header">
         <div class="brand-icon">
-          <i class="fas fa-shield-alt"></i>
+          <i class="fas fa-fire-flame-curved"></i>
         </div>
         <div class="brand-text">
           <h1>Autosecure</h1>
-          <span class="badge">v2.0 Web Edition</span>
+          <span class="badge">v2.0 Ember</span>
+        </div>
+        <button class="sidebar-collapse-toggle" onclick="App.toggleSidebarCollapse()" title="Toggle Compact Sidebar">
+          <i class="fas fa-chevron-left" id="collapse-icon"></i>
+        </button>
+      </div>
+
+      <!-- Quick Nav Filter Input -->
+      <div class="sidebar-search-container">
+        <div class="sidebar-search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="sidebar-filter-input" placeholder="Search views... (/)" oninput="App.filterNav(this.value)" autocomplete="off" />
+          <kbd class="search-kbd">/</kbd>
         </div>
       </div>
 
       <!-- Navigation Links -->
-      <div class="nav-section">
-        <div class="nav-section-title">Core Operations</div>
-        <a class="nav-item active" data-view="overview" onclick="App.navigate('overview')">
-          <i class="fas fa-chart-pie"></i>
-          <span>Overview</span>
-        </a>
-        <a class="nav-item" data-view="accounts" onclick="App.navigate('accounts')">
-          <i class="fas fa-users"></i>
-          <span>Accounts</span>
-        </a>
-        <a class="nav-item" data-view="secure" onclick="App.navigate('secure')">
-          <i class="fas fa-lock"></i>
-          <span>Securing Studio</span>
-        </a>
-      </div>
+      <div class="nav-links-scrollable" id="nav-links-container">
+        <div class="nav-section">
+          <div class="nav-section-title">Core Operations</div>
+          <a class="nav-item active" data-view="overview" onclick="App.navigate('overview')">
+            <i class="fas fa-chart-pie"></i>
+            <span>Overview</span>
+          </a>
+          <a class="nav-item" data-view="accounts" onclick="App.navigate('accounts')">
+            <i class="fas fa-users"></i>
+            <span>Accounts</span>
+          </a>
+          <a class="nav-item" data-view="secure" onclick="App.navigate('secure')">
+            <i class="fas fa-shield-halved"></i>
+            <span>Securing Studio</span>
+          </a>
+        </div>
 
-      <div class="nav-section">
-        <div class="nav-section-title">Communications</div>
-        <a class="nav-item" data-view="emails" onclick="App.navigate('emails')">
-          <i class="fas fa-envelope-open-text"></i>
-          <span>Webmail Inbox</span>
-        </a>
-        <a class="nav-item" data-view="tools" onclick="App.navigate('tools')">
-          <i class="fas fa-toolbox"></i>
-          <span>Minecraft Tools</span>
-        </a>
-      </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Communications</div>
+          <a class="nav-item" data-view="emails" onclick="App.navigate('emails')">
+            <i class="fas fa-envelope-open-text"></i>
+            <span>Webmail Inbox</span>
+          </a>
+          <a class="nav-item" data-view="tools" onclick="App.navigate('tools')">
+            <i class="fas fa-toolbox"></i>
+            <span>Minecraft Tools</span>
+          </a>
+        </div>
 
-      <div class="nav-section">
-        <div class="nav-section-title">Configuration</div>
-        <a class="nav-item" data-view="bots" onclick="App.navigate('bots')">
-          <i class="fas fa-robot"></i>
-          <span>Bot Fleet</span>
-        </a>
-        <a class="nav-item" data-view="builder" onclick="App.navigate('builder')">
-          <i class="fas fa-magic"></i>
-          <span>Discord Designer</span>
-        </a>
-        <a class="nav-item" data-view="proxies" onclick="App.navigate('proxies')">
-          <i class="fas fa-network-wired"></i>
-          <span>Proxies</span>
-        </a>
-      </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Configuration</div>
+          <a class="nav-item" data-view="bots" onclick="App.navigate('bots')">
+            <i class="fas fa-robot"></i>
+            <span>Bot Fleet</span>
+          </a>
+          <a class="nav-item" data-view="builder" onclick="App.navigate('builder')">
+            <i class="fas fa-magic"></i>
+            <span>Discord Designer</span>
+          </a>
+          <a class="nav-item" data-view="proxies" onclick="App.navigate('proxies')">
+            <i class="fas fa-network-wired"></i>
+            <span>Proxies</span>
+          </a>
+        </div>
 
-      <div class="nav-section">
-        <div class="nav-section-title">Account & Access</div>
-        <a class="nav-item" data-view="license" onclick="App.navigate('license')">
-          <i class="fas fa-ticket-alt"></i>
-          <span>License & Billing</span>
-        </a>
-        <a class="nav-item" id="nav-item-admin" data-view="admin" onclick="App.navigate('admin')">
-          <i class="fas fa-user-shield"></i>
-          <span>Owner Console</span>
-        </a>
-        <a class="nav-item" data-view="guide" onclick="App.navigate('guide')">
-          <i class="fas fa-book"></i>
-          <span>Documentation</span>
-        </a>
+        <div class="nav-section">
+          <div class="nav-section-title">System & Access</div>
+          <a class="nav-item" data-view="license" onclick="App.navigate('license')">
+            <i class="fas fa-ticket-alt"></i>
+            <span>License & Billing</span>
+          </a>
+          <a class="nav-item" id="nav-item-admin" data-view="admin" onclick="App.navigate('admin')">
+            <i class="fas fa-user-shield"></i>
+            <span>Owner Console</span>
+          </a>
+          <a class="nav-item" data-view="guide" onclick="App.navigate('guide')">
+            <i class="fas fa-book"></i>
+            <span>Documentation</span>
+          </a>
+        </div>
       </div>
 
       <!-- User Session Card in Footer -->
@@ -101,10 +115,10 @@
           <div class="user-info">
             <div class="user-id-text" id="sidebar-user-id">Loading ID...</div>
             <div class="user-role-badge" id="sidebar-user-role">
-              <i class="fas fa-circle" style="font-size:0.5rem;"></i> Active
+              <span class="user-live-dot"></span> Active
             </div>
           </div>
-          <i class="fas fa-chevron-right" style="font-size:0.75rem;color:var(--text-dim);"></i>
+          <i class="fas fa-arrow-right-arrow-left" style="font-size:0.75rem;color:var(--text-dim);" title="Switch Account"></i>
         </div>
       </div>
     </aside>
@@ -114,20 +128,25 @@
       <!-- Topbar Header -->
       <header class="topbar">
         <div class="topbar-left">
-          <button class="mobile-menu-btn" onclick="App.toggleMobileSidebar()">
-            <i class="fas fa-bars"></i>
-          </button>
+          <div class="mobile-brand-mark" onclick="App.navigate('overview')">
+            <div class="brand-icon small">
+              <i class="fas fa-fire-flame-curved"></i>
+            </div>
+            <span class="brand-name-mobile">Autosecure</span>
+          </div>
+
           <h2 class="page-title" id="page-title-text">Dashboard Overview</h2>
         </div>
 
         <div class="topbar-right">
-          <div class="status-pill">
+          <div class="status-pill" title="Real-time SQLite database sync">
             <span class="status-dot"></span>
-            <span>Database Connected</span>
+            <span class="status-label">Database Connected</span>
           </div>
 
-          <button class="btn btn-secondary btn-sm" onclick="App.openUserSwitchModal()">
-            <i class="fas fa-user-circle"></i> Switch User
+          <button class="btn btn-secondary btn-sm" onclick="App.openUserSwitchModal()" title="Switch session user">
+            <i class="fas fa-user-circle"></i>
+            <span class="btn-text-desktop">Switch User</span>
           </button>
         </div>
       </header>
@@ -136,6 +155,85 @@
       <main class="content-container" id="view-content">
         <!-- Rendered dynamically by views -->
       </main>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom App Dock (Native App Experience) -->
+  <nav class="mobile-bottom-dock" id="mobile-bottom-dock" aria-label="Mobile Navigation">
+    <button class="dock-item active" data-dock-view="overview" onclick="App.navigate('overview')">
+      <i class="fas fa-chart-pie"></i>
+      <span>Overview</span>
+    </button>
+    <button class="dock-item" data-dock-view="accounts" onclick="App.navigate('accounts')">
+      <i class="fas fa-users"></i>
+      <span>Accounts</span>
+    </button>
+    <button class="dock-center-action" data-dock-view="secure" onclick="App.navigate('secure')" title="Securing Studio">
+      <div class="dock-center-circle">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+      <span>Secure</span>
+    </button>
+    <button class="dock-item" data-dock-view="emails" onclick="App.navigate('emails')">
+      <i class="fas fa-envelope-open-text"></i>
+      <span>Inbox</span>
+    </button>
+    <button class="dock-item" id="dock-btn-more" onclick="App.toggleMobileMore()" title="All Tools">
+      <i class="fas fa-ellipsis"></i>
+      <span>More</span>
+    </button>
+  </nav>
+
+  <!-- Mobile "More" Bottom Sheet Drawer -->
+  <div class="mobile-more-backdrop" id="mobile-more-backdrop" onclick="App.closeMobileMore()">
+    <div class="mobile-more-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-grabber-bar">
+        <div class="sheet-grabber"></div>
+      </div>
+      <div class="sheet-header">
+        <div class="sheet-title">
+          <i class="fas fa-cubes-stacked" style="color:var(--primary);"></i>
+          <span>All Features & Tools</span>
+        </div>
+        <button class="sheet-close-btn" onclick="App.closeMobileMore()" aria-label="Close menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="sheet-grid">
+        <div class="sheet-grid-item" onclick="App.navigate('bots');App.closeMobileMore();">
+          <div class="sheet-item-icon warning"><i class="fas fa-robot"></i></div>
+          <span class="sheet-item-label">Bot Fleet</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.navigate('tools');App.closeMobileMore();">
+          <div class="sheet-item-icon info"><i class="fas fa-toolbox"></i></div>
+          <span class="sheet-item-label">MC Tools</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.navigate('builder');App.closeMobileMore();">
+          <div class="sheet-item-icon primary"><i class="fas fa-magic"></i></div>
+          <span class="sheet-item-label">Designer</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.navigate('proxies');App.closeMobileMore();">
+          <div class="sheet-item-icon success"><i class="fas fa-network-wired"></i></div>
+          <span class="sheet-item-label">Proxies</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.navigate('license');App.closeMobileMore();">
+          <div class="sheet-item-icon warning"><i class="fas fa-ticket-alt"></i></div>
+          <span class="sheet-item-label">License</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.navigate('admin');App.closeMobileMore();">
+          <div class="sheet-item-icon danger"><i class="fas fa-user-shield"></i></div>
+          <span class="sheet-item-label">Console</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.navigate('guide');App.closeMobileMore();">
+          <div class="sheet-item-icon info"><i class="fas fa-book"></i></div>
+          <span class="sheet-item-label">Guide</span>
+        </div>
+        <div class="sheet-grid-item" onclick="App.openUserSwitchModal();App.closeMobileMore();">
+          <div class="sheet-item-icon secondary"><i class="fas fa-user-gear"></i></div>
+          <span class="sheet-item-label">Switch User</span>
+        </div>
+      </div>
     </div>
   </div>
 
