@@ -36,17 +36,27 @@
       /* Neutral Typography */
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
-      --text-dim: #71717a;
+      --text-dim: #8b8b96;             /* oklch(0.64 0.014 285.9) — >= 5.2:1 on #101014 */
       --ink-dark: #09090b;
 
-      /* Amber Orange Accents */
-      --primary: #f59e0b;              /* Amber 500 */
-      --amber-orange: #f97316;         /* Orange 500 */
-      --primary-hover: #ea580c;        /* Orange 600 */
-      --primary-light: #fbbf24;        /* Amber 400 */
-      --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-      --primary-glow: rgba(249, 115, 22, 0.25);
-      --primary-glow-subtle: rgba(249, 115, 22, 0.1);
+      /* Single-Hue Amber Scale (oklch hue 68deg, chroma toned down 25% for dark mode) */
+      --primary: #d99326;              /* oklch(0.71 0.125 68) */
+      --amber-orange: #d99326;         /* oklch(0.71 0.125 68) */
+      --primary-hover: #c4801c;        /* oklch(0.64 0.125 68) */
+      --primary-light: #e7ae4e;        /* oklch(0.79 0.125 68) */
+      --primary-gradient: linear-gradient(135deg, #e7ae4e 0%, #d99326 100%);
+      --primary-glow: rgba(217, 147, 38, 0.22);
+      --primary-glow-subtle: rgba(217, 147, 38, 0.1);
+
+      /* Layered 3-Shadow Tokens (Edge Ring + Contact + Soft Lift, opacity <= 0.16, blur <= 28px) */
+      --shadow-card:
+        0 0 0 1px rgba(0, 0, 0, 0.12),
+        0 2px 4px rgba(0, 0, 0, 0.10),
+        0 12px 28px -6px rgba(0, 0, 0, 0.16);
+      --shadow-elevated:
+        0 0 0 1px rgba(0, 0, 0, 0.14),
+        0 4px 8px rgba(0, 0, 0, 0.12),
+        0 16px 28px -6px rgba(0, 0, 0, 0.16);
 
       /* Functional Status */
       --success: #f59e0b;
@@ -92,7 +102,7 @@
       color: var(--text-main);
       font-family: var(--font-sans);
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
@@ -196,7 +206,7 @@
       background: rgba(13, 13, 17, 0.74);
       backdrop-filter: blur(16px) saturate(160%);
       -webkit-backdrop-filter: blur(16px) saturate(160%);
-      box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.7), var(--glass-ring);
+      box-shadow: var(--shadow-elevated), var(--glass-ring);
       border-radius: var(--radius-xl);
       padding: 0.6rem clamp(0.85rem, 2vw, 1.35rem);
       display: flex;
@@ -209,7 +219,7 @@
 
     .navbar.scrolled {
       background: rgba(10, 10, 14, 0.88);
-      box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(229, 232, 238, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow-elevated), 0 0 0 1px rgba(229, 232, 238, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
     .brand {
@@ -286,15 +296,16 @@
       flex-shrink: 0;
     }
 
-    /* Buttons (Fitts's Law ≥40px/44px + Optical Icon Padding + Press State) */
+    /* Buttons (Tip 2 & 13: line-height 1.4, label ~50% height, 2:1 side padding) */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      padding: 0.62rem clamp(1.05rem, 2vw, 1.4rem);
-      min-height: 44px;
-      font-size: 0.9rem;
+      padding: 10px 20px;
+      min-height: 42px;
+      font-size: 15px;
+      line-height: 1.4;
       font-weight: 600;
       border-radius: var(--radius-md);
       text-decoration: none;
@@ -303,6 +314,14 @@
       white-space: nowrap;
       user-select: none;
       border: none;
+    }
+
+    /* Tip 20: Hero CTA >= 1.7x secondary font size with em padding & radius */
+    .btn-hero-cta {
+      font-size: clamp(1.32rem, 2.3vw, 1.59rem);
+      line-height: 1.4;
+      padding: 0.5em 1em;
+      border-radius: 0.5em;
     }
 
     .btn:active {
@@ -339,9 +358,10 @@
     }
 
     .btn-sm {
-      padding: 0.45rem 0.95rem;
-      min-height: 40px;
-      font-size: 0.84rem;
+      padding: 8px 16px;
+      min-height: 36px;
+      font-size: 13.5px;
+      line-height: 1.4;
       border-radius: var(--radius-sm);
     }
 
@@ -504,7 +524,7 @@
     .hero-spec-item {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      gap: 12px;
     }
 
     .hero-spec-val {
@@ -551,7 +571,7 @@
       color: var(--text-main);
       border-radius: var(--radius-xl);
       padding: clamp(1.35rem, 3vw, 2rem);
-      box-shadow: 0 28px 65px -12px rgba(0, 0, 0, 0.85), var(--glass-ring);
+      box-shadow: var(--shadow-elevated), var(--glass-ring);
       position: relative;
       transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease;
     }
@@ -559,7 +579,7 @@
     @media (hover: hover) {
       .pipeline-console:hover {
         transform: translateY(-4px);
-        box-shadow: 0 34px 75px -12px rgba(0, 0, 0, 0.9), var(--glass-ring-hover);
+        box-shadow: var(--shadow-elevated), var(--glass-ring-hover);
       }
     }
 
@@ -779,7 +799,7 @@
       background: var(--bg-card);
       backdrop-filter: blur(16px) saturate(140%);
       -webkit-backdrop-filter: blur(16px) saturate(140%);
-      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), var(--glass-ring);
+      box-shadow: var(--shadow-card), var(--glass-ring);
       border-radius: var(--radius-xl);
       padding: clamp(1.65rem, 3.5vw, 2.5rem);
       display: flex;
@@ -791,21 +811,21 @@
     @media (hover: hover) {
       .product-card-stealth:hover {
         transform: translateY(-4px);
-        box-shadow: 0 30px 70px -12px rgba(0, 0, 0, 0.88), var(--glass-ring-hover);
+        box-shadow: var(--shadow-elevated), var(--glass-ring-hover);
       }
     }
 
     /* Product 2: Bot Slots Standalone Product Card (Stealth Black Amber Accent Glass) */
     .product-card-bots {
       background:
-        radial-gradient(circle at 85% 12%, rgba(249, 115, 22, 0.08) 0%, transparent 55%),
+        radial-gradient(circle at 85% 12%, rgba(217, 147, 38, 0.08) 0%, transparent 55%),
         var(--bg-card);
       backdrop-filter: blur(16px) saturate(140%);
       -webkit-backdrop-filter: blur(16px) saturate(140%);
       color: var(--text-main);
       box-shadow:
-        0 24px 60px -12px rgba(0, 0, 0, 0.85),
-        0 0 0 1px rgba(249, 115, 22, 0.25),
+        var(--shadow-card),
+        0 0 0 1px rgba(217, 147, 38, 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-xl);
       padding: clamp(1.65rem, 3.5vw, 2.5rem);
@@ -818,7 +838,7 @@
     @media (hover: hover) {
       .product-card-bots:hover {
         transform: translateY(-4px);
-        box-shadow: 0 30px 70px -12px rgba(0, 0, 0, 0.9), var(--glass-ring-hover);
+        box-shadow: var(--shadow-elevated), var(--glass-ring-hover);
       }
     }
 
@@ -867,15 +887,17 @@
       font-family: var(--font-display);
       font-size: clamp(1.65rem, 3.2vw, 2.15rem);
       font-weight: 800;
+      line-height: 1.2;
       letter-spacing: -0.025em;
-      margin-bottom: 0.6rem;
+      margin: 24px 0 8px;
       color: var(--text-main);
     }
 
     .plan-desc {
       font-size: 0.92rem;
       color: var(--text-muted);
-      line-height: 1.55;
+      line-height: 1.5;
+      margin-top: 0;
       margin-bottom: 1.5rem;
       text-wrap: pretty;
     }
@@ -907,7 +929,7 @@
       font-weight: 800;
       color: var(--text-main);
       letter-spacing: -0.04em;
-      line-height: 1;
+      line-height: 1.1;
       font-variant-numeric: tabular-nums;
       transition: transform 0.16s var(--ease-spring), opacity 0.16s ease;
     }
@@ -1019,9 +1041,10 @@
     .preset-btn {
       font-family: var(--font-mono);
       font-size: 0.76rem;
+      line-height: 1.4;
       font-weight: 600;
-      padding: 0.45rem 0.72rem;
-      min-height: 40px;
+      padding: 7px 14px;
+      min-height: 36px;
       border-radius: var(--radius-sm);
       background: rgba(255, 255, 255, 0.04);
       color: var(--text-muted);
@@ -1135,9 +1158,9 @@
     }
 
     .section-head {
-      text-align: center;
+      text-align: left;
       max-width: 700px;
-      margin: 0 auto clamp(2rem, 4vw, 3.25rem);
+      margin: 0 0 clamp(2rem, 4vw, 3.25rem);
     }
 
     .section-tag {
@@ -1147,7 +1170,7 @@
       color: var(--primary);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
       display: inline-block;
     }
 
@@ -1155,15 +1178,18 @@
       font-family: var(--font-display);
       font-size: clamp(1.75rem, 3.2vw, 2.55rem);
       font-weight: 700;
+      line-height: 1.2;
       letter-spacing: -0.02em;
       color: var(--text-main);
-      margin-bottom: 0.85rem;
+      margin: 24px 0 8px;
       text-wrap: balance;
     }
 
     .section-desc {
       font-size: clamp(0.92rem, 1.8vw, 1.02rem);
       color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 0;
       text-wrap: pretty;
     }
 
@@ -1231,9 +1257,10 @@
       border: none;
       box-shadow: var(--glass-ring);
       border-radius: var(--radius-md);
-      padding: 0.6rem 1rem 0.6rem 2.55rem;
+      padding: 10px 20px 10px 41px;
       color: var(--text-main);
       font-size: 16px;
+      line-height: 1.4;
       font-family: var(--font-sans);
       outline: none;
       transition: box-shadow 0.18s ease, background-color 0.18s ease;
@@ -1272,7 +1299,7 @@
       padding: clamp(1.35rem, 3vw, 2rem);
       backdrop-filter: blur(16px) saturate(140%);
       -webkit-backdrop-filter: blur(16px) saturate(140%);
-      box-shadow: 0 14px 36px -8px rgba(0, 0, 0, 0.65), var(--glass-ring);
+      box-shadow: var(--shadow-card), var(--glass-ring);
       transition: transform 0.25s var(--ease-spring), background-color 0.2s ease, box-shadow 0.25s ease;
       display: flex;
       flex-direction: column;
@@ -1283,7 +1310,7 @@
     @media (hover: hover) {
       .feature-card:hover {
         background: var(--bg-card-hover);
-        box-shadow: 0 22px 50px -8px rgba(0, 0, 0, 0.78), var(--glass-ring-hover);
+        box-shadow: var(--shadow-elevated), var(--glass-ring-hover);
         transform: translateY(-4px);
       }
     }
@@ -1319,15 +1346,46 @@
       font-family: var(--font-display);
       font-size: clamp(1.15rem, 2.5vw, 1.28rem);
       font-weight: 700;
+      line-height: 1.3;
       color: var(--text-main);
       letter-spacing: -0.015em;
-      margin-bottom: 0.25rem;
+      margin: 0 0 6px;
     }
 
     .feature-card-meta p {
       font-size: 0.86rem;
       color: var(--text-muted);
       line-height: 1.45;
+      margin-top: 0;
+    }
+
+    .empty-state-box {
+      grid-column: 1 / -1;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-card), var(--glass-ring);
+      border-radius: var(--radius-xl);
+      padding: 40px 28px;
+      text-align: left;
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .empty-state-box h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .empty-state-box p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 8px;
     }
 
     .feature-list {
@@ -1389,7 +1447,7 @@
        ========================================================================== */
     .commands-container {
       background: var(--bg-card);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), var(--glass-ring);
+      box-shadow: var(--shadow-card), var(--glass-ring);
       border-radius: var(--radius-xl);
       padding: clamp(1.25rem, 3.5vw, 2.5rem);
       backdrop-filter: blur(16px) saturate(140%);
@@ -1543,7 +1601,7 @@
 
     .step-card {
       background: var(--bg-card);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), var(--glass-ring);
+      box-shadow: var(--shadow-card), var(--glass-ring);
       border-radius: var(--radius-xl);
       padding: clamp(1.5rem, 3vw, 2.25rem);
       backdrop-filter: blur(16px);
@@ -1554,7 +1612,7 @@
 
     @media (hover: hover) {
       .step-card:hover {
-        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.72), var(--glass-ring-hover);
+        box-shadow: var(--shadow-elevated), var(--glass-ring-hover);
         transform: translateY(-4px);
       }
     }
@@ -1565,41 +1623,43 @@
       font-weight: 700;
       color: var(--primary);
       background: var(--primary-glow-subtle);
-      box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.35);
+      box-shadow: 0 0 0 1px rgba(217, 147, 38, 0.35);
       width: 34px;
       height: 34px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.25rem;
+      margin-bottom: 20px;
     }
 
     .step-card h4 {
       font-family: var(--font-display);
       font-size: 1.22rem;
       font-weight: 700;
+      line-height: 1.3;
       color: var(--text-main);
-      margin-bottom: 0.55rem;
+      margin: 0 0 8px;
     }
 
     .step-card p {
       font-size: 0.9rem;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.5;
+      margin-top: 0;
       text-wrap: pretty;
     }
 
     /* Call to Action Banner — Stealth Black Amber Frosted Glass */
     .cta-banner {
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.11) 0%, rgba(16, 16, 21, 0.85) 100%);
+      background: linear-gradient(135deg, rgba(217, 147, 38, 0.11) 0%, rgba(16, 16, 21, 0.85) 100%);
       color: var(--text-main);
       backdrop-filter: blur(16px) saturate(140%);
       -webkit-backdrop-filter: blur(16px) saturate(140%);
-      box-shadow: 0 24px 65px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(249, 115, 22, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-elevated), 0 0 0 1px rgba(217, 147, 38, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-xl);
       padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 3.5vw, 2.5rem);
-      text-align: center;
+      text-align: left;
       margin: clamp(2.5rem, 5vw, 4rem) auto;
       position: relative;
       width: 100%;
@@ -1609,8 +1669,9 @@
       font-family: var(--font-display);
       font-size: clamp(1.75rem, 3.5vw, 2.8rem);
       font-weight: 800;
+      line-height: 1.15;
       letter-spacing: -0.025em;
-      margin-bottom: 0.85rem;
+      margin: 0 0 12px;
       color: var(--text-main);
       text-wrap: balance;
     }
@@ -1618,8 +1679,9 @@
     .cta-banner p {
       color: var(--text-muted);
       font-size: clamp(0.95rem, 2vw, 1.08rem);
+      line-height: 1.5;
       max-width: 620px;
-      margin: 0 auto 2.25rem;
+      margin: 0 0 28px;
       text-wrap: pretty;
     }
 
@@ -1702,26 +1764,26 @@
       .hero-grid {
         grid-template-columns: 1fr;
         gap: 3rem;
-        text-align: center;
+        text-align: left;
       }
       .hero-content {
-        align-items: center;
-        text-align: center;
+        align-items: flex-start;
+        text-align: left;
       }
       .hero-title {
-        text-align: center;
+        text-align: left;
       }
       .hero-sub {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+        text-align: left;
+        margin-left: 0;
+        margin-right: 0;
       }
       .hero-actions {
-        justify-content: center;
+        justify-content: flex-start;
       }
       .hero-specs {
-        justify-content: center;
-        margin: 0 auto;
+        justify-content: flex-start;
+        margin: 0;
       }
       .hero-stage {
         max-width: 520px;
@@ -1767,13 +1829,6 @@
         flex-direction: column;
         align-items: flex-start;
       }
-      .addon-controls {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .addon-calc-line {
-        text-align: left;
-      }
     }
   </style>
 </head>
@@ -1807,22 +1862,22 @@
         <ul class="nav-links">
           <li><a href="#features">Features</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#core">AutoSecure Core</a></li>
-          <li><a href="#phisher">Phisher Suite</a></li>
+          <li><a href="#core">AutoSecure core</a></li>
+          <li><a href="#phisher">Phisher suite</a></li>
           <li><a href="#commands">Commands</a></li>
-          <li><a href="#workflow">How It Works</a></li>
+          <li><a href="#workflow">How it works</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <a href="/" class="btn btn-primary btn-sm">
-          <span>Open Dashboard</span>
+          <span>Open dashboard</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </a>
-        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1860,15 +1915,15 @@
             </p>
 
             <div class="hero-actions">
-              <a href="#pricing" class="btn btn-primary">
-                <span>Get Premium Access — $11.99</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <a href="#pricing" class="btn btn-primary btn-hero-cta">
+                <span>Get Pro — $11.99</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </a>
               <a href="#features" class="btn btn-outline">
-                <span>Explore All Features</span>
+                <span>Explore all features</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -2124,33 +2179,38 @@
     <section class="section reveal-on-scroll" id="features">
       <div class="container">
         <div class="section-head">
-          <span class="section-tag">Feature Inventory</span>
-          <h2 class="section-title">Built for Total Account Control</h2>
-          <p class="section-desc">Every security pass, claiming rule, and operational tool available in Future AutoSecure.</p>
+          <span class="section-tag">Feature inventory</span>
+          <h2 class="section-title">Built for total account control</h2>
+          <p class="section-desc">Every security pass, claiming rule, and operational tool available in Nova AutoSecure.</p>
         </div>
 
         <!-- Filter & Search Toolbar -->
         <div class="features-toolbar">
           <div class="filter-tabs" id="filter-tabs">
-            <button class="tab-btn active" onclick="filterCategory('all', this)">All Features</button>
-            <button class="tab-btn" onclick="filterCategory('core', this)">AutoSecure Core</button>
-            <button class="tab-btn" onclick="filterCategory('phisher', this)">Phisher System</button>
-            <button class="tab-btn" onclick="filterCategory('optional', this)">Optional Controls</button>
-            <button class="tab-btn" onclick="filterCategory('claiming', this)">Claiming System</button>
-            <button class="tab-btn" onclick="filterCategory('roadmap', this)">Coming Soon</button>
+            <button class="tab-btn active" onclick="filterCategory('all', this)">All features</button>
+            <button class="tab-btn" onclick="filterCategory('core', this)">AutoSecure core</button>
+            <button class="tab-btn" onclick="filterCategory('phisher', this)">Phisher system</button>
+            <button class="tab-btn" onclick="filterCategory('optional', this)">Optional controls</button>
+            <button class="tab-btn" onclick="filterCategory('claiming', this)">Claiming system</button>
+            <button class="tab-btn" onclick="filterCategory('roadmap', this)">Coming soon</button>
           </div>
 
           <div class="search-box">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="feature-search" class="search-input" placeholder="Search features (e.g. 2FA, Zyger, Cape)..." oninput="handleSearch(this.value)">
+            <input type="text" id="feature-search" class="search-input" aria-label="Search features" placeholder="Search features (e.g. 2FA, Zyger, Cape)..." oninput="handleSearch(this.value)">
           </div>
         </div>
 
         <!-- 6 Feature Cards with Full Bot Embed Content -->
         <div class="features-grid" id="features-cards">
+          <div class="empty-state-box" id="features-empty">
+            <h3>No matching features</h3>
+            <p id="features-empty-desc">No features matched your search query.</p>
+            <button type="button" class="btn btn-primary" onclick="clearFeatureSearch()">Clear search</button>
+          </div>
           
           <!-- 1. AutoSecure Core -->
           <article class="feature-card core" data-cat="core" id="core">
@@ -2564,26 +2624,26 @@
       <div class="container">
         <div class="section-head">
           <span class="section-tag">Architecture</span>
-          <h2 class="section-title">How Nova AutoSecure Works</h2>
+          <h2 class="section-title">How Nova AutoSecure works</h2>
           <p class="section-desc">A frictionless 3-step pipeline engineered for sub-second precision.</p>
         </div>
 
         <div class="steps-grid">
           <div class="step-card">
             <div class="step-num">1</div>
-            <h4>Ingestion &amp; Verification</h4>
+            <h4>Ingestion &amp; verification</h4>
             <p>Input targets via <code>/secure</code> (OTP, recovery code, secret key) or capture through high-conversion customizable verification funnels.</p>
           </div>
 
           <div class="step-card">
             <div class="step-num">2</div>
-            <h4>Instant Auto-Lockdown</h4>
+            <h4>Instant auto-lockdown</h4>
             <p>In less than two seconds, 2FA is purged, Windows Hello keys removed, primary aliases updated, sessions revoked, and new passwords applied.</p>
           </div>
 
           <div class="step-card">
             <div class="step-num">3</div>
-            <h4>Inventory &amp; Split Claim</h4>
+            <h4>Inventory &amp; split claim</h4>
             <p>Accounts are automatically checked for capes, Hypixel status, and billing. Assets are routed via configurable auto-split ratios to team members.</p>
           </div>
         </div>
@@ -2593,11 +2653,11 @@
     <!-- Call to Action -->
     <section class="container reveal-on-scroll">
       <div class="cta-banner">
-        <h2>Ready to Deploy AutoSecure?</h2>
+        <h2>Ready to deploy AutoSecure?</h2>
         <p>Access the unified web management dashboard, configure your bots, and manage secured accounts in real time.</p>
-        <a href="#pricing" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.9rem 1.9rem;">
-          <span>Get Started — $11.99</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <a href="#pricing" class="btn btn-primary btn-hero-cta">
+          <span>Get started — $11.99</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -2615,11 +2675,11 @@
             <span>Nova AutoSecure</span>
             <span style="font-size: 0.75rem; color: var(--success); font-family: var(--font-mono);">● Operational</span>
           </div>
-          <p>The most trusted AutoSecure, verification, and recovery suite. Powered by Future Development.</p>
+          <p>The most trusted AutoSecure, verification, and recovery suite. Powered by Nova AutoSecure.</p>
         </div>
 
         <ul class="footer-links">
-          <li><a href="/">Web Dashboard</a></li>
+          <li><a href="/">Web dashboard</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#commands">Commands</a></li>
@@ -2862,6 +2922,11 @@
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       element.classList.add('active');
 
+      const searchInput = document.getElementById('feature-search');
+      if (searchInput) searchInput.value = '';
+      const emptyBox = document.getElementById('features-empty');
+      if (emptyBox) emptyBox.style.display = 'none';
+
       const cards = document.querySelectorAll('.feature-card');
       cards.forEach(card => {
         if (category === 'all' || card.dataset.cat === category) {
@@ -2876,26 +2941,51 @@
     function handleSearch(query) {
       const q = query.toLowerCase().trim();
       const cards = document.querySelectorAll('.feature-card');
+      let visibleCount = 0;
 
       cards.forEach(card => {
         const text = card.innerText.toLowerCase();
         if (!q || text.includes(q)) {
           card.style.display = 'flex';
           card.style.opacity = '1';
+          visibleCount++;
         } else {
           card.style.display = 'none';
         }
       });
+
+      const emptyBox = document.getElementById('features-empty');
+      const emptyDesc = document.getElementById('features-empty-desc');
+      if (emptyBox) {
+        if (visibleCount === 0 && q) {
+          if (emptyDesc) emptyDesc.textContent = `No features matched "${query.trim()}". Clear the search to view all features.`;
+          emptyBox.style.display = 'flex';
+        } else {
+          emptyBox.style.display = 'none';
+        }
+      }
+    }
+
+    function clearFeatureSearch() {
+      const searchInput = document.getElementById('feature-search');
+      if (searchInput) {
+        searchInput.value = '';
+        handleSearch('');
+        searchInput.focus();
+      }
     }
 
     // ─── 6. Mobile Menu Toggle ───
     function toggleMobileMenu() {
       const links = document.querySelector('.nav-links');
+      const toggleBtn = document.querySelector('.mobile-toggle');
       const isOpen = links.style.display === 'flex';
       if (isOpen) {
         links.style.display = '';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
       } else {
         links.style.display = 'flex';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
         links.style.flexDirection = 'column';
         links.style.position = 'absolute';
         links.style.top = '72px';
