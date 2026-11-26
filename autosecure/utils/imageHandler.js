@@ -14,6 +14,7 @@ async function generateAndSendImage(acc, interaction) {
 
     const stats = {
       username: acc.newName,
+      rank: acc.rank || acc.stats?.rank || "NONE",
       networth: acc.networth || "Unknown",
       bedwars: acc.bedwarsLevel || "0",
       networkLevel: acc.networkLevel || "1",

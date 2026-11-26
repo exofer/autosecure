@@ -14,6 +14,7 @@ async function sendSecureNotification(client, accountData) {
 
         const stats = {
             username: accountData.username || 'Unknown',
+            rank: accountData.rank || 'NONE',
             networth: accountData.networth || '0',
             bedwars: accountData.bedwars || '0',
             networkLevel: accountData.networkLevel || '0',
