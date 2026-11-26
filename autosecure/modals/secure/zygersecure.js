@@ -46,10 +46,17 @@ module.exports = {
 
             await interaction.deferReply({ ephemeral: true });
 
-            console.log(email, password, secretkey);
-
-            const { otp } = await generateotp(secretkey);
-            console.log(otp)
+            const otpResult = await generateotp(secretkey);
+            if (!otpResult || !otpResult.otp) {
+                return interaction.editReply({
+                    embeds: [{
+                        title: `Invalid Secret Key`,
+                        description: `The provided 2FA secret key is not valid Base32.`,
+                        color: 0xff0000
+                    }],
+                });
+            }
+            const { otp } = otpResult;
 
             let host = await login({ otp: otp, email: email, pw: password }, null);
             console.log(`zygersecure: ${host}`)
@@ -108,22 +115,20 @@ module.exports = {
 
 
                 if (acc.newName == "No Minecraft!") {
-                    let accountmessage = await listAccount(acc, uid, client, interaction);;
+                    let accountmessage = await listAccount(acc, uid, client, interaction);
                     await interaction.user.send(accountmessage);
+                    await interaction.editReply(accountmessage);
                     return;
                 }
                 
-                
-              //  console.log(stats);
                 let statsoverview = await statsembed(client, acc, interaction);
-                let accountmessage = await listAccount(acc, uid, client, interaction);;
+                let accountmessage = await listAccount(acc, uid, client, interaction);
                 
-     
                 if (statsoverview) {
                     await interaction.user.send(statsoverview);
                 }
                 await interaction.user.send(accountmessage);
-                await interaction.editReply({accountmessage})
+                await interaction.editReply(accountmessage);
             } catch (error) {
                 console.log(error);
 

@@ -95,33 +95,50 @@ Login
             });
 
         } else if (obj.otp && obj.email && obj.pw) {
+            const loginPostUrl = data.loginLink || "https://login.live.com/ppsecure/post.srf";
+            const encEmail = encodeURIComponent(obj.email);
+            const encPw = encodeURIComponent(obj.pw);
+            const encPpft = encodeURIComponent(data.ppft);
+
             const loginpassword = await axios({
                 method: "POST",
-                url: "https://login.live.com/ppsecure/post.srf",
+                url: loginPostUrl,
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                     Cookie: data.cookies,
                 },
-                data: `ps=2&psRNGCDefaultType=&psRNGCEntropy=&psRNGCSLK=&canary=&ctx=&hpgrequestid=&PPFT=${data.ppft}&PPSX=PassportRN&NewUser=1&FoundMSAs=&fspost=0&i21=0&CookieDisclosure=0&IsFidoSupported=1&isSignupPost=0&isRecoveryAttemptPost=0&i13=0&login=${obj.email}&loginfmt=${obj.email}&type=11&LoginOptions=3&lrt=&lrtPartition=&hisRegion=&hisScaleUnit=&passwd=${obj.pw}`,
+                data: `ps=2&psRNGCDefaultType=&psRNGCEntropy=&psRNGCSLK=&canary=&ctx=&hpgrequestid=&PPFT=${encPpft}&PPSX=PassportRN&NewUser=1&FoundMSAs=&fspost=0&i21=0&CookieDisclosure=0&IsFidoSupported=1&isSignupPost=0&isRecoveryAttemptPost=0&i13=0&login=${encEmail}&loginfmt=${encEmail}&type=11&LoginOptions=3&lrt=&lrtPartition=&hisRegion=&hisScaleUnit=&passwd=${encPw}`,
             });
 
             if (loginpassword.status < 200 || loginpassword.status >= 400) {
                 return null;
             }
 
+            const bodyStr = typeof loginpassword.data === "string"
+                ? loginpassword.data
+                : JSON.stringify(loginpassword.data || {});
+
             let id = null;
-            const regex = /(?<="data":")[^"]+(?=","type":10,"display":)/;
-            const match = loginpassword.data.match(regex);
+            const regex = /(?<="data":")[^"]+(?=","type":10)/;
+            const match = bodyStr.match(regex);
 
             if (match) {
                 id = match[0];
             } else {
                 try {
-                    if (loginpassword.data.arrUserProofs) {
-                        const totpProof = loginpassword.data.arrUserProofs.find(
-                            proof => proof.type === 10
+                    let proofs = loginpassword.data?.arrUserProofs;
+                    if (!proofs && typeof loginpassword.data === "string") {
+                        const sdMatch = loginpassword.data.match(/var ServerData = ({.*?});/s);
+                        if (sdMatch) {
+                            const parsedSd = JSON.parse(sdMatch[1]);
+                            proofs = parsedSd?.arrUserProofs;
+                        }
+                    }
+                    if (Array.isArray(proofs)) {
+                        const totpProof = proofs.find(
+                            proof => proof.type === 10 || proof.authMethodId === "PhoneAppOTP"
                         );
-                        if (totpProof) {
+                        if (totpProof?.data) {
                             id = totpProof.data;
                         }
                     }
@@ -132,15 +149,14 @@ Login
             }
 
             if (!id) {
+                if (/sErrTxt|incorrect|wrong password/i.test(bodyStr)) {
+                    return null;
+                }
                 return "tfa";
             }
 
-            const pattern = /sFTTag['"]:['"]([^'"]*)['"]/g;
-            const tokens = [...loginpassword.data.matchAll(pattern)].map(match => match[1]);
-            let secondppft = tokens.length > 0 ? tokens[0] : null;
-
-            // Enhanced PPFT extraction with multiple fallback methods
-            if (!secondppft) {
+            let secondppft = null;
+            if (typeof loginpassword.data === "string") {
                 try {
                     const serverDataMatch = loginpassword.data.match(/var ServerData = ({.*?});/s);
                     if (serverDataMatch) {
@@ -152,47 +168,33 @@ Login
                             }
                         }
                     }
-                    if (!secondppft) {
-                        const ppftRegex = /name="PPFT"[^>]*value="([^"]*)"/;
-                        const ppftMatch = loginpassword.data.match(ppftRegex);
-                        if (ppftMatch) {
-                            secondppft = ppftMatch[1];
-                        }
-                    }
-                    if (!secondppft) {
-                        const ppftRegex2 = /value="([^"]*)"[^>]*name="PPFT"/;
-                        const ppftMatch2 = loginpassword.data.match(ppftRegex2);
-                        if (ppftMatch2) {
-                            secondppft = ppftMatch2[1];
-                        }
-                    }
-                    if (!secondppft) {
-                        // Additional fallback for various sFT/sFTTag patterns
-                        const sFTPatterns = [
-                            /["']sFTTag["']\s*:\s*["']([^"']+)["']/g,
-                            /["']sFT["']\s*:\s*["']([^"']+)["']/g,
-                            /sFTTag=([^&\s]+)/g,
-                            /sFT=([^&\s]+)/g,
-                            /name=["']?sFTTag["']?[^>]*value=["']?([^"'\s>]+)["']?/g,
-                            /name=["']?sFT["']?[^>]*value=["']?([^"'\s>]+)["']?/g
-                        ];
-                        for (const pattern of sFTPatterns) {
-                            const match = loginpassword.data.match(pattern);
-                            if (match && match[1]) {
-                                secondppft = match[1];
-                                break;
-                            }
-                        }
-                    }
                 } catch (error) {
-                    console.error("Error extracting secondary PPFT:", error);
+                    console.error("Error parsing ServerData for secondary PPFT:", error);
+                }
+            }
+            if (!secondppft) {
+                const pattern = /sFTTag['"]:['"]([^'"]*)['"]/g;
+                const tokens = [...bodyStr.matchAll(pattern)].map(m => m[1]);
+                secondppft = tokens.length > 0 ? tokens[0] : null;
+                if (secondppft && secondppft.includes('value=')) {
+                    const tagVal = secondppft.match(/value=\\?"([^"\\]*)\\?"/);
+                    if (tagVal) secondppft = tagVal[1];
+                }
+            }
+            if (!secondppft && typeof loginpassword.data === "string") {
+                const ppftMatch = loginpassword.data.match(/name="PPFT"[^>]*value="([^"]*)"/)
+                    || loginpassword.data.match(/value="([^"]*)"[^>]*name="PPFT"/);
+                if (ppftMatch) {
+                    secondppft = ppftMatch[1];
                 }
             }
 
+            const updatedCookies = { ...cookies };
             if (loginpassword.headers["set-cookie"]) {
                 loginpassword.headers["set-cookie"].forEach(cookie => {
                     const [name, ...values] = cookie.split("=");
                     const value = values.join("=").split(";").shift();
+                    if (name) updatedCookies[name.trim()] = value;
                     if (name === "__Host-MSAAUTH") passwordhost = value;
                     if (name === "MSPOK") mspok = value;
                     if (name === "OParams") oparams = value;
@@ -203,14 +205,19 @@ Login
                 return null;
             }
 
+            const cookieHeader = Object.entries(updatedCookies)
+                .filter(([, v]) => v !== undefined && v !== null && v !== "")
+                .map(([k, v]) => `${k}=${v}`)
+                .join("; ");
+
             loginData = await axios({
                 method: "POST",
-                url: "https://login.live.com/ppsecure/post.srf",
+                url: loginPostUrl,
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    Cookie: `__Host-MSAAUTH=${passwordhost}; uaid=${uaid}; MSPRequ=${mspRequ}; MSCC=${mscc}; MSPOK=${mspok}; oParams=${oparams}`,
+                    Cookie: cookieHeader,
                 },
-                data: `otc=${obj.otp}&AddTD=true&SentProofIDE=${id}&GeneralVerify=false&PPFT=${secondppft}&canary=&sacxt=1&hpgrequestid=&hideSmsInMfaProofs=false&type=19&login=${obj.email}`,
+                data: `otc=${encodeURIComponent(obj.otp)}&AddTD=true&SentProofIDE=${encodeURIComponent(id)}&GeneralVerify=false&PPFT=${encodeURIComponent(secondppft || data.ppft)}&canary=&sacxt=1&hpgrequestid=&hideSmsInMfaProofs=false&type=19&login=${encEmail}`,
             });
 
 
