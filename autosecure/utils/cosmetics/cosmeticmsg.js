@@ -12,7 +12,7 @@ module.exports = async function cosmeticmsg(ign, type) {
     let failedembed = new EmbedBuilder()
       .setTitle(`${type} Cosmetics`)
       .setDescription(`None`)
-      .setColor(0xADD8E6)
+      .setColor(0xF59E0B)
     return { embeds: [failedembed] }
   }
 
@@ -20,7 +20,7 @@ module.exports = async function cosmeticmsg(ign, type) {
   let embed = new EmbedBuilder()
     .setTitle(`${type} Cosmetics`)
     .setDescription(`Amount: ${amount}\n`)
-    .setColor(0xADD8E6)
+    .setColor(0xF59E0B)
 
   if (specificdatapath.data) {
     let parsedData = JSON.parse(specificdatapath.data)

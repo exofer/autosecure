@@ -55,7 +55,7 @@ for (const existingBotNumber of botnumbers) {
                                 value: codeblock(`${existingBotNumber} | ${existingClient.user.username}`)
                             }
                         )
-                        .setColor(0xADD8E6)
+                        .setColor(0xF59E0B)
                 ]
             });
         }
@@ -100,7 +100,7 @@ for (const existingBotNumber of botnumbers) {
                 const inviteLink = `https://discord.com/oauth2/authorize?client_id=${as.user.id}&permissions=8&scope=bot+applications.commands`;
 
                 const embed = new EmbedBuilder()
-                    .setColor(0xADD8E6)
+                    .setColor(0xF59E0B)
                     .setTitle("Created bot!")
                     .setDescription(`Bot has been setup and will start running soon! [Click to Invite](${inviteLink})`);
 

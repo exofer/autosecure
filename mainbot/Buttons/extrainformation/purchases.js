@@ -12,7 +12,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Purchases")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             if (!purchaseData || !Array.isArray(purchaseData.orders) || purchaseData.orders.length === 0) {
                 return interaction.reply({

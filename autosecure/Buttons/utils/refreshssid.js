@@ -36,7 +36,7 @@ module.exports = {
                 return interaction.reply({
                     embeds: [{
                         title: `SSID has been expired!`,
-                        color: 0x808080
+                        color: 0xF59E0B
                     }],
                     ephemeral: true
                 });
@@ -57,7 +57,7 @@ module.exports = {
                 embeds: [{
                     title: `Expires: ${formattedExpTime}`,
                     description: "```" + newssid + "```",
-                    color: 0x808080
+                    color: 0xF59E0B
                 }],
                 components: [buttonsRow],
                 ephemeral: true

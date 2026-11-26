@@ -13,7 +13,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Old Aliases")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             if (!oldaliasesdata || oldaliasesdata.length === 0) {
                 embed.setDescription("No old aliases found.");

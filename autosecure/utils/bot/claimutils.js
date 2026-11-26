@@ -117,7 +117,7 @@ async function handleSSIDOnly(client, interaction, acc, guildId, channelId, name
                 embeds: [{           
                     title: `Expires: ${formattedExpTime}`,           
                     description: "```" + acc.ssid + "```",           
-                    color: 0x808080       
+                    color: 0xF59E0B       
                 }],         
                 components: [buttonsRow],
                 ephemeral: true   
@@ -136,7 +136,7 @@ async function handleSSIDOnly(client, interaction, acc, guildId, channelId, name
                 embeds: [{           
                     title: `No SSID`,           
                     description: "Account doesn't own minecraft or failed to obtain!",           
-                    color: 0x808080       
+                    color: 0xF59E0B       
                 }],         
                 ephemeral: true       
             }; 
@@ -166,7 +166,7 @@ async function handleNoContentSend(client, interaction, guildId, channelId, name
             embeds: [{           
                 title: `Claim Progress Recorded`,           
                 description: "Your claim has been recorded. You need to reach the required split count for a claim.",           
-                color: 0x808080       
+                color: 0xF59E0B       
             }],         
             ephemeral: true   
         }; 
@@ -246,7 +246,7 @@ async function handleSplitClaim(client, interaction, acc, uid, guildId, channelI
                 embeds: [{
                     title: `Split Progress`,
                     description: `Your claim has been recorded.\nProgress: ${claimstreak}/${user.split}\n Result: ${d}`,
-                    color: 0x808080
+                    color: 0xF59E0B
                 }],
                 ephemeral: true
             };

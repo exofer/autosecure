@@ -29,7 +29,7 @@ module.exports = {
                     { name: 'Security Email', value: statusData.secemail ? `\`\`\`${statusData.secemail}\`\`\`` : emptyBox, inline: true },
                     { name: 'Password', value: statusData.password ? `\`\`\`${statusData.password}\`\`\`` : emptyBox, inline: false }
                 )
-                .setColor('#b2c7e0')
+                .setColor('#F59E0B')
                 .setTimestamp();
 
             await interaction.editReply({

@@ -63,7 +63,7 @@ module.exports = async function editphishermsg(botnumber, ownerid, id) {
     const embed = new EmbedBuilder()
         .setTitle("Your Phisher Config")
         .setDescription(`Aftersecure: ${afterSecureState}`)
-        .setColor(0xADD8E6)
+        .setColor(0xF59E0B)
         .addFields(
             { name: "Embed Method", value: verificationMode, inline: true },
             { name: "OAuth URL", value: settings.oauth_link || "Not set.", inline: true },

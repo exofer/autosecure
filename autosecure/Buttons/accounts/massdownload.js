@@ -6,7 +6,7 @@ module.exports = {
     callback: async (client, interaction) => {
         const [_, type, userId] = interaction.customId.split("|");
 
-        let embed = new EmbedBuilder().setColor(0x808080);
+        let embed = new EmbedBuilder().setColor(0xF59E0B);
 
         if (interaction.user.id !== userId) {
             return interaction.reply({ content: "You didn't initiate this download.", ephemeral: true });

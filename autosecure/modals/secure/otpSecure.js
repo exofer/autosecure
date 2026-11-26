@@ -64,7 +64,7 @@ module.exports = {
 
     const statusEmbed = {
       title: "This account is being automatically secured.",
-      color: 0x808080,
+      color: 0xF59E0B,
     };
 
     const statusButton = new ActionRowBuilder().addComponents(

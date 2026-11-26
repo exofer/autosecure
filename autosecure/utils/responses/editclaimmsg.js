@@ -12,7 +12,7 @@ module.exports = async function editclaimmsg(botnumber, ownerid, obj = {}) {
 
     const embed = new EmbedBuilder()
         .setTitle("Your Claim Config")
-        .setColor(0xADD8E6)
+        .setColor(0xF59E0B)
         .addFields(
             { name: "Claiming", value: settings.claiming ? "Yes" : "No", inline: true },
             { name: "Ping", value: settings.ping, inline: true },

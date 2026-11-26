@@ -16,7 +16,7 @@ module.exports = {
 if (!Array.isArray(subscriptionData) || subscriptionData.length === 0) {
     const embed2 = new EmbedBuilder()
         .setTitle("Subscriptions")
-        .setColor(0xb2c7e0);
+        .setColor(0xF59E0B);
 
     return interaction.reply({
         embeds: [embed2],
@@ -28,7 +28,7 @@ if (!Array.isArray(subscriptionData) || subscriptionData.length === 0) {
 
             const embed = new EmbedBuilder()
                 .setTitle("Subscriptions")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             subscriptionData.forEach((subscription, index) => {
                 const productName = subscription.name;

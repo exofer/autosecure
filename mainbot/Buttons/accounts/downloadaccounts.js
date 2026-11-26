@@ -5,7 +5,7 @@ module.exports = {
     callback: async (client, interaction) => {
         const embed = new EmbedBuilder()
             .setTitle("Download")
-            .setColor(0xADD8E6);
+            .setColor(0xF59E0B);
 
         const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder()

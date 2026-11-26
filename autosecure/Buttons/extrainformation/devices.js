@@ -13,7 +13,7 @@ module.exports = {
             if (!deviceData || !deviceData.devices || deviceData.devices.length === 0) {
                 const embed = new EmbedBuilder()
                     .setTitle("Devices")
-                    .setColor('#b2c7e0')
+                    .setColor('#F59E0B')
                 return interaction.reply({
                     embeds: [embed],
                     ephemeral: true,
@@ -22,7 +22,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Devices")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             const status = await fetchDeviceStatus(uid);
             if (status) {

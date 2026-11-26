@@ -1616,7 +1616,7 @@ async function handleBlacklistUser(client, interaction) {
         deleteuser(client, userId);
       }
       const blacklistEmbed = {
-        color: 0xADD8E6, // Red color
+        color: 0xF59E0B, // Red color
         title: 'User Blacklisted',
         description: `<@${userId}> has been blacklisted from Autosecure`,
         timestamp: new Date()

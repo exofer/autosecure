@@ -87,7 +87,7 @@ async function removequarantine(d, reason) {
                     .setTitle("Quarantine Ended")
                     .setDescription(`Your quarantine for **${quarantineData?.username ?? 'Unknown'}** (\`${id}\`) has been stopped.`)
                     .addFields({ name: "Reason", value: `\`\`\`\n${reason}\n\`\`\`` })
-                    .setColor(0xADD8E6)
+                    .setColor(0xF59E0B)
                 await user.send({ embeds: [embed] });
                 console.log(`Sent quarantine end notification to user ${userid}`);
             }

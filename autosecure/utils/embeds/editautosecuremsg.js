@@ -21,7 +21,7 @@ module.exports = async function autosecureMsg(botnumber, ownerid) {
     // Main embed with all the settings
     const embed = new EmbedBuilder()
         .setTitle(`Autosecure Settings`)
-        .setColor(0xb2c7e0)
+        .setColor(0xF59E0B)
         .addFields(
             { name: "Autosecure", value: `${settings.auto_secure ? "✅" : "❌"}`, inline: true },
             { name: "Change IGN", value: `${settings.change_ign ? "✅" : "❌"}`, inline: true },
@@ -156,7 +156,7 @@ module.exports = async function autosecureMsg(botnumber, ownerid) {
     
 const embed2 = new EmbedBuilder()
     .setTitle(" \n ")
-    .setColor(0xb2c7e0)
+    .setColor(0xF59E0B)
     .addFields(
         { name: "Change Name", value: settings.changename ? "✅" : "❌", inline: true },
         { name: "Change DOB/Region", value: settings.changedob ? "✅" : "❌", inline: true },

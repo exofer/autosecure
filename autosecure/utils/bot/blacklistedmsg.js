@@ -45,7 +45,7 @@ module.exports = async function blacklistedmsg(botnumber, client, userid, db, pa
     }
 
     const embed = new EmbedBuilder()
-        .setColor(0xADD8E6)
+        .setColor(0xF59E0B)
         .setTitle(title)
         .setDescription(description)
         .setFooter({ text: `Page ${page}/${totalPages}` });

@@ -133,7 +133,7 @@ async function handleShowConfig(client, interaction, user_id, mode, botNumber) {
     const attachment = new AttachmentBuilder(configBuffer, { name: fileName });
 
     const embed = new EmbedBuilder()
-        .setColor(0xADD8E6)
+        .setColor(0xF59E0B)
         .setTitle(`Here's your config in the attachment: \`${fileName}\`.`);
 
     await interaction.editReply({ 
@@ -157,7 +157,7 @@ async function handleLoadConfig(client, interaction, user_id, mode, botNumber, f
             await clearFullConfig(user_id);
             await importConfig(configData, user_id);
             const embed = new EmbedBuilder()
-                .setColor(0xADD8E6)
+                .setColor(0xF59E0B)
                 .setTitle(`Loaded config \`${file.name}\`.\nPlease do /bots to restart your bots.`);
             await interaction.editReply({ embeds: [embed] });
         } else if (mode === 'bot') {
@@ -167,7 +167,7 @@ async function handleLoadConfig(client, interaction, user_id, mode, botNumber, f
             let d = await importBotConfig(configData, user_id, botNumber);
             
             const embed = new EmbedBuilder()
-                .setColor(0xADD8E6)
+                .setColor(0xF59E0B)
                 .setTitle(`Loaded bot \`${botNumber}\`.\nIf it's not started yet, please restart it using /bots.`)
                 .addFields(
                     { name: 'User', value: interaction.user.tag, inline: true },
@@ -192,7 +192,7 @@ async function handleListBots(client, interaction, user_id) {
     const botNumbers = await getUserBotNumbers(user_id);
     
     const embed = new EmbedBuilder()
-        .setColor(0xADD8E6)
+        .setColor(0xF59E0B)
         .setTitle('Your Bot Numbers')
         .addFields(
             { name: 'Total Slots', value: botNumbers.length.toString(), inline: true }

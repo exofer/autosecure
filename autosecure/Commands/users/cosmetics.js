@@ -111,7 +111,7 @@ ${formatList(equippedemotes)}
     const embed = new EmbedBuilder()
       .setTitle("Lunar Cosmetics Info")
       .setDescription(description)
-      .setColor(0xADD8E6);
+      .setColor(0xF59E0B);
 
     await interaction.editReply({ embeds: [embed], ephemeral: true });
   }

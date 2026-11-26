@@ -15,7 +15,7 @@ module.exports = {
                 { name: "Secondary Email", value: `\`\`\`${sec || "Not found"}\`\`\``, inline: true },
                 { name: "Password", value: `\`\`\`${password || "Not found"}\`\`\``, inline: true }
             )
-            .setColor(0xADD8E6);
+            .setColor(0xF59E0B);
 
         await interaction.reply({ embeds: [embed], ephemeral: true });
     },

@@ -4,7 +4,7 @@ async function purchasepanel() {
   const msg = {};
   msg.embeds = [
     new EmbedBuilder()
-      .setColor(0xADD8E6)
+      .setColor(0xF59E0B)
       .setDescription("\n - **Phisher & Autosecure license** - Most trusted in comm \n - **Extra Bot Slot** - Addon to your license, unlock your second bot")
   ];
   const row = new ActionRowBuilder().addComponents(

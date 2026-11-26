@@ -27,7 +27,7 @@ module.exports = {
       );
       if (trialCheck.length > 0 && trialCheck[0].trial === "true") {
         const embed = new EmbedBuilder()
-          .setColor(0xADD8E6)
+          .setColor(0xF59E0B)
           .setDescription(`You already had a trial or access!`);
 
         const button = new ButtonBuilder()

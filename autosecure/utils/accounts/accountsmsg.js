@@ -7,7 +7,7 @@ const short = require("short-number");
 
 module.exports = async (id, current, uid = null) => {
     let embed = new EmbedBuilder()
-        .setColor(0x808080);
+        .setColor(0xF59E0B);
     
     // Only set footer if text is not null/empty
     if (footer.text && footer.text.trim() !== '') {

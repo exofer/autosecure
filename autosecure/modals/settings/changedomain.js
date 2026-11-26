@@ -42,7 +42,7 @@ module.exports = {
 const embed = new EmbedBuilder()
     .setDescription(`In your domain registrar (e.g., Namecheap, GoDaddy, etc.), create the DNS records with the following:\n\n\`\`\`\nType: A\nName: ${domain}\nContent/Value: ${VPS_IP}\nTTL: Automatic\n\`\`\`\n\n\`\`\`\nType: MX\nName: ${domain}\nContent/Value: ${domain}\nPriority: 10\nTTL: Automatic\n\`\`\``)
     .setFooter({ text: "Note: It may take up to 72h for the records to be updated. Please remove any unnecessary MX records." })
-    .setColor("#b2c7e0");
+    .setColor("#F59E0B");
 
      
 

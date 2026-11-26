@@ -12,7 +12,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Family")
-                .setColor('#b2c7e0')
+                .setColor('#F59E0B')
                 .setDescription(familyData || "No family data found.");
 
             return interaction.reply({

@@ -8,7 +8,7 @@ module.exports = async (email, id, current) => {
     let owndomain;
     let embed = {
         title: email,
-        color: 0x808080
+        color: 0xF59E0B
     };
 
     let buttons = [];
@@ -21,7 +21,7 @@ module.exports = async (email, id, current) => {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Invalid email!")
-                    .setColor(0xADD8E6)
+                    .setColor(0xF59E0B)
             ],
             ephemeral: true
         };

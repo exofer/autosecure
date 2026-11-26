@@ -21,7 +21,7 @@ module.exports = {
                         "Please wait while we finish securing your account.\n\n" +
                         "You can click the **Status** button again in a few moments."
                     )
-                    .setColor(0x808080)
+                    .setColor(0xF59E0B)
                     .setFooter({ text: `UID: ${uid}` })
                     .setTimestamp();
 
@@ -83,7 +83,7 @@ module.exports = {
                             : emptyBox
                     }
                 )
-                .setColor("#b2c7e0")
+                .setColor("#F59E0B")
                 .setFooter({ text: "Secure process completed" })
                 .setTimestamp();
 

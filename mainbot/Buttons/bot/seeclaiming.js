@@ -20,7 +20,7 @@ module.exports = {
                            `    * Unclaimed accounts can be viewed in the \`/claim accounts\` panel`
                 }
             ])
-            .setColor(0xADD8E6);
+            .setColor(0xF59E0B);
 
         await interaction.reply({ embeds: [embed], ephemeral: true });
     }

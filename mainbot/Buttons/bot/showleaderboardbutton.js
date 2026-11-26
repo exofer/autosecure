@@ -36,7 +36,7 @@ module.exports = {
       : "Set to: Hidden \nYou'll now be shown as Hidden User! (The next time the leaderboard refreshes)";
 
     const embed = new EmbedBuilder()
-      .setColor(0xADD8E6)
+      .setColor(0xF59E0B)
       .setTitle('✅ Leaderboard visibility updated')
       .setDescription(lbshown);
 

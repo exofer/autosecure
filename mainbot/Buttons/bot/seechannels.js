@@ -21,7 +21,7 @@ module.exports = {
                            `- Then set the other channels you need in a different server that your members can't access.`
                 }
             ])
-            .setColor(0xADD8E6);
+            .setColor(0xF59E0B);
 
         await interaction.reply({ embeds: [embed], ephemeral: true });
     }

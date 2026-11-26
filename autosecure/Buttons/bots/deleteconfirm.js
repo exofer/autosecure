@@ -36,7 +36,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle(`Bot #${botnumber} Deleted`)
                 .setDescription(`Here's a copy if you need it.`)
-                .setColor(0xADD8E6);
+                .setColor(0xF59E0B);
 
             await interaction.update({
                 embeds: [embed],

@@ -31,7 +31,7 @@ module.exports = async (username) => {
 
     const embed1 = new EmbedBuilder()
         .setTitle(`Secure Config`)
-        .setColor(0xb2c7e0)
+        .setColor(0xF59E0B)
         .addFields(
             { name: "Autosecure", value: `${settings.auto_secure ? "✅" : "❌"}`, inline: true },
             { name: "Change IGN", value: `${settings.change_ign ? "✅" : "❌"}`, inline: true },
@@ -53,7 +53,7 @@ module.exports = async (username) => {
 
 const embed2 = new EmbedBuilder()
     .setTitle(" \n ")
-    .setColor(0xb2c7e0)
+    .setColor(0xF59E0B)
     .addFields(
         { name: "Change Name", value: settings.changename ? "✅" : "❌", inline: true },
         { name: "Change DOB/Region", value: settings.changedob ? "✅" : "❌", inline: true },

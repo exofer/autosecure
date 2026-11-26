@@ -14,7 +14,7 @@ module.exports = {
             if (!oauthData || !oauthData.oauths || oauthData.oauths.length === 0) {
                 const embed = new EmbedBuilder()
                     .setTitle("OAuth Apps (after remove if applicable)")
-                    .setColor('#b2c7e0');
+                    .setColor('#F59E0B');
 
                 return interaction.reply({
                     embeds: [embed],
@@ -27,7 +27,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle("OAuth Apps (after remove if applicable)")
                 .setDescription(lines.join("\n"))
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             await interaction.reply({
                 embeds: [embed],

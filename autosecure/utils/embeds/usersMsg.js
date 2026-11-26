@@ -7,7 +7,7 @@ const { footer } = require('../../../config.json');
 module.exports = async (ownerid, current, userid, botnumber) => {
     let embed = {
         title: "User Permissions",
-        color: 0x808080,
+        color: 0xF59E0B,
         fields: [],
         footer: {
             text: footer.text,

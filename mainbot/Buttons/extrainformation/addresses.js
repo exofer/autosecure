@@ -19,7 +19,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle("Addresses")
                             .setDescription("No addresses found.")
-                            .setColor('#b2c7e0')
+                            .setColor('#F59E0B')
                     ],
                     ephemeral: true
                 });
@@ -27,7 +27,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Addresses")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             const descriptions = addresses.map((ad, i) => {
                 const parts = [];

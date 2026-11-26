@@ -25,7 +25,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Personal Information")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             if (newinfoData) {
                 const dobFormatted = formatDOB(newinfoData.dob);

@@ -9,7 +9,7 @@ module.exports = async (client, username, isFeaturePanel = null) => {
             embeds: [{
                 title: "Error :x:",
                 description: "Couldn't find your settings!",
-                color: 0xb2c7e0
+                color: 0xF59E0B
             }],
             ephemeral: true
         };
@@ -329,7 +329,7 @@ const featureMenu = new StringSelectMenuBuilder()
     const createEmbed = async (isFeaturePanel) => {
         const embed = new EmbedBuilder()
             .setTitle(`${isFeaturePanel ? 'Autosecure Settings for ' + client.user.username : 'Admin Settings'}`)
-            .setColor(0xb2c7e0)
+            .setColor(0xF59E0B)
 
         if (isFeaturePanel) {
             embed.addFields(
@@ -482,7 +482,7 @@ const featureMenu = new StringSelectMenuBuilder()
     async function createEmbed2() {
         const embed2 = new EmbedBuilder()
             .setTitle(" \n ")
-            .setColor(0xb2c7e0)
+            .setColor(0xF59E0B)
             .addFields(
                 {
                     name: "Change Name",

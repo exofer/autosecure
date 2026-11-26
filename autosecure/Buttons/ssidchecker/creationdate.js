@@ -18,7 +18,7 @@ let changeskin = {
 
 
       const embed = new EmbedBuilder()
-        .setColor(0xb2c7e0)
+        .setColor(0xF59E0B)
         .addFields({
           name: 'Minecraft Creation Date [Own timezone]',
           value: formattedDate,

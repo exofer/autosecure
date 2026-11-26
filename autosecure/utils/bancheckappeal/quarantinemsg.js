@@ -169,7 +169,7 @@ async function quarantinemsg(userId, ssid) {
     return {
         embeds: [
             new EmbedBuilder()
-                .setColor(0xADD8E6)
+                .setColor(0xF59E0B)
                 .setTitle('Quarantine Started')
                 .setDescription("Use /removequarantine to stop early")
                 .addFields([

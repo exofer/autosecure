@@ -12,7 +12,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Original Security Info")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             if (!securitydata) {
                 return interaction.reply({

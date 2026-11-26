@@ -16,7 +16,7 @@ async function showproxiespanel(client, userId) {
   const embed = new EmbedBuilder()
     .setTitle(`${user.tag}'s Proxies Panel`)  
     .setDescription(proxiesQuery.map(p => `- ${p.proxy}`).join('\n'))  
-    .setColor(0xADD8E6) 
+    .setColor(0xF59E0B) 
     .setTimestamp();
 
   const addButton = new ButtonBuilder()

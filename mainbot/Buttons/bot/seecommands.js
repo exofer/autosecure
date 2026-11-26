@@ -16,7 +16,7 @@ module.exports = {
                         `* **/quarantine** → Keep logging onto an account for up to 24 hours to make the user give up on the account (your proxies).`
                 }
             ])
-            .setColor(0xADD8E6);
+            .setColor(0xF59E0B);
 
         await interaction.reply({ embeds: [embed], ephemeral: true });
     }

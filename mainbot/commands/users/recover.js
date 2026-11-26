@@ -108,7 +108,7 @@ Date recovered: ${formattedDate} (UK)`;
         return interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setColor('#b2c7e0')
+                    .setColor('#F59E0B')
                     .setTitle("**Recovered your account**")
                     .setDescription("You can now do `/bots` for your bots to automatically restart and manage them again!\n\nSave your license key below, if you lose this new key, you cannot regain access.")
                     .addFields({

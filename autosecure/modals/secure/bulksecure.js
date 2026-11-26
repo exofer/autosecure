@@ -62,7 +62,7 @@ module.exports = {
                 embeds: [{
                     title: `⏳ Bulk Securing ${accountLines.length} account(s)...`,
                     description: `Results will be sent to you via DM as each one completes.\nPlease keep your DMs open.`,
-                    color: 0xb2c7e0
+                    color: 0xF59E0B
                 }]
             });
 

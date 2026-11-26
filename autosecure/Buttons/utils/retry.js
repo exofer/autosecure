@@ -35,7 +35,7 @@ module.exports = {
 
             const embed = {
                 title: 'This account is being automatically secured.',
-                color: 0x808080
+                color: 0xF59E0B
             };
             
             const components = [

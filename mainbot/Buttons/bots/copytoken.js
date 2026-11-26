@@ -26,7 +26,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("No token found for this bot!")
-                            .setColor(0xADD8E6)
+                            .setColor(0xF59E0B)
                     ]
                 });
             } else {
@@ -35,7 +35,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setDescription(text)
-                            .setColor(0xADD8E6)
+                            .setColor(0xF59E0B)
                     ]
                 });
             }
@@ -44,7 +44,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Failed to get the token!")
-                        .setColor(0xADD8E6)
+                        .setColor(0xF59E0B)
                 ]
             });
         }

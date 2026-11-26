@@ -52,7 +52,7 @@ module.exports = {
                 }
                 const embed = {
                     title: `License Information`,
-                    color: 0x808080,
+                    color: 0xF59E0B,
                     fields: [
                         {
                             name: "Product",
@@ -133,7 +133,7 @@ module.exports = {
                 }
                 const embed = {
                     title: `License Information (Admin View)`,
-                    color: 0x808080,
+                    color: 0xF59E0B,
                     fields: [
                         {
                             name: "Product",

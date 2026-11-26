@@ -1,4 +1,3 @@
-const randomColor = require("../utils/randomColor")
 module.exports = (title, description, fields, color, author) => {
   return {
     type: "rich",
@@ -6,7 +5,8 @@ module.exports = (title, description, fields, color, author) => {
     description: description,
     fields: fields,
     timestamp: new Date(),
-    color: color || randomColor(),
+    color: color || 0xF59E0B,
+    footer: { text: "Nova Autosecure" },
     author: author
   }
 }

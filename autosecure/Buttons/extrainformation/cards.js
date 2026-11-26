@@ -22,7 +22,7 @@ module.exports = {
 
             const embed2 = new EmbedBuilder()
             .setTitle("Cards")
-            .setColor(0xb2c7e0);
+            .setColor(0xF59E0B);
             if (!cardData || cardData.length === 0) {
             return interaction.reply({
                 embeds: [embed2],
@@ -77,7 +77,7 @@ module.exports = {
                         if (fields.length === 0) {
                 const embed = new EmbedBuilder()
                     .setTitle("Cards")
-                    .setColor('#b2c7e0');
+                    .setColor('#F59E0B');
 
                 return interaction.reply({
                     embeds: [embed],
@@ -87,7 +87,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("Cards")
-                .setColor('#b2c7e0')
+                .setColor('#F59E0B')
                 .addFields(fields);
 
             return interaction.reply({

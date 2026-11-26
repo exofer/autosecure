@@ -23,7 +23,7 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setTitle("This preset already exists, try editing it!")
-              .setColor(0xADD8E6)
+              .setColor(0xF59E0B)
           ],
           ephemeral: true
         });

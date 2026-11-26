@@ -182,7 +182,7 @@ if (typeof oauthCountBefore === "number" && typeof oauthCountAfter === "number")
                     { name: "Devices", value: deviceDisplay, inline: true },
                     { name: "MS Rewards", value: `\`\`\`${msRewardsDisplay}\`\`\``, inline: true }
                 )
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             const row1 = new ActionRowBuilder()
                 .addComponents(

